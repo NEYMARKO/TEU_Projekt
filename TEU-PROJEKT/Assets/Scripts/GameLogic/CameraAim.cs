@@ -26,6 +26,8 @@ public class CameraAim : MonoBehaviour
 
     Vector2 mousePositionScreen;
     Vector2 screenDimensions;
+
+    CityBehaviour activeCity;
     private void Awake()
     {
         playerControls = new PlayerInputActions();
@@ -44,6 +46,8 @@ public class CameraAim : MonoBehaviour
         mousePositionScreen = NormalizeMouseScreenPosition();
         rayOrigin = ConvertScreenToWorldCoordinates(mousePositionScreen) + Vector3.up * rayLength / 2;
         ShootRay(rayOrigin, rayLength, layerMask);
+
+        OnCityHover();
         //Debug.Log("MOUSE POS: " + mousePositionScreen);
         //Debug.Log("WORLD POS: " + rayOrigin);
     }
@@ -77,6 +81,13 @@ public class CameraAim : MonoBehaviour
     {
         Physics.Raycast(rayOrigin, camera.transform.forward, out hit, rayLength, layerMask);
         return hit.point;
+    }
+
+    void OnCityHover()
+    {
+        if (activeCity == hit.collider.gameObject.GetComponent<CityBehaviour>()) return;
+        activeCity = hit.collider.gameObject.GetComponent<CityBehaviour>();
+        if (activeCity != null) activeCity.SetSHouldAnimate(true);
     }
 
     private void OnDrawGizmos()
