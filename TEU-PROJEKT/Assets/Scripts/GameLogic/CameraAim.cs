@@ -42,7 +42,7 @@ public class CameraAim : MonoBehaviour
     void Update()
     {
         mousePositionScreen = NormalizeMouseScreenPosition();
-        rayOrigin = ConvertScreenToWorldCoordinates(mousePositionScreen);
+        rayOrigin = ConvertScreenToWorldCoordinates(mousePositionScreen) + Vector3.up * rayLength / 2;
         ShootRay(rayOrigin, rayLength, layerMask);
         //Debug.Log("MOUSE POS: " + mousePositionScreen);
         //Debug.Log("WORLD POS: " + rayOrigin);
