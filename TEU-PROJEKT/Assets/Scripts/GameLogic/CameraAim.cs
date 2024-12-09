@@ -85,6 +85,10 @@ public class CameraAim : MonoBehaviour
 
     void OnCityHover()
     {
+        //CityBehaviour currentHoveredCity = hit.collider.gameObject.GetComponent<CityBehaviour>();
+        //if (currentHoveredCity == null || activeCity == currentHoveredCity) return;
+        //activeCity = currentHoveredCity;
+        //activeCity.SetSHouldAnimate(true);
         if (activeCity == hit.collider.gameObject.GetComponent<CityBehaviour>()) return;
         activeCity = hit.collider.gameObject.GetComponent<CityBehaviour>();
         if (activeCity != null) activeCity.SetSHouldAnimate(true);
