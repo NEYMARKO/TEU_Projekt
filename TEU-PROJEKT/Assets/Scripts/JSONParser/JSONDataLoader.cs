@@ -29,13 +29,17 @@ public class JSONDataLoader : MonoBehaviour
     public GameObject citiesParentObject;
 
     [SerializeField] Transform map;
- 
+
+    private List<CityData> citiesData;
+    private bool citiesLoaded = false;
+    private bool failedToLoad = false;
+    
     float mapYValue;
-    // Start is called before the first frame update
     void Start()
     {
         string fullPath = Application.dataPath + jsonPath;
         mapYValue = map.transform.position.y;
+        citiesData = new List<CityData>();
         //Debug.Log(Application.dataPath + jsonPath);
         //AllCities allCities = JsonUtility.FromJson<AllCities>(Application.dataPath + jsonPath, );
         //Debug.Log(allCities);
@@ -54,6 +58,8 @@ public class JSONDataLoader : MonoBehaviour
             {
                 foreach (CityData city in allCitiesInfo.cities)
                 {
+                    citiesData.Add(city);
+
                     // Calculate position for the cube (z = 0)
                     Vector3 position = new Vector3(city.location.x, 0, city.location.y);
 
@@ -65,17 +71,39 @@ public class JSONDataLoader : MonoBehaviour
                     cityObject.layer = LayerMask.NameToLayer("Map");
                     cityObject.transform.parent = citiesParentObject.transform;
                 }
+                Debug.Log("CITIES LOADED FINALLY");
+                citiesLoaded = true;
             }
             else
             {
                 Debug.LogError("Failed to parse JSON or no cities found!");
+                failedToLoad = true;
             }
         }
         else
         {
             Debug.LogError($"JSON file not found at path: {fullPath}");
+            failedToLoad = true;
         }
     }
 
+    public List<CityData> ProvideCitiesInfo()
+    {
+        //Debug.Log("LIST");
+        //foreach (CityData city in citiesData)
+        //{
+        //    Debug.Log(city.name);
+        //}
+        return citiesData;
+    }
 
+    public bool FailedToPopulateCitiesList()
+    {
+        return failedToLoad;
+    }
+
+    public bool CitiesListPopulated()
+    {
+        return citiesLoaded;
+    }
 }

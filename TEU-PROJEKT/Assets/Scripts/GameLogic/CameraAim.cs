@@ -44,14 +44,11 @@ public class CameraAim : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        mousePositionScreen = NormalizeMouseScreenPosition();
-        rayOrigin = ConvertScreenToWorldCoordinates(mousePositionScreen) + Vector3.up * rayLength / 2;
+        UpdateRayOrigin();
         ShootRay(rayOrigin, rayLength, layerMask);
-
         OnCityHover();
         OnCitySelect();
-        //Debug.Log("MOUSE POS: " + mousePositionScreen);
-        //Debug.Log("WORLD POS: " + rayOrigin);
+
     }
 
     private void OnEnable()
@@ -79,6 +76,11 @@ public class CameraAim : MonoBehaviour
         return worldPoint;
     }
     
+    private void UpdateRayOrigin()
+    {
+        mousePositionScreen = NormalizeMouseScreenPosition();
+        rayOrigin = ConvertScreenToWorldCoordinates(mousePositionScreen) + Vector3.up * rayLength / 2;
+    }
     Vector3 ShootRay(Vector3 rayOrigin, float rayLength, LayerMask layerMask)
     {
         Physics.Raycast(rayOrigin, camera.transform.forward, out hit, rayLength, layerMask);
