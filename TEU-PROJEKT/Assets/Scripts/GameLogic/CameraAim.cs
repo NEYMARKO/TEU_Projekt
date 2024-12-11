@@ -27,7 +27,8 @@ public class CameraAim : MonoBehaviour
     Vector2 mousePositionScreen;
     Vector2 screenDimensions;
 
-    CityBehaviour activeCity;
+    GameObject hitGameObject;
+    CityBehaviour activeCity, newCity;
     private void Awake()
     {
         playerControls = new PlayerInputActions();
@@ -89,9 +90,16 @@ public class CameraAim : MonoBehaviour
         //if (currentHoveredCity == null || activeCity == currentHoveredCity) return;
         //activeCity = currentHoveredCity;
         //activeCity.SetSHouldAnimate(true);
-        if (activeCity == hit.collider.gameObject.GetComponent<CityBehaviour>()) return;
-        activeCity = hit.collider.gameObject.GetComponent<CityBehaviour>();
-        if (activeCity != null) activeCity.SetSHouldAnimate(true);
+        hitGameObject = hit.collider.gameObject;
+        newCity = hitGameObject.GetComponent<CityBehaviour>();
+
+        Debug.Log($"NEW CITY NULL: {(newCity == null ? "TRUE" : "FALSE")}");
+        if (newCity == null || activeCity == newCity) return;
+        
+        if (activeCity != null) activeCity.ToggleOutline();
+        newCity.ToggleOutline();
+        activeCity = newCity;
+        //if (activeCity != null) activeCity.SetShouldAnimate(true);
     }
 
     private void OnDrawGizmos()

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements.Experimental;
 
 public class CityBehaviour : MonoBehaviour
 {
@@ -12,11 +13,16 @@ public class CityBehaviour : MonoBehaviour
 
     bool shouldAnimate = false;
     bool isAnimating = false;
+    bool isSelected = false;
+
+    Outline outlineScript;
     // Start is called before the first frame update
     void Start()
     {
         oldPosition = transform.position;
         oldRotation = transform.rotation;
+        outlineScript = GetComponent<Outline>();
+        outlineScript.enabled = false;
     }
 
     // Update is called once per frame
@@ -56,8 +62,17 @@ public class CityBehaviour : MonoBehaviour
         Quaternion newRotation = oldRotation * Quaternion.Euler(0f, 720f * animationCompleted, 0f); ;
         transform.rotation = Quaternion.Slerp(oldRotation, newRotation, animationCompleted);
     }
-    public void SetSHouldAnimate(bool animate)
+
+    public void ToggleOutline()
+    {
+        outlineScript.enabled = !outlineScript.enabled;
+    }    
+    public void SetShouldAnimate(bool animate)
     {
         shouldAnimate = animate;
+    }
+    public void SetSelected(bool selected)
+    {
+        isSelected = selected;
     }
 }

@@ -45,11 +45,11 @@ public class JSONDataLoader : MonoBehaviour
             // Read the JSON file content
             string jsonString = File.ReadAllText(fullPath);
 
-            Debug.Log(jsonString);
+            //Debug.Log(jsonString);
             // Parse JSON into CityData
             AllCitiesInfo allCitiesInfo = JsonConvert.DeserializeObject<AllCitiesInfo>(jsonString);
 
-            Debug.Log(allCitiesInfo.cities);
+            //Debug.Log(allCitiesInfo.cities);
             if (allCitiesInfo != null && allCitiesInfo.cities != null)
             {
                 foreach (CityData city in allCitiesInfo.cities)
