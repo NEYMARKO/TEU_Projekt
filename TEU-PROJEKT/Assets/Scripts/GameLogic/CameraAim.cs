@@ -90,7 +90,14 @@ public class CameraAim : MonoBehaviour
         hitGameObject = hit.collider ? hit.collider.gameObject : null;
         newCity = hitGameObject ? hitGameObject.GetComponent<CityBehaviour>() : null;
 
-        if (newCity == null || activeCity == newCity) return;        
+        if (newCity == null && activeCity != null)
+        {
+            activeCity.ToggleOutline();
+            activeCity = null;
+            return;
+        }
+        else if (activeCity == newCity) return;        
+        
         if (activeCity != null) activeCity.ToggleOutline();
         newCity.ToggleOutline();
         activeCity = newCity;
@@ -103,7 +110,6 @@ public class CameraAim : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        //Gizmos.DrawLine(rayOrigin, rayOrigin + rayDirection * rayLength);
         Gizmos.DrawSphere(hit.point, 0.1f);
     }
 }
