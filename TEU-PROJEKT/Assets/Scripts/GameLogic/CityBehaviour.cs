@@ -28,26 +28,32 @@ public class CityBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (shouldAnimate && !isAnimating)
+        //if (shouldAnimate && !isAnimating)
+        //{
+        //    animationCompleted = 0f;
+        //    shouldAnimate = false;
+        //    isAnimating = true;
+        //}
+        //if (animationCompleted < 1f)
+        //{
+        //    if (isAnimating)
+        //    {
+        //        AnimatePosition();
+        //        AnimateRotation();
+        //        animationCompleted += animationSpeed * Time.deltaTime;
+        //    }
+        //}
+        //else
+        //{
+        //    transform.position = oldPosition;
+        //    transform.rotation = oldRotation;
+        //    isAnimating = false;
+        //}
+
+        if (isSelected)
         {
-            animationCompleted = 0f;
-            shouldAnimate = false;
-            isAnimating = true;
-        }
-        if (animationCompleted < 1f)
-        {
-            if (isAnimating)
-            {
-                AnimatePosition();
-                AnimateRotation();
-                animationCompleted += animationSpeed * Time.deltaTime;
-            }
-        }
-        else
-        {
-            transform.position = oldPosition;
-            transform.rotation = oldRotation;
-            isAnimating = false;
+            Debug.Log("SELECTED " + gameObject.name);
+            isSelected = false;
         }
     }
 
