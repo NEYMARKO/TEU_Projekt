@@ -375,6 +375,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcca80792f9b9944a9ec82db6d3addc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameLoop: {fileID: 1988223503}
+  correctAnswerEndColor: {r: 0.020667622, g: 0.34591186, b: 0.029655313, a: 0}
+  wrongAnswerEndColor: {r: 0.42138356, g: 0.030477392, b: 0.030477392, a: 0}
   animationSpeed: 0.75
 --- !u!114 &1238252959
 MonoBehaviour:

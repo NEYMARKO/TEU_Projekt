@@ -6,8 +6,41 @@ using UnityEngine.UIElements.Experimental;
 public class CityBehaviour : MonoBehaviour
 {
     [SerializeField] GameLoop gameLoop;
+
+    /*[SerializeField] */Color correctAnswerStartColor;
+    [SerializeField] Color correctAnswerEndColor;
+    /*[SerializeField] */Color wrongAnswerStartColor;
+    [SerializeField] Color wrongAnswerEndColor;
     [SerializeField] float animationSpeed;
+    [SerializeField] float colorAnimationSpeed;
+
+    float hue;
+    float saturation;
+    float brightness;
+    bool answeredCorrectly = false;
     float animationCompleted;
+    float colorAnimationCompleted;
+
+    #region CorrectAnswerHSVComponents
+    float ca_start_h;
+    float ca_end_h;
+    float ca_start_s;
+    float ca_end_s;
+    float ca_start_v;
+    float ca_end_v;
+    #endregion
+
+    #region WrongAnswerHSVComponents
+    float wa_start_h;
+    float wa_end_h;
+    float wa_start_s;
+    float wa_end_s;
+    float wa_start_v;
+    float wa_end_v;
+    #endregion
+
+    Color currentColor;
+    Material material;
     Vector3 oldPosition;
     Quaternion oldRotation;
 
@@ -23,6 +56,14 @@ public class CityBehaviour : MonoBehaviour
         oldRotation = transform.rotation;
         outlineScript = GetComponent<Outline>();
         outlineScript.enabled = false;
+        material = gameObject.GetComponent<Renderer>().material;
+
+        correctAnswerStartColor = wrongAnswerStartColor = material.color;
+        Color.RGBToHSV(correctAnswerStartColor, out ca_start_h, out ca_start_s, out ca_start_v);
+        Color.RGBToHSV(correctAnswerEndColor, out ca_end_h, out ca_end_s, out ca_end_v);
+        Color.RGBToHSV(wrongAnswerStartColor, out wa_start_h, out wa_start_s, out wa_start_v);
+        Color.RGBToHSV(wrongAnswerEndColor, out wa_end_h, out wa_end_s, out wa_end_v);
+        colorAnimationCompleted = 0f;
     }
 
     // Update is called once per frame
@@ -53,11 +94,25 @@ public class CityBehaviour : MonoBehaviour
         if (isSelected)
         {
             //Debug.Log("SELECTED " + gameObject.name);
-            gameLoop.CheckCityGuess(gameObject.name);
+            answeredCorrectly = gameLoop.CheckCityGuess(gameObject.name);
+            shouldAnimate = true;
             isSelected = false;
+            //material.color = correctAnswerEndColor;
         }
+
+        if (shouldAnimate && colorAnimationCompleted < 1) AnimateColorChange();
     }
 
+    private void AnimateColorChange()
+    {
+        Color.RGBToHSV(material.color, out hue, out saturation, out brightness);
+        hue = answeredCorrectly ? Mathf.Lerp(ca_start_h, ca_end_h, colorAnimationCompleted) : Mathf.Lerp(wa_start_h, wa_end_h, colorAnimationCompleted);
+        saturation = answeredCorrectly ? Mathf.Lerp(ca_start_s, ca_end_s, colorAnimationCompleted) : Mathf.Lerp(wa_start_s, wa_end_s, colorAnimationCompleted);
+        brightness = answeredCorrectly ? Mathf.Lerp(ca_start_v, ca_end_v, colorAnimationCompleted) : Mathf.Lerp(wa_start_v, wa_end_v, colorAnimationCompleted);
+
+        material.color = Color.HSVToRGB(hue, saturation, brightness);
+        colorAnimationCompleted += colorAnimationSpeed * Time.deltaTime;
+    }
     void AnimatePosition()
     {
         Vector3 newPosition = oldPosition + Vector3.up * Mathf.Sin(animationCompleted * Mathf.PI);

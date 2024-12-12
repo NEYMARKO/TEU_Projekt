@@ -62,7 +62,12 @@ public class GameLoop : MonoBehaviour
     }
     private void FetchNextCity()
     {
-        if (allCities.Count == 0 || !canFetchNext) return;
+        if (!canFetchNext) return;
+        else if (allCities.Count == 0)
+        {
+            CheckGameOver();
+            return;
+        }
         currentWantedCity = allCities[0].name;
         allCities.RemoveAt(0);
         Debug.Log($"            Looking for: {currentWantedCity}");
@@ -74,18 +79,21 @@ public class GameLoop : MonoBehaviour
         if (allCities.Count == 0)
         {
             Debug.Log($"GAME OVER, correct guesses: {correctlyGuessed}");
+            canFetchNext = false;
             return;
         }
     }
 
-    public void CheckCityGuess(string cityGuess)
+    public bool CheckCityGuess(string cityGuess)
     {
         Debug.Log($"SELECTED: {cityGuess}");
+        canFetchNext = true;
+
         if (currentWantedCity == cityGuess)
         {
             correctlyGuessed++;
+            return true;
         }
-        canFetchNext = true;
-        CheckGameOver();
+        return false;
     }
 }
