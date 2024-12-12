@@ -5,7 +5,7 @@ using UnityEngine.UIElements.Experimental;
 
 public class CityBehaviour : MonoBehaviour
 {
-
+    [SerializeField] GameLoop gameLoop;
     [SerializeField] float animationSpeed;
     float animationCompleted;
     Vector3 oldPosition;
@@ -52,7 +52,8 @@ public class CityBehaviour : MonoBehaviour
 
         if (isSelected)
         {
-            Debug.Log("SELECTED " + gameObject.name);
+            //Debug.Log("SELECTED " + gameObject.name);
+            gameLoop.CheckCityGuess(gameObject.name);
             isSelected = false;
         }
     }
