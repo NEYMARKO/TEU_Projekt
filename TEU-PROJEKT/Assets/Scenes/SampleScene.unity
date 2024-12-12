@@ -334,7 +334,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0.000044555054, z: -0.000044555385, w: 0.7071068}
-  m_LocalPosition: {x: -7.4023426e-11, y: 9.586519, z: 0.00000093337826}
+  m_LocalPosition: {x: -7.4023426e-11, y: 9.047436, z: 0.0000010582421}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -376,9 +376,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameLoop: {fileID: 1988223503}
-  correctAnswerEndColor: {r: 0.020667622, g: 0.34591186, b: 0.029655313, a: 0}
-  wrongAnswerEndColor: {r: 0.42138356, g: 0.030477392, b: 0.030477392, a: 0}
+  correctAnswerEndColor: {r: 0.050037514, g: 0.69182384, b: 0.07323456, a: 0}
+  wrongAnswerEndColor: {r: 0.72955966, g: 0.039001565, b: 0.039001565, a: 0}
   animationSpeed: 0.75
+  colorAnimationSpeed: 1
 --- !u!114 &1238252959
 MonoBehaviour:
   m_ObjectHideFlags: 0

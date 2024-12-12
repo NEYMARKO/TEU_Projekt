@@ -59,17 +59,7 @@ public class JSONDataLoader : MonoBehaviour
                 foreach (CityData city in allCitiesInfo.cities)
                 {
                     citiesData.Add(city);
-
-                    // Calculate position for the cube (z = 0)
-                    Vector3 position = new Vector3(city.location.x, 0, city.location.y);
-
-                    // Instantiate a cube at the given position
-                    GameObject cityObject = Instantiate(cityPrefab, position, Quaternion.identity);
-
-                    // Set the name of the cube to the city's name
-                    cityObject.name = city.name;
-                    cityObject.layer = LayerMask.NameToLayer("Map");
-                    cityObject.transform.parent = citiesParentObject.transform;
+                    InstantiateCity(city);
                 }
                 Debug.Log("CITIES LOADED FINALLY");
                 citiesLoaded = true;
@@ -87,6 +77,18 @@ public class JSONDataLoader : MonoBehaviour
         }
     }
 
+    private void InstantiateCity(CityData city)
+    {
+        Vector3 position = new Vector3(city.location.x, 0, city.location.y);
+
+        GameObject cityObject = Instantiate(cityPrefab, position, Quaternion.identity);
+
+        cityObject.name = city.name;
+        cityObject.layer = LayerMask.NameToLayer("Map");
+        cityObject.transform.parent = citiesParentObject.transform;
+
+        return;
+    }
     public List<CityData> ProvideCitiesInfo()
     {
         //Debug.Log("LIST");
