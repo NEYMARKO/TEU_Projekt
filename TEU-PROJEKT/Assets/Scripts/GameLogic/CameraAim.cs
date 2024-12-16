@@ -32,12 +32,14 @@ public class CameraAim : MonoBehaviour
     private void Awake()
     {
         playerControls = new PlayerInputActions();
+        camera = GetComponent<Camera>();
+        camera.transform.position = new Vector3(-0.0900000036f, 9.28683662f, 0.239999995f);
+        camera.transform.rotation = new Quaternion(0.707106829f, 4.4555054e-05f, -4.45553851e-05f, 0.707106829f);
     }
     void Start()
     {
         rayOrigin = transform.position;
         rayDirection = transform.forward;
-        camera = GetComponent<Camera>();
         screenDimensions = new Vector2(Screen.width, Screen.height);
     }
 

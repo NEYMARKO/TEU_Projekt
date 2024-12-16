@@ -12,8 +12,8 @@ public class GameLoop : MonoBehaviour
 
     bool canFetchNext = true;
     string currentWantedCity;
-    int correctlyGuessed;
-    
+    int correctlyGuessed = 0;
+    int citiesCount;
     void Start()
     {
         //wait until all cities are populated in list
@@ -24,6 +24,7 @@ public class GameLoop : MonoBehaviour
         
         allCities = _JSONDataLoader.ProvideCitiesInfo();
         allCities = ShuffleList(allCities);
+        citiesCount = allCities.Count;
         //Debug.Log("SHUFFLED LIST");
         //foreach (CityData city in allCities)
         //{
@@ -95,5 +96,19 @@ public class GameLoop : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public int GetCorrectAnswersCount()
+    {
+        return correctlyGuessed;
+    }
+
+    public int GetCitiesCount()
+    {
+        return citiesCount; 
+    }
+    public string GetWantedCity()
+    {
+        return currentWantedCity;
     }
 }
