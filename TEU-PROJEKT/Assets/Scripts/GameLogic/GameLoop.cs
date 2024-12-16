@@ -6,14 +6,17 @@ using UnityEngine;
 
 public class GameLoop : MonoBehaviour
 {
+    [Header("UI")]
+    [SerializeField] GameObject endGameUIHolder;
+    [Header("Data")]
     [SerializeField] JSONDataLoader _JSONDataLoader;
+    private List<CityData> shuffledCities;
     private List<CityData> allCities;
     bool gameOver = false;
 
     bool canFetchNext = true;
     string currentWantedCity;
     int correctlyGuessed = 0;
-    int citiesCount;
     void Start()
     {
         //wait until all cities are populated in list
@@ -23,8 +26,7 @@ public class GameLoop : MonoBehaviour
         //}
         
         allCities = _JSONDataLoader.ProvideCitiesInfo();
-        allCities = ShuffleList(allCities);
-        citiesCount = allCities.Count;
+        shuffledCities = ShuffleList(allCities);
         //Debug.Log("SHUFFLED LIST");
         //foreach (CityData city in allCities)
         //{
@@ -64,22 +66,23 @@ public class GameLoop : MonoBehaviour
     private void FetchNextCity()
     {
         if (!canFetchNext) return;
-        else if (allCities.Count == 0)
+        else if (shuffledCities.Count == 0)
         {
             CheckGameOver();
             return;
         }
-        currentWantedCity = allCities[0].name;
-        allCities.RemoveAt(0);
+        currentWantedCity = shuffledCities[0].name;
+        shuffledCities.RemoveAt(0);
         Debug.Log($"            Looking for: {currentWantedCity}");
         canFetchNext = false;
         return;
     }
     private void CheckGameOver()
     {
-        if (allCities.Count == 0)
+        if (shuffledCities.Count == 0)
         {
             Debug.Log($"GAME OVER, correct guesses: {correctlyGuessed}");
+            endGameUIHolder.SetActive(true);
             canFetchNext = false;
             return;
         }
@@ -97,7 +100,6 @@ public class GameLoop : MonoBehaviour
         }
         return false;
     }
-
     public int GetCorrectAnswersCount()
     {
         return correctlyGuessed;
@@ -105,7 +107,7 @@ public class GameLoop : MonoBehaviour
 
     public int GetCitiesCount()
     {
-        return citiesCount; 
+        return allCities.Count; 
     }
     public string GetWantedCity()
     {
