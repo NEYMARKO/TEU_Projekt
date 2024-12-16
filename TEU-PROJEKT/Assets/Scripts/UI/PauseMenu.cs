@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class MenuUI : MonoBehaviour
+public class PauseMenu : MonoBehaviour
 {
     [SerializeField] GameLoop gameLoop;
-    [SerializeField] TextMeshProUGUI scoreText;
     [Header("Buttons")]
+    [SerializeField] TextMeshProUGUI optionsButtonTextObj;
     [SerializeField] TextMeshProUGUI resetButtonTextObj;
     [SerializeField] TextMeshProUGUI changeLevelButtonTextObj;
     [SerializeField] TextMeshProUGUI quitButtonTextObj;
@@ -21,16 +21,11 @@ public class MenuUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateScore();
     }
 
-    private void UpdateScore()
-    {
-        score = gameLoop.GetCorrectAnswersCount();
-        scoreText.text = $"SCORE: {score}";
-    }
     private void SetupButtons()
     {
+        optionsButtonTextObj.text = $"OPTIONS";
         resetButtonTextObj.text = $"RESET";
         changeLevelButtonTextObj.text = $"CHANGE LEVEL";
         quitButtonTextObj.text = $"QUIT";

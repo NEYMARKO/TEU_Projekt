@@ -3,12 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameLoop : MonoBehaviour
 {
+    //[Header("Input")]
+    //[SerializeField] PlayerInputActions playerControls;
+    //private InputAction buttonPress;
     [SerializeField] GameObject citiesParent;
     [Header("UI")]
     [SerializeField] GameObject endGameUIHolder;
+    [SerializeField] GameObject pauseMenuUIholder;
     [Header("Data")]
     [SerializeField] JSONDataLoader _JSONDataLoader;
     private List<CityData> shuffledCities;
@@ -38,8 +43,23 @@ public class GameLoop : MonoBehaviour
     void Update()
     {
         FetchNextCity();
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePauseMenu();
+            Debug.Log("ESC PRESSED");
+        }
     }
 
+    //private void OnEnable()
+    //{
+    //    buttonPress = playerControls.UI.Toggle;
+    //    buttonPress.Enable();
+    //}
+
+    //private void OnDisable()
+    //{
+    //    buttonPress.Disable();
+    //}
     private List<CityData> ShuffleList(List<CityData> originalListData)
     {
         //Debug.Log("ORIGINAL LIST");
@@ -101,14 +121,23 @@ public class GameLoop : MonoBehaviour
         return false;
     }
 
-    public void RestartGame()
+    public void RestartGame(GameObject uiCaller)
     {
         shuffledCities = ShuffleList(allCities);
         canFetchNext = true;
         correctlyGuessed = 0;
         ResetCities();
-        endGameUIHolder.SetActive(false);
+        uiCaller.SetActive(false);
+
     }
+    //}public void RestartGame()
+    //{
+    //    shuffledCities = ShuffleList(allCities);
+    //    canFetchNext = true;
+    //    correctlyGuessed = 0;
+    //    ResetCities();
+    //    endGameUIHolder.SetActive(false);
+    //}
 
     private void ResetCities()
     { 
@@ -134,5 +163,10 @@ public class GameLoop : MonoBehaviour
     {
         yield return new WaitForSeconds(2);
         endGameUIHolder.SetActive(true);
+    }
+
+    private void TogglePauseMenu()
+    {
+        pauseMenuUIholder.SetActive(!pauseMenuUIholder.activeSelf);
     }
 }

@@ -13,6 +13,7 @@ public class CameraAim : MonoBehaviour
     [SerializeField] PlayerInputActions playerControls;
     private InputAction move;
     private InputAction fire;
+    private InputAction toggleUI;
     [SerializeField] Transform map;
     [SerializeField] LayerMask layerMask;
     [SerializeField] float rayLength;
@@ -60,12 +61,16 @@ public class CameraAim : MonoBehaviour
 
         fire = playerControls.Player.Fire;
         fire.Enable();
+
+        toggleUI = playerControls.UI.Toggle;
+        toggleUI.Enable();
     }
 
     private void OnDisable()
     {
         move.Disable();
         fire.Disable();
+        toggleUI.Disable();
     }
 
     Vector2 NormalizeMouseScreenPosition()

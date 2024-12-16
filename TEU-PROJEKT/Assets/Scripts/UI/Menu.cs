@@ -3,32 +3,25 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class MenuUI : MonoBehaviour
+public class Menu : MonoBehaviour
 {
-    [SerializeField] GameLoop gameLoop;
-    [SerializeField] TextMeshProUGUI scoreText;
+    //this has to be public for children to be able to access it
+    public GameLoop gameLoop;
     [Header("Buttons")]
     [SerializeField] TextMeshProUGUI resetButtonTextObj;
     [SerializeField] TextMeshProUGUI changeLevelButtonTextObj;
     [SerializeField] TextMeshProUGUI quitButtonTextObj;
-    private int score;
     void Start()
     {
         SetupButtons();
-        //UpdateScore();
     }
 
     // Update is called once per frame
     void Update()
     {
-        UpdateScore();
     }
 
-    private void UpdateScore()
-    {
-        score = gameLoop.GetCorrectAnswersCount();
-        scoreText.text = $"SCORE: {score}";
-    }
+    
     private void SetupButtons()
     {
         resetButtonTextObj.text = $"RESET";
@@ -36,8 +29,12 @@ public class MenuUI : MonoBehaviour
         quitButtonTextObj.text = $"QUIT";
     }
 
-    public void RestartGame()
+    private void QuitGame()
     {
-        gameLoop.RestartGame(gameObject);
+        Debug.Log("QUIT CLICKED");
     }
+    //public void RestartGame()
+    //{
+    //    gameLoop.RestartGame();
+    //}
 }
