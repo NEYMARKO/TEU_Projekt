@@ -38,6 +38,6 @@ public class MenuUI : MonoBehaviour
 
     public void RestartGame()
     {
-        gameLoop.InitializeGameRestart();
+        gameLoop.RestartGame();
     }
 }

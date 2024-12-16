@@ -73,7 +73,7 @@ public class GameLoop : MonoBehaviour
         }
         currentWantedCity = shuffledCities[0].name;
         shuffledCities.RemoveAt(0);
-        Debug.Log($"            Looking for: {currentWantedCity}");
+        //Debug.Log($"            Looking for: {currentWantedCity}");
         canFetchNext = false;
         return;
     }
@@ -81,8 +81,8 @@ public class GameLoop : MonoBehaviour
     {
         if (shuffledCities.Count == 0)
         {
-            Debug.Log($"GAME OVER, correct guesses: {correctlyGuessed}");
-            endGameUIHolder.SetActive(true);
+            //Debug.Log($"GAME OVER, correct guesses: {correctlyGuessed}");
+            StartCoroutine(Wait());
             canFetchNext = false;
             return;
         }
@@ -101,7 +101,7 @@ public class GameLoop : MonoBehaviour
         return false;
     }
 
-    public void InitializeGameRestart()
+    public void RestartGame()
     {
         shuffledCities = ShuffleList(allCities);
         canFetchNext = true;
@@ -129,5 +129,10 @@ public class GameLoop : MonoBehaviour
     public string GetWantedCity()
     {
         return currentWantedCity;
+    }
+    private IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(2);
+        endGameUIHolder.SetActive(true);
     }
 }
