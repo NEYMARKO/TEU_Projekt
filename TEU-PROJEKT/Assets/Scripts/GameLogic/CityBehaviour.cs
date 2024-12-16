@@ -7,9 +7,8 @@ public class CityBehaviour : MonoBehaviour
 {
     [SerializeField] GameLoop gameLoop;
 
-    /*[SerializeField] */Color correctAnswerStartColor;
+    Color defaultColor;
     [SerializeField] Color correctAnswerEndColor;
-    /*[SerializeField] */Color wrongAnswerStartColor;
     [SerializeField] Color wrongAnswerEndColor;
     [SerializeField] float animationSpeed;
     [SerializeField] float colorAnimationSpeed;
@@ -58,10 +57,10 @@ public class CityBehaviour : MonoBehaviour
         outlineScript.enabled = false;
         material = gameObject.GetComponent<Renderer>().material;
 
-        correctAnswerStartColor = wrongAnswerStartColor = material.color;
-        Color.RGBToHSV(correctAnswerStartColor, out ca_start_h, out ca_start_s, out ca_start_v);
+        defaultColor = material.color;
+        Color.RGBToHSV(defaultColor, out ca_start_h, out ca_start_s, out ca_start_v);
         Color.RGBToHSV(correctAnswerEndColor, out ca_end_h, out ca_end_s, out ca_end_v);
-        Color.RGBToHSV(wrongAnswerStartColor, out wa_start_h, out wa_start_s, out wa_start_v);
+        Color.RGBToHSV(defaultColor, out wa_start_h, out wa_start_s, out wa_start_v);
         Color.RGBToHSV(wrongAnswerEndColor, out wa_end_h, out wa_end_s, out wa_end_v);
         colorAnimationCompleted = 0f;
     }
@@ -136,5 +135,19 @@ public class CityBehaviour : MonoBehaviour
     public void SetSelected(bool selected)
     {
         isSelected = selected;
+    }
+
+    private void ResetColor()
+    {
+        material.color = defaultColor;
+        colorAnimationCompleted = 0f;
+    }
+
+    public void ResetCity()
+    {
+        ResetColor();
+        shouldAnimate = false;
+        isSelected = false;
+        answeredCorrectly = false;
     }
 }

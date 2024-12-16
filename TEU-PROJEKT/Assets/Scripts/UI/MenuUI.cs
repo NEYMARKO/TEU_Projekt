@@ -15,13 +15,13 @@ public class MenuUI : MonoBehaviour
     void Start()
     {
         SetupButtons();
-        UpdateScore();
+        //UpdateScore();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        UpdateScore();
     }
 
     private void UpdateScore()
@@ -34,5 +34,10 @@ public class MenuUI : MonoBehaviour
         resetButtonTextObj.text = $"RESET";
         changeLevelButtonTextObj.text = $"CHANGE LEVEL";
         quitButtonTextObj.text = $"QUIT";
+    }
+
+    public void RestartGame()
+    {
+        gameLoop.InitializeGameRestart();
     }
 }

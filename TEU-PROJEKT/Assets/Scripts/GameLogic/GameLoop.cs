@@ -6,13 +6,13 @@ using UnityEngine;
 
 public class GameLoop : MonoBehaviour
 {
+    [SerializeField] GameObject citiesParent;
     [Header("UI")]
     [SerializeField] GameObject endGameUIHolder;
     [Header("Data")]
     [SerializeField] JSONDataLoader _JSONDataLoader;
     private List<CityData> shuffledCities;
     private List<CityData> allCities;
-    bool gameOver = false;
 
     bool canFetchNext = true;
     string currentWantedCity;
@@ -90,7 +90,7 @@ public class GameLoop : MonoBehaviour
 
     public bool CheckCityGuess(string cityGuess)
     {
-        Debug.Log($"SELECTED: {cityGuess}");
+        //Debug.Log($"SELECTED: {cityGuess}");
         canFetchNext = true;
 
         if (currentWantedCity == cityGuess)
@@ -99,6 +99,23 @@ public class GameLoop : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public void InitializeGameRestart()
+    {
+        shuffledCities = ShuffleList(allCities);
+        canFetchNext = true;
+        correctlyGuessed = 0;
+        ResetCities();
+        endGameUIHolder.SetActive(false);
+    }
+
+    private void ResetCities()
+    { 
+        foreach(Transform city in citiesParent.transform)
+        {
+            city.gameObject.GetComponent<CityBehaviour>().ResetCity();
+        }
     }
     public int GetCorrectAnswersCount()
     {
