@@ -26,7 +26,7 @@ public class JSONMenuLoader : MonoBehaviour
     void Start()
     {
         LoadLanguages();
-        UpdateUI(currentLanguage);
+        //UpdateUI(currentLanguage);
     }
 
     // Update is called once per frame
@@ -64,26 +64,26 @@ public class JSONMenuLoader : MonoBehaviour
             Debug.LogError($"JSON file not found at path: {fullPath}");
         }
     }
-    public void ChangeLanguage(string selectedLanguage)
+    public Language ChangeLanguage(string selectedLanguage)
     {
         currentLanguage = selectedLanguage;
-        UpdateUI(currentLanguage);
+        return Languages.Find(lang => lang.language == selectedLanguage);
     }
 
-    void UpdateUI(string languageCode)
-    {
-        Language selectedLanguage = Languages.Find(lang => lang.language == languageCode);
-        if (selectedLanguage != null)
-        {
-            Debug.Log($"Resume: {selectedLanguage.resume}");
-            Debug.Log($"Quit: {selectedLanguage.quit}");
-            // Postavi tekst na UI gumbe itd.
-        }
-        else
-        {
-            Debug.LogError($"Language '{languageCode}' not found!");
-        }
-    }
+    //void UpdateUI(string languageCode)
+    //{
+    //    Language selectedLanguage = Languages.Find(lang => lang.language == languageCode);
+    //    if (selectedLanguage != null)
+    //    {
+    //        Debug.Log($"Resume: {selectedLanguage.resume}");
+    //        Debug.Log($"Quit: {selectedLanguage.quit}");
+    //        // Postavi tekst na UI gumbe itd.
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError($"Language '{languageCode}' not found!");
+    //    }
+    //}
 
     public bool DataLoaded()
     {

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PauseMenu : MonoBehaviour
 {
+    [SerializeField] PauseMenuDropdown menuDropdown;
     [SerializeField] GameLoop gameLoop;
     [Header("Buttons")]
     [SerializeField] TextMeshProUGUI optionsButtonTextObj;
@@ -23,6 +24,25 @@ public class PauseMenu : MonoBehaviour
     {
     }
 
+    private void OnEnable()
+    {
+        // Subscribe to the event
+        menuDropdown.OnLanguageChange += HandleLanguageChange;
+    }
+
+    private void OnDisable()
+    {
+        // Unsubscribe from the event to avoid memory leaks
+        menuDropdown.OnLanguageChange -= HandleLanguageChange;
+    }
+
+    private void HandleLanguageChange(object sender, Language language)
+    {
+        Debug.Log($"Language changed to: {language.language}");
+        resetButtonTextObj.text = language.restart;
+        changeLevelButtonTextObj.text = language.changeRegion;
+        quitButtonTextObj.text = language.quit;
+    }
     private void SetupButtons()
     {
         optionsButtonTextObj.text = $"OPTIONS";

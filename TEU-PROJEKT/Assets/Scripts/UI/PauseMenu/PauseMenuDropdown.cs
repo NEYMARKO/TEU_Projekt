@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,8 +8,9 @@ public class PauseMenuDropdown : MonoBehaviour
 {
     public TMPro.TMP_Dropdown languageDropdown;
     public JSONMenuLoader pauseMenuLoader;
-
+    public event EventHandler<Language> OnLanguageChange;
     private bool initializedMenu = false;
+    private Language currentLanguage;
     void Start()
     {
         PopulateDropdown();
@@ -40,6 +42,7 @@ public class PauseMenuDropdown : MonoBehaviour
     void OnLanguageSelected(int index)
     {
         string selectedLanguage = pauseMenuLoader.Languages[index].language;
-        pauseMenuLoader.ChangeLanguage(selectedLanguage);
-    }
+        currentLanguage = pauseMenuLoader.ChangeLanguage(selectedLanguage);
+        OnLanguageChange?.Invoke(this, currentLanguage);
+    }  
 }

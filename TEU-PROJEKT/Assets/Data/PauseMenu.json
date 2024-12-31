@@ -16,6 +16,22 @@
             "changeRegion" : "promijeni regiju",
             "cancel" : "odustani",
             "quit" : "izađi"
+        },
+        {
+            "language" : "ger",
+            "resume" : "zurücksetzen",
+            "restart" : "neustart",
+            "changeRegion" : "region ändern",
+            "cancel" : "stornieren",
+            "quit" : "aufhören"
+        },
+        {
+            "language" : "spa",
+            "resume" : "reanudar",
+            "restart" : "reanudarse",
+            "changeRegion" : "cambiar región",
+            "cancel" : "cancelar",
+            "quit" : "abandonar"
         }
     ]
 }
