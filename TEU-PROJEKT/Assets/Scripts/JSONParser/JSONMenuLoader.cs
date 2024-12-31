@@ -20,7 +20,8 @@ public class Root
 public class JSONMenuLoader : MonoBehaviour
 {
     public List<Language> Languages { get; private set; }
-    private string currentLanguage = "hr";
+    public string currentLanguage = "hr";
+    private bool dataLoaded = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -50,6 +51,8 @@ public class JSONMenuLoader : MonoBehaviour
                 {
                     Languages.Add(language);
                 }
+                dataLoaded = true;
+                Debug.Log("LANGUAGES LOADED");
             }
             else
             {
@@ -80,5 +83,10 @@ public class JSONMenuLoader : MonoBehaviour
         {
             Debug.LogError($"Language '{languageCode}' not found!");
         }
+    }
+
+    public bool DataLoaded()
+    {
+        return dataLoaded;
     }
 }
