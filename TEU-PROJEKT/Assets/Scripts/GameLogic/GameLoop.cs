@@ -126,6 +126,11 @@ public class GameLoop : MonoBehaviour
         uiCaller.SetActive(false);
 
     }
+
+    public void ResumeGame(GameObject uiCaller)
+    {
+        uiCaller.SetActive(false);
+    }
     //}public void RestartGame()
     //{
     //    shuffledCities = ShuffleList(allCities);

@@ -8,7 +8,7 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] PauseMenuDropdown menuDropdown;
     [SerializeField] GameLoop gameLoop;
     [Header("Buttons")]
-    [SerializeField] TextMeshProUGUI optionsButtonTextObj;
+    [SerializeField] TextMeshProUGUI resumeButtonTextObj;
     [SerializeField] TextMeshProUGUI resetButtonTextObj;
     [SerializeField] TextMeshProUGUI changeLevelButtonTextObj;
     [SerializeField] TextMeshProUGUI quitButtonTextObj;
@@ -39,18 +39,23 @@ public class PauseMenu : MonoBehaviour
     private void HandleLanguageChange(object sender, Language language)
     {
         Debug.Log($"Language changed to: {language.language}");
-        resetButtonTextObj.text = language.restart;
-        changeLevelButtonTextObj.text = language.changeRegion;
-        quitButtonTextObj.text = language.quit;
+        resumeButtonTextObj.text = language.resume.ToUpper();
+        resetButtonTextObj.text = language.restart.ToUpper();
+        changeLevelButtonTextObj.text = language.changeRegion.ToUpper();
+        quitButtonTextObj.text = language.quit.ToUpper();
     }
     private void SetupButtons()
     {
-        optionsButtonTextObj.text = $"OPTIONS";
+        resumeButtonTextObj.text = $"RESUME";
         resetButtonTextObj.text = $"RESET";
         changeLevelButtonTextObj.text = $"CHANGE LEVEL";
         quitButtonTextObj.text = $"QUIT";
     }
 
+    public void ResumeGame()
+    {
+        gameLoop.ResumeGame(gameObject);
+    }
     public void RestartGame()
     {
         gameLoop.RestartGame(gameObject);
