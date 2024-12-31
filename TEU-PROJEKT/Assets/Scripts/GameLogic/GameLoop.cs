@@ -43,11 +43,7 @@ public class GameLoop : MonoBehaviour
     void Update()
     {
         FetchNextCity();
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            TogglePauseMenu();
-            Debug.Log("ESC PRESSED");
-        }
+        if (Input.GetKeyDown(KeyCode.Escape)) TogglePauseMenu();
     }
 
     //private void OnEnable()

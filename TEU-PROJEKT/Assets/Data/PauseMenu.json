@@ -1,0 +1,21 @@
+{
+    "languages":
+    [
+        {
+            "language": "en",
+            "resume" : "resume",
+            "restart" : "restart",
+            "changeRegion" : "change region",
+            "cancel" : "cancel",
+            "quit" : "quit"
+        },
+        {
+            "language" : "hr",
+            "resume" : "nastavi",
+            "restart" : "ponovno učitaj",
+            "changeRegion" : "promijeni regiju",
+            "cancel" : "odustani",
+            "quit" : "izađi"
+        }
+    ]
+}
