@@ -6,11 +6,24 @@ using UnityEngine;
 public class MenuBaseUI : MonoBehaviour
 {
     [SerializeField] PauseMenuDropdown menuDropdown;
-    [SerializeField] GameLoop gameLoop;
+    /*[SerializeField]*/ private GameLoop gameLoop;
     [Header("Buttons")]
     [SerializeField] TextMeshProUGUI restartButtonTextObj;
     [SerializeField] TextMeshProUGUI changeRegionButtonTextObj;
     [SerializeField] TextMeshProUGUI quitButtonTextObj;
+
+    private void Awake()
+    {
+        GameObject playerObject = GameObject.Find("Player");
+        if (playerObject == null)
+        {
+            Debug.LogError("Player not found in the scene!");
+        }
+        else 
+        {
+            gameLoop = playerObject.GetComponent<GameLoop>();
+        }
+    }
     void Start()
     {
         SetupButtons();
