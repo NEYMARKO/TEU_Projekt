@@ -12,7 +12,7 @@
         {
             "language" : "hr",
             "resume" : "nastavi",
-            "restart" : "ponovno učitaj",
+            "restart" : "ponovno pokreni",
             "changeRegion" : "promijeni regiju",
             "cancel" : "odustani",
             "quit" : "izađi"
@@ -32,6 +32,14 @@
             "changeRegion" : "cambiar región",
             "cancel" : "cancelar",
             "quit" : "abandonar"
+        },
+        {
+            "language" : "hun",
+            "resume" : "önéletrajz",
+            "restart" : "indítsa újra",
+            "changeRegion" : "régiót váltani",
+            "cancel" : "lefúj",
+            "quit" : "abbahagyni"
         }
     ]
 }
