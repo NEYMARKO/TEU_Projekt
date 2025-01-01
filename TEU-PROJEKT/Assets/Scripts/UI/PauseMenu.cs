@@ -36,13 +36,13 @@ public class PauseMenu : MonoBehaviour
         menuDropdown.OnLanguageChange -= HandleLanguageChange;
     }
 
-    private void HandleLanguageChange(object sender, Language language)
+    private void HandleLanguageChange(object sender, Menu menu)
     {
-        Debug.Log($"Language changed to: {language.language}");
-        resumeButtonTextObj.text = language.resume.ToUpper();
-        resetButtonTextObj.text = language.restart.ToUpper();
-        changeLevelButtonTextObj.text = language.changeRegion.ToUpper();
-        quitButtonTextObj.text = language.quit.ToUpper();
+        Debug.Log($"Language changed to: {menu.language}");
+        resumeButtonTextObj.text = menu.pause.resume.ToUpper();
+        resetButtonTextObj.text = menu.shared.restart.ToUpper();
+        changeLevelButtonTextObj.text = menu.shared.changeRegion.ToUpper();
+        quitButtonTextObj.text = menu.shared.quit.ToUpper();
     }
     private void SetupButtons()
     {

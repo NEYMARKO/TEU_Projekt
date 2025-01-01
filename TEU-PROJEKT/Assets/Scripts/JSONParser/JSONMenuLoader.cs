@@ -4,22 +4,48 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class Language
+
+public class Shared
 {
-    public string language { get; set; }
-    public string resume { get; set; }
     public string restart { get; set; }
     public string changeRegion { get; set; }
-    public string cancel { get; set; }
     public string quit { get; set; }
 }
+public class Pause
+{
+    public string resume { get; set; }
+}
+
+public class End
+{
+    public string score { get; set; }
+    public string highscore { get; set; }
+}
+
+public class InGame
+{
+    public string correct { get; set; }
+    public string select { get; set; }
+}
+
+public class Menu
+{
+    public string language { get; set; }
+    public Shared shared { get; set; }
+    public Pause pause { get; set; }
+    public End end { get; set; }
+    public InGame inGame { get; set; }
+}
+
 public class Root
 {
-    public List<Language> languages { get; set; }
+    public List<Menu> menus { get; set; }
 }
+
 public class JSONMenuLoader : MonoBehaviour
 {
-    public List<Language> Languages { get; private set; }
+    //public List<Language> Languages { get; private set; }
+    public List<Menu> Menus { get; private set; }
     public string currentLanguage = "hr";
     private bool dataLoaded = false;
     // Start is called before the first frame update
@@ -38,18 +64,21 @@ public class JSONMenuLoader : MonoBehaviour
     {
         string jsonPath = "/Data/PauseMenu.json";
         string fullPath = Application.dataPath + jsonPath;
-        Languages = new List<Language>();
+        //Languages = new List<Language>();
+        //Debug.Log($"PATH: {fullPath}");
+        Menus = new List<Menu>();
         
         if (File.Exists(fullPath))
         {
             string jsonString = File.ReadAllText(fullPath);
             Root root = JsonConvert.DeserializeObject<Root>(jsonString);
 
-            if (root != null && root.languages != null)
+            Debug.Log(root.menus);
+            if (root != null && root.menus != null)
             {
-                foreach (Language language in root.languages)
+                foreach (Menu menu in root.menus)
                 {
-                    Languages.Add(language);
+                    Menus.Add(menu);
                 }
                 dataLoaded = true;
                 Debug.Log("LANGUAGES LOADED");
@@ -64,26 +93,26 @@ public class JSONMenuLoader : MonoBehaviour
             Debug.LogError($"JSON file not found at path: {fullPath}");
         }
     }
-    public Language ChangeLanguage(string selectedLanguage)
+    public Menu ChangeLanguage(string selectedLanguage)
     {
         currentLanguage = selectedLanguage;
-        return Languages.Find(lang => lang.language == selectedLanguage);
+        return Menus.Find(menu => menu.language == selectedLanguage);
     }
 
-    //void UpdateUI(string languageCode)
-    //{
-    //    Language selectedLanguage = Languages.Find(lang => lang.language == languageCode);
-    //    if (selectedLanguage != null)
-    //    {
-    //        Debug.Log($"Resume: {selectedLanguage.resume}");
-    //        Debug.Log($"Quit: {selectedLanguage.quit}");
-    //        // Postavi tekst na UI gumbe itd.
-    //    }
-    //    else
-    //    {
-    //        Debug.LogError($"Language '{languageCode}' not found!");
-    //    }
-    //}
+    void UpdateUI(string languageCode)
+    {
+        Menu selectedLanguage = Menus.Find(lang => lang.language == languageCode);
+        if (selectedLanguage != null)
+        {
+            Debug.Log($"Resume: {selectedLanguage.pause.resume}");
+            Debug.Log($"Quit: {selectedLanguage.shared.quit}");
+            // Postavi tekst na UI gumbe itd.
+        }
+        else
+        {
+            Debug.LogError($"Language '{languageCode}' not found!");
+        }
+    }
 
     public bool DataLoaded()
     {

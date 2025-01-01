@@ -8,9 +8,9 @@ public class PauseMenuDropdown : MonoBehaviour
 {
     public TMPro.TMP_Dropdown languageDropdown;
     public JSONMenuLoader pauseMenuLoader;
-    public event EventHandler<Language> OnLanguageChange;
+    public event EventHandler<Menu> OnLanguageChange;
     private bool initializedMenu = false;
-    private Language currentLanguage;
+    private Menu currentMenu;
     void Start()
     {
         PopulateDropdown();
@@ -31,9 +31,9 @@ public class PauseMenuDropdown : MonoBehaviour
 
         languageDropdown.ClearOptions();
         List<string> options = new List<string>();
-        foreach (var language in pauseMenuLoader.Languages)
+        foreach (var menu in pauseMenuLoader.Menus)
         {
-            options.Add(language.language);
+            options.Add(menu.language);
         }
         languageDropdown.AddOptions(options);
         initializedMenu = true;
@@ -41,8 +41,8 @@ public class PauseMenuDropdown : MonoBehaviour
 
     void OnLanguageSelected(int index)
     {
-        string selectedLanguage = pauseMenuLoader.Languages[index].language;
-        currentLanguage = pauseMenuLoader.ChangeLanguage(selectedLanguage);
-        OnLanguageChange?.Invoke(this, currentLanguage);
+        string selectedLanguage = pauseMenuLoader.Menus[index].language;
+        currentMenu = pauseMenuLoader.ChangeLanguage(selectedLanguage);
+        OnLanguageChange?.Invoke(this, currentMenu);
     }  
 }
