@@ -37,6 +37,9 @@ public class InGameUI : MonoBehaviour
     }
     private void OnEnable()
     {
+        //since there are 2 dropdowns which can change language, InGame text needs to subscribe to both
+        //and not just one: if it is subscribed only to pause menu, if changes are made in end game menu
+        //they wont be visible on InGame text (opposite is the same)
         pauseMenuDropdown.OnMenuContentChange += HandleContentChange;
         endGameMenuDropdown.OnMenuContentChange += HandleContentChange;
     }

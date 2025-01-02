@@ -42,7 +42,14 @@ public class PauseMenuDropdown : MonoBehaviour
 
     private void OnEnable()
     {
-        // Subscribe to the event
+        if (!menuContentLoader) return;
+        if (menuContentLoader.Menus[languageDropdown.value].language 
+            != menuContentLoader.currentLanguage)
+        {
+            languageDropdown.value = menuContentLoader.Menus.FindIndex(menu =>
+            menu.language == menuContentLoader.currentLanguage);
+            languageDropdown.RefreshShownValue();
+        }
         menuContentLoader.OnLanguageChange += HandleLanguageChange;
     }
 
