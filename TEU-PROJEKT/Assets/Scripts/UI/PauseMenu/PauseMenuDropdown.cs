@@ -29,7 +29,13 @@ public class PauseMenuDropdown : MonoBehaviour
     void Start()
     {
         PopulateDropdown();
-        //languageDropdown.captionText.text = pauseMenuLoader.currentLanguage;
+        if (menuContentLoader.Menus[languageDropdown.value].language
+            != menuContentLoader.currentLanguage)
+        {
+            languageDropdown.value = menuContentLoader.Menus.FindIndex(menu =>
+            menu.language == menuContentLoader.currentLanguage);
+            languageDropdown.RefreshShownValue();
+        }
         languageDropdown.onValueChanged.AddListener(OnLanguageSelected);
     }
     private void Update()
