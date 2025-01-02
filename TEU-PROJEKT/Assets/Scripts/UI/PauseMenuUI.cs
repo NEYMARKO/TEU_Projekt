@@ -34,4 +34,8 @@ public class PauseMenuUI : MenuBaseUI
         //because button group is child of actual menu
         base.gameLoop.ResumeGame(gameObject);
     }
+    public override void RestartGame()
+    {
+        base.gameLoop.RestartGame(gameObject);
+    }
 }

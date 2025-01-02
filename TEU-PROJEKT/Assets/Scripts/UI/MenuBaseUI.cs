@@ -98,7 +98,7 @@ public class MenuBaseUI : MonoBehaviour
             HandleContentChange(this, menu);
         }
     }
-    public void RestartGame()
+    public virtual void RestartGame()
     {
         //because button group is child of actual menu
         gameLoop.RestartGame(transform.parent.gameObject);
