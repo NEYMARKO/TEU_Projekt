@@ -37,14 +37,20 @@ public class MenuBaseUI : MonoBehaviour
     void Start()
     {
         //this.enabled = true;
+        if (notLoaded)
+        {
+            GetAndUpdateCurrentMenu();
+            notLoaded = false;
+        }
         SetupButtonListener();
-        SetupButtons();
+        //SetupButtons();
     }
 
     private void Update()
     {
         if (notLoaded && menuDropdown.IsMenuContentLoaderInitialized())
         {
+            //Debug.Log("IN UPDATE");
             GetAndUpdateCurrentMenu();
             notLoaded = false;
         }
@@ -52,6 +58,7 @@ public class MenuBaseUI : MonoBehaviour
     private void OnEnable()
     {
         //Debug.Log("SCRIPT ENABLED");
+        notLoaded = true;
         menuDropdown.OnMenuContentChange += HandleContentChange;
         if (!menuDropdown.IsMenuContentLoaderInitialized()) return;
         //Debug.Log($"ACTIVE LANGUAGE: {activeLanguage}, DROPDOWN LANGUAGE: {menuDropdown.GetActiveLanguage()}");
@@ -71,6 +78,7 @@ public class MenuBaseUI : MonoBehaviour
 
     private void HandleContentChange(object sender, Menu menu)
     {
+        Debug.Log("CHANGING STUFF");
         activeLanguage = menu.language;
         //Debug.Log($"Language changed to: {menu.language}");
         restartButtonTextObj.text = menu.shared.restart.ToUpper();
@@ -93,6 +101,7 @@ public class MenuBaseUI : MonoBehaviour
     private void GetAndUpdateCurrentMenu()
     {
         Menu menu = menuDropdown.GetActiveMenu();
+        Debug.Log($"UPDATED MENU lang: {menu.language}");
         if (menu != null)
         {
             HandleContentChange(this, menu);

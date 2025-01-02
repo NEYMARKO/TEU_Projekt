@@ -89,6 +89,10 @@ public class JSONMenuLoader : MonoBehaviour
             {
                 Debug.LogError("Failed to parse JSON or no languages detected");
             }
+
+            //after loading data, languages have to match
+            //THIS DOES NOT WORK!!!!
+            OnLanguageChange?.Invoke(this, currentLanguage);
         }
         else
         {
