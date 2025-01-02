@@ -7,13 +7,14 @@ using UnityEngine.UI;
 
 public class MenuBaseUI : MonoBehaviour
 {
-    [SerializeField] PauseMenuDropdown menuDropdown;
-    /*[SerializeField]*/ private GameLoop gameLoop;
+    [SerializeField] protected PauseMenuDropdown menuDropdown;
+    /*[SerializeField]*/ protected GameLoop gameLoop;
     [Header("Buttons")]
-    [SerializeField] Button RestartButton;
-    [SerializeField] TextMeshProUGUI restartButtonTextObj;
-    [SerializeField] TextMeshProUGUI changeRegionButtonTextObj;
-    [SerializeField] TextMeshProUGUI quitButtonTextObj;
+    [SerializeField] protected Button RestartButton;
+    [Header("Buttons Text")]
+    [SerializeField] protected TextMeshProUGUI restartButtonTextObj;
+    [SerializeField] protected TextMeshProUGUI changeRegionButtonTextObj;
+    [SerializeField] protected TextMeshProUGUI quitButtonTextObj;
 
     private void Awake()
     {
@@ -47,7 +48,7 @@ public class MenuBaseUI : MonoBehaviour
 
     private void HandleLanguageChange(object sender, Menu menu)
     {
-        Debug.Log($"Language changed to: {menu.language}");
+        //Debug.Log($"Language changed to: {menu.language}");
         restartButtonTextObj.text = menu.shared.restart.ToUpper();
         changeRegionButtonTextObj.text = menu.shared.changeRegion.ToUpper();
         quitButtonTextObj.text = menu.shared.quit.ToUpper();
@@ -59,13 +60,19 @@ public class MenuBaseUI : MonoBehaviour
         quitButtonTextObj.text = $"QUIT";
     }
 
+    //prefabs can't have assigned functions through user interface, it has to be assigned through script
     private void SetupButtonListener()
     {
         RestartButton.onClick.AddListener((UnityEngine.Events.UnityAction)this.RestartGame);
     }
     public void RestartGame()
     {
-        //because buttongroup is child of actual menu
+        //because button group is child of actual menu
         gameLoop.RestartGame(transform.parent.gameObject);
+    }
+
+    public GameLoop GetGameLoop()
+    { 
+        return gameLoop; 
     }
 }

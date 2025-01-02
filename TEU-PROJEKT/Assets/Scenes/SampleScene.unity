@@ -1637,6 +1637,7 @@ GameObject:
   m_Component:
   - component: {fileID: 854508831}
   - component: {fileID: 854508832}
+  - component: {fileID: 854508833}
   m_Layer: 5
   m_Name: PauseMenu
   m_TagString: Untagged
@@ -1689,6 +1690,25 @@ MonoBehaviour:
   resetButtonTextObj: {fileID: 1078025281}
   changeLevelButtonTextObj: {fileID: 861644738}
   quitButtonTextObj: {fileID: 1285171088}
+--- !u!114 &854508833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 854508830}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24474b4f44e2cea41847eed8ef503187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuDropdown: {fileID: 0}
+  RestartButton: {fileID: 0}
+  restartButtonTextObj: {fileID: 0}
+  changeRegionButtonTextObj: {fileID: 0}
+  quitButtonTextObj: {fileID: 0}
+  resumeButton: {fileID: 0}
+  resumeButtonTextObj: {fileID: 0}
 --- !u!1 &861644736
 GameObject:
   m_ObjectHideFlags: 0
@@ -4077,6 +4097,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1578957451}
   m_CullTransparentMesh: 1
+--- !u!1 &1613371780
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1613371781}
+  - component: {fileID: 1613371782}
+  m_Layer: 0
+  m_Name: LanguageController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1613371781
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1613371780}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 398.26196, y: 416.3889, z: -0.33202288}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1613371782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1613371780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c4d999b3af83744c9ab0e0d48a3da5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentLanguage: hr
 --- !u!1 &1652860745
 GameObject:
   m_ObjectHideFlags: 0
@@ -5532,7 +5597,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1988223499}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c4d999b3af83744c9ab0e0d48a3da5b, type: 3}
   m_Name: 
@@ -5545,13 +5610,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1988223499}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 78bcbf489528c024a956b6f4473797ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   languageDropdown: {fileID: 1488520594}
-  pauseMenuLoader: {fileID: 1988223505}
 --- !u!1 &2008139381
 GameObject:
   m_ObjectHideFlags: 0
@@ -6301,6 +6365,10 @@ PrefabInstance:
       propertyPath: gameLoop
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6033794811794148001, guid: 06e947533b57fc64f84760d94bc3e7e2, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6210569811143721215, guid: 06e947533b57fc64f84760d94bc3e7e2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -6569,3 +6637,4 @@ SceneRoots:
   - {fileID: 959227538}
   - {fileID: 1574817878}
   - {fileID: 598116266}
+  - {fileID: 1613371781}

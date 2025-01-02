@@ -73,7 +73,7 @@ public class JSONMenuLoader : MonoBehaviour
             string jsonString = File.ReadAllText(fullPath);
             Root root = JsonConvert.DeserializeObject<Root>(jsonString);
 
-            Debug.Log(root.menus);
+            //Debug.Log(root.menus);
             if (root != null && root.menus != null)
             {
                 foreach (Menu menu in root.menus)

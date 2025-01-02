@@ -7,10 +7,24 @@ using UnityEngine.UI;
 public class PauseMenuDropdown : MonoBehaviour
 {
     public TMPro.TMP_Dropdown languageDropdown;
-    public JSONMenuLoader pauseMenuLoader;
+    private JSONMenuLoader pauseMenuLoader;
+    private GameObject languageController;
     public event EventHandler<Menu> OnLanguageChange;
     private bool initializedMenu = false;
     private Menu currentMenu;
+
+    private void Awake()
+    {
+        languageController = GameObject.Find("LanguageController");
+        if (languageController == null)
+        {
+            Debug.LogError("LanguageController not found in the scene!");
+        }
+        else
+        {
+            pauseMenuLoader = languageController.GetComponent<JSONMenuLoader>();
+        }
+    }
     void Start()
     {
         PopulateDropdown();
