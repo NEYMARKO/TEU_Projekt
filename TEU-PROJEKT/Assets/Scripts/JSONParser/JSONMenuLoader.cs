@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -46,6 +47,7 @@ public class JSONMenuLoader : MonoBehaviour
 {
     //public List<Language> Languages { get; private set; }
     public List<Menu> Menus { get; private set; }
+    public event EventHandler<string> OnLanguageChange;
     public string currentLanguage = "hr";
     private bool dataLoaded = false;
     // Start is called before the first frame update
@@ -93,26 +95,32 @@ public class JSONMenuLoader : MonoBehaviour
             Debug.LogError($"JSON file not found at path: {fullPath}");
         }
     }
-    public Menu ChangeLanguage(string selectedLanguage)
+    public void ChangeLanguage(string selectedLanguage)
     {
         currentLanguage = selectedLanguage;
-        return Menus.Find(menu => menu.language == selectedLanguage);
+        OnLanguageChange?.Invoke(this, selectedLanguage);
+        //return Menus.Find(menu => menu.language == selectedLanguage);
     }
 
-    void UpdateUI(string languageCode)
+    public Menu GetUpdatedMenu()
     {
-        Menu selectedLanguage = Menus.Find(lang => lang.language == languageCode);
-        if (selectedLanguage != null)
-        {
-            Debug.Log($"Resume: {selectedLanguage.pause.resume}");
-            Debug.Log($"Quit: {selectedLanguage.shared.quit}");
-            // Postavi tekst na UI gumbe itd.
-        }
-        else
-        {
-            Debug.LogError($"Language '{languageCode}' not found!");
-        }
+        return Menus.Find(menu => menu.language == currentLanguage);
     }
+
+    //void UpdateUI(string languageCode)
+    //{
+    //    Menu selectedLanguage = Menus.Find(lang => lang.language == languageCode);
+    //    if (selectedLanguage != null)
+    //    {
+    //        Debug.Log($"Resume: {selectedLanguage.pause.resume}");
+    //        Debug.Log($"Quit: {selectedLanguage.shared.quit}");
+    //        // Postavi tekst na UI gumbe itd.
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError($"Language '{languageCode}' not found!");
+    //    }
+    //}
 
     public bool DataLoaded()
     {

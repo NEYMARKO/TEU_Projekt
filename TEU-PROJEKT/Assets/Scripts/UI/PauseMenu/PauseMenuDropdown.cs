@@ -7,9 +7,9 @@ using UnityEngine.UI;
 public class PauseMenuDropdown : MonoBehaviour
 {
     public TMPro.TMP_Dropdown languageDropdown;
-    private JSONMenuLoader pauseMenuLoader;
+    private JSONMenuLoader menuContentLoader;
     private GameObject languageController;
-    public event EventHandler<Menu> OnLanguageChange;
+    public event EventHandler<Menu> OnMenuContentChange;
     private bool initializedMenu = false;
     private Menu currentMenu;
 
@@ -22,7 +22,7 @@ public class PauseMenuDropdown : MonoBehaviour
         }
         else
         {
-            pauseMenuLoader = languageController.GetComponent<JSONMenuLoader>();
+            menuContentLoader = languageController.GetComponent<JSONMenuLoader>();
         }
     }
     void Start()
@@ -38,14 +38,26 @@ public class PauseMenuDropdown : MonoBehaviour
             PopulateDropdown();
         }
     }
+
+    private void OnEnable()
+    {
+        // Subscribe to the event
+        menuContentLoader.OnLanguageChange += HandleLanguageChange;
+    }
+
+    private void OnDisable()
+    {
+        // Unsubscribe from the event to avoid memory leaks
+        menuContentLoader.OnLanguageChange -= HandleLanguageChange;
+    }
     void PopulateDropdown()
     {
         //languages haven't been parsed yet
-        if(!pauseMenuLoader.DataLoaded()) return;
+        if(!menuContentLoader.DataLoaded()) return;
 
         languageDropdown.ClearOptions();
         List<string> options = new List<string>();
-        foreach (var menu in pauseMenuLoader.Menus)
+        foreach (var menu in menuContentLoader.Menus)
         {
             options.Add(menu.language);
         }
@@ -53,10 +65,27 @@ public class PauseMenuDropdown : MonoBehaviour
         initializedMenu = true;
     }
 
+    private void HandleLanguageChange(object sender, string newLanguage)
+    {
+        currentMenu = menuContentLoader.GetUpdatedMenu();
+        OnMenuContentChange?.Invoke(this, currentMenu);
+    }
     void OnLanguageSelected(int index)
     {
-        string selectedLanguage = pauseMenuLoader.Menus[index].language;
-        currentMenu = pauseMenuLoader.ChangeLanguage(selectedLanguage);
-        OnLanguageChange?.Invoke(this, currentMenu);
-    }  
+        string selectedLanguage = menuContentLoader.Menus[index].language;
+        menuContentLoader.ChangeLanguage(selectedLanguage);
+        //currentMenu = menuContentLoader.GetUpdatedMenu();
+        //currentMenu = menuContentLoader.ChangeLanguage(selectedLanguage);
+        //OnMenuContentChange?.Invoke(this, currentMenu);
+    }
+
+    //public Menu GetActiveMenu()
+    //{
+    //    return menuContentLoader.GetUpdatedMenu();
+    //}
+
+    public string GetActiveLanguage()
+    {
+        return menuContentLoader.currentLanguage;
+    }
 }

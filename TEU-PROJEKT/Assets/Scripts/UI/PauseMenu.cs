@@ -27,13 +27,13 @@ public class PauseMenu : MonoBehaviour
     private void OnEnable()
     {
         // Subscribe to the event
-        menuDropdown.OnLanguageChange += HandleLanguageChange;
+        menuDropdown.OnMenuContentChange += HandleLanguageChange;
     }
 
     private void OnDisable()
     {
         // Unsubscribe from the event to avoid memory leaks
-        menuDropdown.OnLanguageChange -= HandleLanguageChange;
+        menuDropdown.OnMenuContentChange -= HandleLanguageChange;
     }
 
     private void HandleLanguageChange(object sender, Menu menu)

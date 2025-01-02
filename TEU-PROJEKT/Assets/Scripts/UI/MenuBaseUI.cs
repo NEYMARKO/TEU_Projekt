@@ -16,8 +16,10 @@ public class MenuBaseUI : MonoBehaviour
     [SerializeField] protected TextMeshProUGUI changeRegionButtonTextObj;
     [SerializeField] protected TextMeshProUGUI quitButtonTextObj;
 
+    private string activeLanguage;
     private void Awake()
     {
+        activeLanguage = null;
         GameObject playerObject = GameObject.Find("Player");
         if (playerObject == null)
         {
@@ -36,18 +38,27 @@ public class MenuBaseUI : MonoBehaviour
 
     private void OnEnable()
     {
+        //if (activeLanguage == null || activeLanguage != menuDropdown.GetActiveLanguage())
+        //{
+        //    Menu menu = menuDropdown.GetActiveMenu();
+        //    if (menu != null)
+        //    {
+        //        HandleContentChange(this, menu);
+        //    }
+        //}
         // Subscribe to the event
-        menuDropdown.OnLanguageChange += HandleLanguageChange;
+        menuDropdown.OnMenuContentChange += HandleContentChange;
     }
 
     private void OnDisable()
     {
         // Unsubscribe from the event to avoid memory leaks
-        menuDropdown.OnLanguageChange -= HandleLanguageChange;
+        menuDropdown.OnMenuContentChange -= HandleContentChange;
     }
 
-    private void HandleLanguageChange(object sender, Menu menu)
+    private void HandleContentChange(object sender, Menu menu)
     {
+        activeLanguage = menu.language;
         //Debug.Log($"Language changed to: {menu.language}");
         restartButtonTextObj.text = menu.shared.restart.ToUpper();
         changeRegionButtonTextObj.text = menu.shared.changeRegion.ToUpper();
