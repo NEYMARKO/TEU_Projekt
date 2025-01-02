@@ -1684,7 +1684,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6676f387807248a45bf79b9d932b22c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuDropdown: {fileID: 1988223506}
+  menuDropdown: {fileID: 1234164735}
   gameLoop: {fileID: 1988223503}
   resumeButtonTextObj: {fileID: 1232459670}
   resetButtonTextObj: {fileID: 1078025281}
@@ -1702,7 +1702,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24474b4f44e2cea41847eed8ef503187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuDropdown: {fileID: 0}
+  menuDropdown: {fileID: 1234164735}
   RestartButton: {fileID: 0}
   restartButtonTextObj: {fileID: 0}
   changeRegionButtonTextObj: {fileID: 0}
@@ -2742,6 +2742,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1232459668}
   m_CullTransparentMesh: 1
+--- !u!114 &1234164735 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1556756521854946158, guid: 06e947533b57fc64f84760d94bc3e7e2, type: 3}
+  m_PrefabInstance: {fileID: 2270001810454242617}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78bcbf489528c024a956b6f4473797ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1234164738 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7198450475664739961, guid: 06e947533b57fc64f84760d94bc3e7e2, type: 3}
@@ -5490,8 +5501,6 @@ GameObject:
   - component: {fileID: 1988223502}
   - component: {fileID: 1988223503}
   - component: {fileID: 1988223504}
-  - component: {fileID: 1988223505}
-  - component: {fileID: 1988223506}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -5573,7 +5582,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   citiesParent: {fileID: 959227537}
   endGameUIHolder: {fileID: 908547982}
-  pauseMenuUIholder: {fileID: 854508830}
+  pauseMenuUIHolder: {fileID: 854508830}
   _JSONDataLoader: {fileID: 1988223502}
 --- !u!114 &1988223504
 MonoBehaviour:
@@ -5590,32 +5599,6 @@ MonoBehaviour:
   scoreText: {fileID: 2050764496}
   wantedCityText: {fileID: 1561363893}
   gameLoop: {fileID: 1988223503}
---- !u!114 &1988223505
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1988223499}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c4d999b3af83744c9ab0e0d48a3da5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentLanguage: hr
---- !u!114 &1988223506
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1988223499}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78bcbf489528c024a956b6f4473797ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  languageDropdown: {fileID: 1488520594}
 --- !u!1 &2008139381
 GameObject:
   m_ObjectHideFlags: 0

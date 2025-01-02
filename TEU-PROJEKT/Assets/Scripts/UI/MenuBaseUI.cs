@@ -17,6 +17,7 @@ public class MenuBaseUI : MonoBehaviour
     [SerializeField] protected TextMeshProUGUI quitButtonTextObj;
 
     private string activeLanguage;
+    private bool notLoaded = true;
     private void Awake()
     {
         activeLanguage = null;
@@ -29,25 +30,37 @@ public class MenuBaseUI : MonoBehaviour
         {
             gameLoop = playerObject.GetComponent<GameLoop>();
         }
+        //disable script so OnEnabled wouldn't get called before
+        //menuContentLoader could be initialized in PauseMenuDropdown.cs
+        //this.enabled = false;
     }
     void Start()
     {
+        //this.enabled = true;
         SetupButtonListener();
         SetupButtons();
     }
 
+    private void Update()
+    {
+        if (notLoaded && menuDropdown.IsMenuContentLoaderInitialized())
+        {
+            GetAndUpdateCurrentMenu();
+            notLoaded = false;
+        }
+    }
     private void OnEnable()
     {
-        //if (activeLanguage == null || activeLanguage != menuDropdown.GetActiveLanguage())
-        //{
-        //    Menu menu = menuDropdown.GetActiveMenu();
-        //    if (menu != null)
-        //    {
-        //        HandleContentChange(this, menu);
-        //    }
-        //}
-        // Subscribe to the event
+        //Debug.Log("SCRIPT ENABLED");
         menuDropdown.OnMenuContentChange += HandleContentChange;
+        if (!menuDropdown.IsMenuContentLoaderInitialized()) return;
+        //Debug.Log($"ACTIVE LANGUAGE: {activeLanguage}, DROPDOWN LANGUAGE: {menuDropdown.GetActiveLanguage()}");
+        if (activeLanguage == null || activeLanguage != menuDropdown.GetActiveLanguage())
+        {
+            GetAndUpdateCurrentMenu();
+            notLoaded = false;
+        }
+        // Subscribe to the event
     }
 
     private void OnDisable()
@@ -75,6 +88,15 @@ public class MenuBaseUI : MonoBehaviour
     private void SetupButtonListener()
     {
         RestartButton.onClick.AddListener((UnityEngine.Events.UnityAction)this.RestartGame);
+    }
+
+    private void GetAndUpdateCurrentMenu()
+    {
+        Menu menu = menuDropdown.GetActiveMenu();
+        if (menu != null)
+        {
+            HandleContentChange(this, menu);
+        }
     }
     public void RestartGame()
     {

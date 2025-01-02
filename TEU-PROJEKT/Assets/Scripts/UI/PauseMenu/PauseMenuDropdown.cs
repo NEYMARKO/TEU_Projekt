@@ -22,7 +22,8 @@ public class PauseMenuDropdown : MonoBehaviour
         }
         else
         {
-            menuContentLoader = languageController.GetComponent<JSONMenuLoader>();
+            if (!menuContentLoader) menuContentLoader = languageController.GetComponent<JSONMenuLoader>();
+            //Debug.Log($"MENU CONTENT LOADER IN AWAKE NULL:{(menuContentLoader == null ? "TRUE" : "FALSE")}");
         }
     }
     void Start()
@@ -79,10 +80,15 @@ public class PauseMenuDropdown : MonoBehaviour
         //OnMenuContentChange?.Invoke(this, currentMenu);
     }
 
-    //public Menu GetActiveMenu()
-    //{
-    //    return menuContentLoader.GetUpdatedMenu();
-    //}
+    public bool IsMenuContentLoaderInitialized()
+    {
+        return menuContentLoader != null;
+    }
+    public Menu GetActiveMenu()
+    {
+        //Debug.Log($"CONTENT LOADER IS {(menuContentLoader == null ? "" : "NOT")} NULL");
+        return menuContentLoader.GetUpdatedMenu();
+    }
 
     public string GetActiveLanguage()
     {

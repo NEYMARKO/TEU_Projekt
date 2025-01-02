@@ -38,7 +38,7 @@ public class PauseMenu : MonoBehaviour
 
     private void HandleLanguageChange(object sender, Menu menu)
     {
-        Debug.Log($"Language changed to: {menu.language}");
+        //Debug.Log($"Language changed to: {menu.language}");
         resumeButtonTextObj.text = menu.pause.resume.ToUpper();
         resetButtonTextObj.text = menu.shared.restart.ToUpper();
         changeLevelButtonTextObj.text = menu.shared.changeRegion.ToUpper();
