@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuBaseUI : MonoBehaviour
 {
     [SerializeField] PauseMenuDropdown menuDropdown;
     /*[SerializeField]*/ private GameLoop gameLoop;
     [Header("Buttons")]
+    [SerializeField] Button RestartButton;
     [SerializeField] TextMeshProUGUI restartButtonTextObj;
     [SerializeField] TextMeshProUGUI changeRegionButtonTextObj;
     [SerializeField] TextMeshProUGUI quitButtonTextObj;
@@ -26,6 +29,7 @@ public class MenuBaseUI : MonoBehaviour
     }
     void Start()
     {
+        SetupButtonListener();
         SetupButtons();
     }
 
@@ -55,8 +59,13 @@ public class MenuBaseUI : MonoBehaviour
         quitButtonTextObj.text = $"QUIT";
     }
 
+    private void SetupButtonListener()
+    {
+        RestartButton.onClick.AddListener((UnityEngine.Events.UnityAction)this.RestartGame);
+    }
     public void RestartGame()
     {
-        gameLoop.RestartGame(gameObject);
+        //because buttongroup is child of actual menu
+        gameLoop.RestartGame(transform.parent.gameObject);
     }
 }
