@@ -5,28 +5,55 @@ using UnityEngine;
 
 public class InGameUI : MonoBehaviour
 {
+    private GameObject languageController;
+    private JSONMenuLoader menuContentLoader;
+    [SerializeField] PauseMenuDropdown pauseMenuDropdown;
+    [SerializeField] PauseMenuDropdown endGameMenuDropdown;
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] TextMeshProUGUI wantedCityText;
     [SerializeField] GameLoop gameLoop;
-
+ 
     private string scoreString;
     private string wantedCityString;
-    //starting text is going to be chosen depending on what language was chosen in settings
-    void Start()
+
+    private void Awake()
     {
-        
+        languageController = GameObject.Find("LanguageController");
+        if (languageController == null)
+        {
+            Debug.LogError("LanguageController not found in the scene!");
+        }
+        else
+        {
+            if (!menuContentLoader) menuContentLoader = languageController.GetComponent<JSONMenuLoader>();
+        }
     }
 
-    // Update is called once per frame
+    private void Start()
+    {
+        Menu menu = menuContentLoader.GetUpdatedMenu();
+        scoreString = menu.inGame.correct.ToUpper();
+        wantedCityString = menu.inGame.select.ToUpper();
+    }
+    private void OnEnable()
+    {
+        pauseMenuDropdown.OnMenuContentChange += HandleContentChange;
+        endGameMenuDropdown.OnMenuContentChange += HandleContentChange;
+    }
+
+    private void OnDisable()
+    {
+        pauseMenuDropdown.OnMenuContentChange -= HandleContentChange;
+        endGameMenuDropdown.OnMenuContentChange -= HandleContentChange;
+    }
+    public void HandleContentChange(object sender, Menu menu)
+    {
+        scoreString = menu.inGame.correct.ToUpper();
+        wantedCityString = menu.inGame.select.ToUpper();
+    }
     void Update()
     {
-        scoreText.text = $"Correctly answered: {gameLoop.GetCorrectAnswersCount()} / {gameLoop.GetCitiesCount()}";
-        wantedCityText.text = $"SELECT: {gameLoop.GetWantedCity()}";
-    }
-
-    //called when language is changed in the settings
-    private void UpdateString()
-    {
-
+        scoreText.text = $"{scoreString}: {gameLoop.GetCorrectAnswersCount()} / {gameLoop.GetCitiesCount()}";
+        wantedCityText.text = $"{wantedCityString}: {gameLoop.GetWantedCity()}";
     }
 }

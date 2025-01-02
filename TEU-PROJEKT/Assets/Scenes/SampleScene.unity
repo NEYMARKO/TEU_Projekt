@@ -2063,6 +2063,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18131293205d3d84b88dc1aac16e52eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pauseMenuDropdown: {fileID: 1234164735}
+  endGameMenuDropdown: {fileID: 2032498050}
   scoreText: {fileID: 2050764496}
   wantedCityText: {fileID: 1561363893}
   gameLoop: {fileID: 1988223503}

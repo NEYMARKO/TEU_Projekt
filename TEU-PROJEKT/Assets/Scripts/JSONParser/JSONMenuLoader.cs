@@ -45,23 +45,15 @@ public class Root
 
 public class JSONMenuLoader : MonoBehaviour
 {
-    //public List<Language> Languages { get; private set; }
     public List<Menu> Menus { get; private set; }
     public event EventHandler<string> OnLanguageChange;
     public string currentLanguage = "hr";
     private bool dataLoaded = false;
-    // Start is called before the first frame update
     void Start()
     {
         LoadLanguages();
-        //UpdateUI(currentLanguage);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     void LoadLanguages()
     {
         string jsonPath = "/Data/PauseMenu.json";
@@ -103,29 +95,12 @@ public class JSONMenuLoader : MonoBehaviour
     {
         currentLanguage = selectedLanguage;
         OnLanguageChange?.Invoke(this, selectedLanguage);
-        //return Menus.Find(menu => menu.language == selectedLanguage);
     }
 
     public Menu GetUpdatedMenu()
     {
         return Menus.Find(menu => menu.language == currentLanguage);
     }
-
-    //void UpdateUI(string languageCode)
-    //{
-    //    Menu selectedLanguage = Menus.Find(lang => lang.language == languageCode);
-    //    if (selectedLanguage != null)
-    //    {
-    //        Debug.Log($"Resume: {selectedLanguage.pause.resume}");
-    //        Debug.Log($"Quit: {selectedLanguage.shared.quit}");
-    //        // Postavi tekst na UI gumbe itd.
-    //    }
-    //    else
-    //    {
-    //        Debug.LogError($"Language '{languageCode}' not found!");
-    //    }
-    //}
-
     public bool DataLoaded()
     {
         return dataLoaded;
