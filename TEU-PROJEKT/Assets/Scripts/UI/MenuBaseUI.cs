@@ -9,9 +9,7 @@ public class MenuBaseUI : MonoBehaviour
 {
     [SerializeField] protected PauseMenuDropdown menuDropdown;
     /*[SerializeField]*/ protected GameLoop gameLoop;
-    [Header("Buttons")]
     [SerializeField] protected Button RestartButton;
-    [Header("Buttons Text")]
     [SerializeField] protected TextMeshProUGUI restartButtonTextObj;
     [SerializeField] protected TextMeshProUGUI changeRegionButtonTextObj;
     [SerializeField] protected TextMeshProUGUI quitButtonTextObj;
@@ -43,7 +41,6 @@ public class MenuBaseUI : MonoBehaviour
             notLoaded = false;
         }
         SetupButtonListener();
-        //SetupButtons();
     }
 
     private void Update()
@@ -55,7 +52,7 @@ public class MenuBaseUI : MonoBehaviour
             notLoaded = false;
         }
     }
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         //Debug.Log("SCRIPT ENABLED");
         notLoaded = true;
@@ -76,20 +73,14 @@ public class MenuBaseUI : MonoBehaviour
         menuDropdown.OnMenuContentChange -= HandleContentChange;
     }
 
-    private void HandleContentChange(object sender, Menu menu)
+    public virtual void HandleContentChange(object sender, Menu menu)
     {
-        Debug.Log("CHANGING STUFF");
+        //Debug.Log("CHANGING STUFF");
         activeLanguage = menu.language;
         //Debug.Log($"Language changed to: {menu.language}");
         restartButtonTextObj.text = menu.shared.restart.ToUpper();
         changeRegionButtonTextObj.text = menu.shared.changeRegion.ToUpper();
         quitButtonTextObj.text = menu.shared.quit.ToUpper();
-    }
-    private void SetupButtons()
-    {
-        restartButtonTextObj.text = $"RESET";
-        changeRegionButtonTextObj.text = $"CHANGE LEVEL";
-        quitButtonTextObj.text = $"QUIT";
     }
 
     //prefabs can't have assigned functions through user interface, it has to be assigned through script
@@ -101,7 +92,7 @@ public class MenuBaseUI : MonoBehaviour
     private void GetAndUpdateCurrentMenu()
     {
         Menu menu = menuDropdown.GetActiveMenu();
-        Debug.Log($"UPDATED MENU lang: {menu.language}");
+        //Debug.Log($"UPDATED MENU lang: {menu.language}");
         if (menu != null)
         {
             HandleContentChange(this, menu);

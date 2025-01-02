@@ -6,26 +6,25 @@ using UnityEngine.UI;
 
 public class PauseMenuUI : MenuBaseUI
 {
+    //[SerializeField] private MenuBaseUI baseMenu;
     [SerializeField] private Button resumeButton;
     [SerializeField] private TextMeshProUGUI resumeButtonTextObj;
-    // Start is called before the first frame update
-    private void Awake()
-    {
-        gameLoop = GetComponent<GameLoop>();
-    }
+
     void Start()
     {
         SetupButtonListener();
-        SetupButtons();
     }
 
-    // Update is called once per frame
-    private void SetupButtons()
+    protected override void OnEnable()
     {
-        resumeButtonTextObj.text = $"RESUME";
+        base.OnEnable();
     }
 
-    //prefabs can't have assigned functions through user interface, it has to be assigned through script
+    public override void HandleContentChange(object sender, Menu menu)
+    {
+        base.HandleContentChange(sender, menu);
+        resumeButtonTextObj.text = menu.pause.resume.ToUpper();
+    }
     private void SetupButtonListener()
     {
         resumeButton.onClick.AddListener((UnityEngine.Events.UnityAction)this.ResumeGame);
@@ -33,6 +32,6 @@ public class PauseMenuUI : MenuBaseUI
     public void ResumeGame()
     {
         //because button group is child of actual menu
-        gameLoop.ResumeGame(transform.parent.gameObject);
+        base.gameLoop.ResumeGame(gameObject);
     }
 }

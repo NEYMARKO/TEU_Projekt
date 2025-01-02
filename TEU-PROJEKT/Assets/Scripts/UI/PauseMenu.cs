@@ -15,7 +15,7 @@ public class PauseMenu : MonoBehaviour
     private int score;
     void Start()
     {
-        SetupButtons();
+        //SetupButtons();
         //UpdateScore();
     }
 
