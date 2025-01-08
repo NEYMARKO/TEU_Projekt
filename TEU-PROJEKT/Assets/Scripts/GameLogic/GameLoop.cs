@@ -13,7 +13,7 @@ public class GameLoop : MonoBehaviour
     [SerializeField] GameObject citiesParent;
     [Header("UI")]
     [SerializeField] GameObject endGameUIHolder;
-    [SerializeField] GameObject pauseMenuUIholder;
+    [SerializeField] GameObject pauseMenuUIHolder;
     [Header("Data")]
     [SerializeField] JSONDataLoader _JSONDataLoader;
     private List<CityData> shuffledCities;
@@ -168,6 +168,6 @@ public class GameLoop : MonoBehaviour
 
     private void TogglePauseMenu()
     {
-        pauseMenuUIholder.SetActive(!pauseMenuUIholder.activeSelf);
+        pauseMenuUIHolder.SetActive(!pauseMenuUIHolder.activeSelf);
     }
 }
