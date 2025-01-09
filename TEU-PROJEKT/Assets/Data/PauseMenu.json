@@ -16,7 +16,8 @@
             },
             "inGame": {
                 "correct": "correctly selected",
-                "select": "select"
+                "select": "select",
+                "elapsedTime": "elapsed time"
             }
         },
         {
@@ -35,7 +36,8 @@
             },
             "inGame": {
                 "correct": "točno označeni",
-                "select": "označi"
+                "select": "označi",
+                "elapsedTime": "proteklo vrijeme"
             }
         },
         {
@@ -54,7 +56,8 @@
             },
             "inGame": {
                 "correct": "richtig ausgewählt",
-                "select": "auswählen"
+                "select": "auswählen",
+                "elapsedTime": "verstrichene Zeit"
             }
         },
         {
@@ -73,7 +76,8 @@
             },
             "inGame": {
                 "correct": "Seleccionado correctamente",
-                "select": "seleccionar"
+                "select": "seleccionar",
+                "elapsedTime": "tiempo transcurrido"
             }
         },
         {
@@ -92,7 +96,8 @@
             },
             "inGame": {
                 "correct": "helyesen kiválasztott",
-                "select": "válassza ki"
+                "select": "válassza ki",
+                "elapsedTime": "eltelt idő"
             }
         }
     ]

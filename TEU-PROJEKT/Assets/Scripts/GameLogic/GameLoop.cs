@@ -24,6 +24,8 @@ public class GameLoop : MonoBehaviour
     bool canFetchNext = true;
     string currentWantedCity;
     int correctlyGuessed = 0;
+    private float elapsedTime = 0f;
+    private bool pauseTime = false;
     void Start()
     {
         //wait until all cities are populated in list
@@ -46,6 +48,7 @@ public class GameLoop : MonoBehaviour
     {
         FetchNextCity();
         if (Input.GetKeyDown(KeyCode.Escape)) TogglePauseMenu();
+        if (!pauseMenuUIHolder.active && !pauseTime) elapsedTime += Time.deltaTime;
     }
 
     //private void OnEnable()
@@ -100,7 +103,8 @@ public class GameLoop : MonoBehaviour
         if (shuffledCities.Count == 0)
         {
             //Debug.Log($"GAME OVER, correct guesses: {correctlyGuessed}");
-            databaseManager.AddScore(correctlyGuessed, 55.0f);
+            pauseTime = true;
+            databaseManager.AddScore(correctlyGuessed, elapsedTime);
             StartCoroutine(Wait());
             canFetchNext = false;
             return;
@@ -125,6 +129,8 @@ public class GameLoop : MonoBehaviour
         shuffledCities = ShuffleList(allCities);
         canFetchNext = true;
         correctlyGuessed = 0;
+        elapsedTime = 0f;
+        pauseTime = false;
         ResetCities();
         uiCaller.SetActive(false);
 
@@ -167,6 +173,11 @@ public class GameLoop : MonoBehaviour
     public string GetWantedCity()
     {
         return currentWantedCity;
+    }
+
+    public float GetElapsedTime()
+    {
+        return Mathf.Floor(elapsedTime * 100)/100;
     }
     private IEnumerator Wait()
     {

@@ -86,10 +86,12 @@ public class DBManager : MonoBehaviour
                 //Debug.Log(sqlQuery);
                 using (IDataReader reader = dbCommand.ExecuteReader())
                 {
+                    //HIGHSCORE CAN'T BE ASSIGNED outside of while loop, even though only 1 value is being 
+                    //retreived from database
                     while (reader.Read()) 
                     {
                         highScore = reader.GetInt16(0);
-                        //Debug.Log("results");
+                        Debug.Log("results");
                         //Debug.Log(reader.GetInt16(0));
                     }
                     //highScore = reader.GetInt32(0);

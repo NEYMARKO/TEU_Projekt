@@ -27,6 +27,7 @@ public class InGame
 {
     public string correct { get; set; }
     public string select { get; set; }
+    public string elapsedTime { get; set; }
 }
 
 public class Menu
