@@ -23,7 +23,8 @@ public class EndGameMenuUI : MenuBaseUI
     {
         base.HandleContentChange(sender, menu);
         scoreTextObj.text = $"{menu.end.score.ToUpper()}: {base.gameLoop.GetCorrectAnswersCount()}";
-        highScoreTextObj.text = $"{menu.end.highscore.ToUpper()}: ";
+        highScoreTextObj.text = $"{menu.end.highscore.ToUpper()}: {gameLoop.GetHighScore()}";
+        //highScoreTextObj.text = $"{menu.end.highscore.ToUpper()}: ";
     }
 
     //prefabs can't have assigned functions through user interface, it has to be assigned through script

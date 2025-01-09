@@ -2095,6 +2095,7 @@ MonoBehaviour:
   endGameUIHolder: {fileID: 908547982}
   pauseMenuUIHolder: {fileID: 854508830}
   _JSONDataLoader: {fileID: 1988223502}
+  databaseManager: {fileID: 275593046}
 --- !u!114 &1988223504
 MonoBehaviour:
   m_ObjectHideFlags: 0

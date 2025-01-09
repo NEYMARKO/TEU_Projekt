@@ -11,16 +11,16 @@ public class DBManager : MonoBehaviour
 
     private string connectionString;
 
-    private int activeRegion = 0;
-    private int activeStudent = 0;
+    private int activeRegionID = 0;
+    private string activeStudentID = "0036524001";
 
 
     void Start()
     {
         //connectionString = "URI=file:" + Application.dataPath + "/StreamingAssets/EduGameN.sqlite";
         connectionString = "URI=file:" + Application.streamingAssetsPath + "/EduGameN.db";
-        GetStudents();
-        GetTopScores("0036524001", 0, 10);
+        //GetStudents();
+        GetTopScores(/*"0036524001", 0, */10);
     }
 
     // Update is called once per frame
@@ -52,7 +52,57 @@ public class DBManager : MonoBehaviour
         dbConnection.Close();
     }
 
-    private void GetTopScores(string studentID, int regionID, int scoreCount)
+    public void AddScore(/*string studentID, int regionID,*/ int value, float elapsedTimeInSec)
+    {
+        using (IDbConnection dbConnection = new SqliteConnection(connectionString))
+        {
+            dbConnection.Open();
+
+            using (IDbCommand dbCommand = dbConnection.CreateCommand())
+            {
+                string sqlQuery = "INSERT INTO score (value, timeElapsedInSec, studentJMBAG, regionID)"
+                    + $" VALUES ({value}, {elapsedTimeInSec}, '{activeStudentID}', {activeRegionID})";
+                dbCommand.CommandText = sqlQuery;
+                dbCommand.ExecuteScalar();
+                dbConnection.Close();
+            }
+        }
+    }
+
+    public int GetHighScore(/*string studentID, int regionID*/)
+    {
+        int highScore = 0;
+        using (IDbConnection dbConnection = new SqliteConnection(connectionString))
+        {
+            dbConnection.Open();
+
+            using (IDbCommand dbCommand = dbConnection.CreateCommand())
+            {
+                string sqlQuery = "SELECT MAX(value) as highscore FROM student JOIN score ON studentJMBAG = JMBAG"
+                    + $" WHERE JMBAG = '{activeStudentID}' AND regionID = {activeRegionID}" +
+                    " GROUP BY JMBAG";
+
+                dbCommand.CommandText = sqlQuery;
+                //Debug.Log(sqlQuery);
+                using (IDataReader reader = dbCommand.ExecuteReader())
+                {
+                    while (reader.Read()) 
+                    {
+                        highScore = reader.GetInt16(0);
+                        //Debug.Log("results");
+                        //Debug.Log(reader.GetInt16(0));
+                    }
+                    //highScore = reader.GetInt32(0);
+                    //Debug.Log("highscore: " + highScore);
+                    reader.Close();
+                    //dbCommand.Dispose();
+                    dbConnection.Close();
+                }
+            }
+        }
+        return highScore;
+    }
+    private void GetTopScores(/*string studentID, int regionID, */int scoreCount)
     {
         using (IDbConnection dbConnection = new SqliteConnection(connectionString))
         {
@@ -61,7 +111,7 @@ public class DBManager : MonoBehaviour
             using (IDbCommand dbCommand = dbConnection.CreateCommand())
             {
                 string sqlQuery = "SELECT * FROM student JOIN score ON studentJMBAG = JMBAG"
-                    + $" WHERE JMBAG = '{studentID}' AND regionID = {regionID}" +
+                    + $" WHERE JMBAG = '{activeStudentID}' AND regionID = {activeRegionID}" +
                     " ORDER BY value DESC, timeElapsedInSec ASC";
                 //string sqlQuery = "select * from student join score on studentJMBAG = JMBAG WHERE JMBAG = '0036524001' AND regionID = 0 order by value desc, timeElapsedInSec asc";
                 //string sqlQuery = "select * from student join score on studentJMBAG = JMBAG order by value desc, timeElapsedInSec asc";
@@ -76,7 +126,7 @@ public class DBManager : MonoBehaviour
                     while (reader.Read())
                     {
                         //Debug.Log("in reader");
-                        Debug.Log($"Student: {reader.GetString(1)} {reader.GetString(2)} made score: {reader.GetInt16(3)} in {reader.GetFloat(4)} sec");
+                        //Debug.Log($"Student: {reader.GetString(1)} {reader.GetString(2)} made score: {reader.GetInt16(3)} in {reader.GetFloat(4)} sec");
                     }
                     reader.Close();
                     //dbCommand.Dispose();
@@ -84,9 +134,5 @@ public class DBManager : MonoBehaviour
                 }
             }
         }
-    }
-    private void AddScore(int value, int timeElapsedInSec, int studentID, int regionID)
-    {
-
     }
 }

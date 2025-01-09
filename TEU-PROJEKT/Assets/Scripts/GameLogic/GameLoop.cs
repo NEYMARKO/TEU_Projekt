@@ -16,6 +16,8 @@ public class GameLoop : MonoBehaviour
     [SerializeField] GameObject pauseMenuUIHolder;
     [Header("Data")]
     [SerializeField] JSONDataLoader _JSONDataLoader;
+    [Header("Database")]
+    [SerializeField] DBManager databaseManager;
     private List<CityData> shuffledCities;
     private List<CityData> allCities;
 
@@ -98,6 +100,7 @@ public class GameLoop : MonoBehaviour
         if (shuffledCities.Count == 0)
         {
             //Debug.Log($"GAME OVER, correct guesses: {correctlyGuessed}");
+            databaseManager.AddScore(correctlyGuessed, 55.0f);
             StartCoroutine(Wait());
             canFetchNext = false;
             return;
@@ -150,6 +153,11 @@ public class GameLoop : MonoBehaviour
     public int GetCorrectAnswersCount()
     {
         return correctlyGuessed;
+    }
+
+    public int GetHighScore()
+    {
+        return databaseManager.GetHighScore();
     }
 
     public int GetCitiesCount()
