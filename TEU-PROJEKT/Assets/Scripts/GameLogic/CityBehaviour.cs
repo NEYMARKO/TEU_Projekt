@@ -44,7 +44,7 @@ public class CityBehaviour : MonoBehaviour
     Quaternion oldRotation;
 
     bool shouldAnimate = false;
-    bool isAnimating = false;
+    //bool isAnimating = false;
     bool isSelected = false;
 
     Outline outlineScript;
