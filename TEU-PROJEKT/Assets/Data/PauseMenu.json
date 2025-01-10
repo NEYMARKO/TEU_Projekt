@@ -41,6 +41,46 @@
             }
         },
         {
+            "language": "fra",
+            "shared": {
+                "restart": "redémarrer",
+                "changeRegion": "changer de région",
+                "quit": "quitter"
+            },
+            "pause": {
+                "resume": "reprendre"
+            },
+            "end": {
+                "score": "score",
+                "highscore": "score élevé"
+            },
+            "inGame": {
+                "correct": "correctement sélectionné",
+                "select": "sélectionner",
+                "elapsedTime": "temps écoulé"
+            }
+        },
+        {
+            "language": "jap",
+            "shared": { 
+                "restart": "Yari naosu", 
+                "changeRegion": " Chiiki o henkō",
+                "quit": " Hikiharau" 
+            }, 
+            "pause": { 
+                "resume": "Saikai suru" 
+            },
+            "end": {
+                 "score": "Sukoa",
+                  "highscore": "Haisukoa" 
+            }, 
+            "inGame": {
+                "correct": "Tadashiku sentaku sa reta",
+                "select": "Sentaku",
+                "elapsedTime": "Keika jikan" 
+            }
+        },
+        {
             "language": "ger",
             "shared": {
                 "restart": "neustart",

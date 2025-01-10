@@ -14,13 +14,27 @@ public class DBManager : MonoBehaviour
     private int activeRegionID = 0;
     private string activeStudentID = "0036524001";
 
+    private struct RegionInfo
+    {
+        public int regionID;
+        public string regionName;
+    }
+
+    private List<RegionInfo> regions;
 
     void Start()
     {
+        regions = new List<RegionInfo>();
         //connectionString = "URI=file:" + Application.dataPath + "/StreamingAssets/EduGameN.sqlite";
         connectionString = "URI=file:" + Application.streamingAssetsPath + "/EduGameN.db";
         //GetStudents();
         GetTopScores(/*"0036524001", 0, */10);
+        LoadRegions();
+
+        foreach (var region in regions)
+        {
+            Debug.Log($"REGION ID: {region.regionID}, REGION NAME: {region.regionName}");
+        }
     }
 
     // Update is called once per frame
@@ -52,6 +66,34 @@ public class DBManager : MonoBehaviour
         dbConnection.Close();
     }
 
+    public void LoadRegions()
+    {
+        using (IDbConnection dbConnection = new SqliteConnection(connectionString))
+        {
+            dbConnection.Open();
+
+            using (IDbCommand dbCommand = dbConnection.CreateCommand())
+            {
+                string sqlQuery = "SELECT * from region";
+
+                dbCommand.CommandText = sqlQuery;
+                //Debug.Log(sqlQuery);
+                using (IDataReader reader = dbCommand.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        RegionInfo regionInfo = new RegionInfo();
+                        regionInfo.regionID = reader.GetInt16(0);
+                        regionInfo.regionName = reader.GetString(1);
+                        regions.Add(regionInfo);
+                    }
+                    reader.Close();
+                    //dbCommand.Dispose();
+                    dbConnection.Close();
+                }
+            }
+        }
+    }
     public void AddScore(/*string studentID, int regionID,*/ int value, float elapsedTimeInSec)
     {
         using (IDbConnection dbConnection = new SqliteConnection(connectionString))
