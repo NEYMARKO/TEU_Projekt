@@ -65,6 +65,11 @@ public class CityBehaviour : MonoBehaviour
         colorAnimationCompleted = 0f;
     }
 
+    private void OnEnable()
+    {
+        material = gameObject.GetComponent<Renderer>().material;
+        defaultColor = material.color;
+    }
     // Update is called once per frame
     void Update()
     {

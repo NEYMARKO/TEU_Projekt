@@ -28,7 +28,7 @@ public class JSONDataLoader : MonoBehaviour
 
     public GameObject cityPrefab;
     public GameObject citiesParentObject;
-
+    private GameObject tempCitiesParentObj;
     //private GameObject citiesParentObjectReserve;
     [SerializeField] Transform map;
 
@@ -39,6 +39,8 @@ public class JSONDataLoader : MonoBehaviour
     float mapYValue;
     void Start()
     {
+        tempCitiesParentObj = new GameObject();
+        tempCitiesParentObj.transform.position = citiesParentObject.transform.position;
         //string fullPath = Application.dataPath + jsonPath;
         //mapYValue = map.transform.position.y;
         //citiesData = new List<CityData>();
@@ -87,7 +89,7 @@ public class JSONDataLoader : MonoBehaviour
 
         cityObject.name = city.name;
         cityObject.layer = LayerMask.NameToLayer("Map");
-        cityObject.transform.parent = citiesParentObject.transform;
+        cityObject.transform.parent = tempCitiesParentObj.transform;
 
         return;
     }
@@ -113,9 +115,12 @@ public class JSONDataLoader : MonoBehaviour
 
     public void ReplaceCitiesParent()
     {
-        Vector3 citiesParentPosition = citiesParentObject.transform.position;
-        Destroy(citiesParentObject);
-        citiesParentObject = new GameObject();
-        citiesParentObject.transform.position = citiesParentPosition;
-    }    
+        Destroy(tempCitiesParentObj);
+        tempCitiesParentObj = new GameObject();
+        tempCitiesParentObj.transform.position = citiesParentObject.transform.position;
+    }
+    public GameObject GetTempParentObj()
+    {
+        return tempCitiesParentObj;
+    }
 }

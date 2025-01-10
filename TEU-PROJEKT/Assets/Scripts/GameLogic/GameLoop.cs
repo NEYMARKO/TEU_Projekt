@@ -127,6 +127,11 @@ public class GameLoop : MonoBehaviour
     public void RestartGame(GameObject uiCaller)
     {
         shuffledCities = ShuffleList(allCities);
+
+        //foreach(var city in shuffledCities)
+        //{
+        //    Debug.Log(city.name);
+        //}
         canFetchNext = true;
         correctlyGuessed = 0;
         elapsedTime = 0f;
@@ -144,13 +149,13 @@ public class GameLoop : MonoBehaviour
     public void ReloadLevel(int regionID, GameObject uiCaller)
     {
         allCities.Clear();
-        //databaseManager.LoadCities(regionID, allCities);
+        databaseManager.LoadCities(regionID, allCities);
         //allCities
         RestartGame(uiCaller);
     }
     private void ResetCities()
     { 
-        foreach(Transform city in citiesParent.transform)
+        foreach(Transform city in _JSONDataLoader.GetTempParentObj().transform)
         {
             city.gameObject.GetComponent<CityBehaviour>().ResetCity();
         }

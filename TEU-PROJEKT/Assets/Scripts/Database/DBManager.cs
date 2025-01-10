@@ -100,7 +100,7 @@ public class DBManager : MonoBehaviour
     
     public void LoadCities(int regionID, List<CityData> citiesList)
     {
-        //_JSONDataLoader.ReplaceCitiesParent();
+        _JSONDataLoader.ReplaceCitiesParent();
         using (IDbConnection dbConnection = new SqliteConnection(connectionString))
         {
             dbConnection.Open();
@@ -111,7 +111,7 @@ public class DBManager : MonoBehaviour
                     + " FROM region JOIN city ON region.regionID = city.regionID"
                     + $" WHERE city.regionID = {regionID}";
                 dbCommand.CommandText = sqlQuery;
-                Debug.Log(sqlQuery);
+                //Debug.Log(sqlQuery);
                 using (IDataReader reader = dbCommand.ExecuteReader())
                 {
                     //Debug.Log(reader.FieldCount);
