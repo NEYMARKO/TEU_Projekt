@@ -34,7 +34,15 @@ public class GameLoop : MonoBehaviour
         //    Debug.Log("CITIES LIST POPULATED: " + _JSONDataLoader.CitiesListPopulated());
         //}
         
-        allCities = _JSONDataLoader.ProvideCitiesInfo();
+        allCities = new List<CityData>();
+        //Debug.Log("BEFORE LOADING");
+        databaseManager.LoadCities(databaseManager.GetActiveRegionID(), allCities);
+        //Debug.Log("ALL CITIES:");
+        //foreach (CityData city in allCities)
+        //{
+        //    Debug.Log(city.name);
+        //}
+        //allCities = _JSONDataLoader.ProvideCitiesInfo();
         shuffledCities = ShuffleList(allCities);
         //Debug.Log("SHUFFLED LIST");
         //foreach (CityData city in allCities)
@@ -43,12 +51,11 @@ public class GameLoop : MonoBehaviour
         //}
     }
 
-    // Update is called once per frame
     void Update()
     {
         FetchNextCity();
         if (Input.GetKeyDown(KeyCode.Escape)) TogglePauseMenu();
-        if (!pauseMenuUIHolder.active && !pauseTime) elapsedTime += Time.deltaTime;
+        if (!pauseMenuUIHolder.activeSelf && !pauseTime) elapsedTime += Time.deltaTime;
     }
 
     //private void OnEnable()
@@ -63,15 +70,9 @@ public class GameLoop : MonoBehaviour
     //}
     private List<CityData> ShuffleList(List<CityData> originalListData)
     {
-        //Debug.Log("ORIGINAL LIST");
-        //foreach (CityData city in originalListData)
-        //{
-        //    Debug.Log(city.name);
-        //}
         List<CityData> shuffledListData = Enumerable.Repeat<CityData>(null, originalListData.Count).ToList();
         int position;
 
-        //Debug.Log($"ORIG COUNT: {originalListData.Count}, SHUFF COUNT: {shuffledListData.Count}");
         for (int i = 0; i < originalListData.Count; i++)
         {
             position = Random.Range(0, originalListData.Count);
@@ -94,7 +95,6 @@ public class GameLoop : MonoBehaviour
         }
         currentWantedCity = shuffledCities[0].name;
         shuffledCities.RemoveAt(0);
-        //Debug.Log($"            Looking for: {currentWantedCity}");
         canFetchNext = false;
         return;
     }
@@ -140,15 +140,14 @@ public class GameLoop : MonoBehaviour
     {
         uiCaller.SetActive(false);
     }
-    //}public void RestartGame()
-    //{
-    //    shuffledCities = ShuffleList(allCities);
-    //    canFetchNext = true;
-    //    correctlyGuessed = 0;
-    //    ResetCities();
-    //    endGameUIHolder.SetActive(false);
-    //}
 
+    public void ReloadLevel(int regionID, GameObject uiCaller)
+    {
+        allCities.Clear();
+        //databaseManager.LoadCities(regionID, allCities);
+        //allCities
+        RestartGame(uiCaller);
+    }
     private void ResetCities()
     { 
         foreach(Transform city in citiesParent.transform)
@@ -156,6 +155,7 @@ public class GameLoop : MonoBehaviour
             city.gameObject.GetComponent<CityBehaviour>().ResetCity();
         }
     }
+
     public int GetCorrectAnswersCount()
     {
         return correctlyGuessed;

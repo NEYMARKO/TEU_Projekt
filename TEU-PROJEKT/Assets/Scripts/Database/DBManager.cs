@@ -10,8 +10,8 @@ using System.Globalization;
 public class DBManager : MonoBehaviour
 {
 
+    [SerializeField] JSONDataLoader _JSONDataLoader;
     private string connectionString;
-
     private int activeRegionID = 0;
     private string activeStudentID = "0036524001";
 
@@ -97,6 +97,44 @@ public class DBManager : MonoBehaviour
             }
         }
     }
+    
+    public void LoadCities(int regionID, List<CityData> citiesList)
+    {
+        //_JSONDataLoader.ReplaceCitiesParent();
+        using (IDbConnection dbConnection = new SqliteConnection(connectionString))
+        {
+            dbConnection.Open();
+
+            using (IDbCommand dbCommand = dbConnection.CreateCommand())
+            {
+                string sqlQuery = "SELECT city.name, city.locationX, city.locationY, city.cached"
+                    + " FROM region JOIN city ON region.regionID = city.regionID"
+                    + $" WHERE city.regionID = {regionID}";
+                dbCommand.CommandText = sqlQuery;
+                Debug.Log(sqlQuery);
+                using (IDataReader reader = dbCommand.ExecuteReader())
+                {
+                    //Debug.Log(reader.FieldCount);
+                    while (reader.Read())
+                    {
+                        //Debug.Log($"{reader.GetString(0)}, {reader.GetFloat(1)}, {reader.GetFloat(2)}, {reader.GetInt32(3)}");
+                        CityData city = new CityData();
+                        city.location = new Location();
+                        city.name = reader.GetString(0);
+                        city.location.x = reader.GetFloat(1);
+                        city.location.y = reader.GetFloat(2);
+                        city.cached = reader.GetInt32(3) != 0;
+                        _JSONDataLoader.InstantiateCity(city);
+                        citiesList.Add(city);
+                    }
+                    reader.Close();
+                    //dbCommand.Dispose();
+                    dbConnection.Close();
+                }
+            }
+        }
+    }
+
     public void AddScore(/*string studentID, int regionID,*/ int value, float elapsedTimeInSec)
     {
         using (IDbConnection dbConnection = new SqliteConnection(connectionString))

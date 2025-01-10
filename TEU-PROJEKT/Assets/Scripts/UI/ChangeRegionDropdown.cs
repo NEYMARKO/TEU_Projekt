@@ -10,8 +10,9 @@ public class ChangeRegionDropdown : MonoBehaviour
     public TMPro.TMP_Dropdown changeRegionDropdown;
     private DBManager dbManager;
     private GameObject dbManagerObject;
-    public event EventHandler<Menu> OnRegionChange;
-
+    public event EventHandler<int> OnRegionChange;
+    [SerializeField] GameLoop gameLoop;
+ 
     private List<string> regions;
     private void Awake()
     {
@@ -23,46 +24,19 @@ public class ChangeRegionDropdown : MonoBehaviour
         else
         {
             dbManager = dbManagerObject.GetComponent<DBManager>();
-            //Debug.Log($"MENU CONTENT LOADER IN AWAKE NULL:{(menuContentLoader == null ? "TRUE" : "FALSE")}");
         }
     }
     void Start()
     {
         regions = new List<string>();
         PopulateDropdown();
-        //if (menuContentLoader.Menus[languageDropdown.value].language
-        //    != menuContentLoader.currentLanguage)
-        //{
-        //    languageDropdown.value = menuContentLoader.Menus.FindIndex(menu =>
-        //    menu.language == menuContentLoader.currentLanguage);
-        //    languageDropdown.RefreshShownValue();
-        //}
+     
         if (changeRegionDropdown.value != dbManager.GetActiveRegionID())
         {
             changeRegionDropdown.value = dbManager.GetActiveRegionID();
         }
         changeRegionDropdown.onValueChanged.AddListener(OnRegionSelected);
     }
-    private void Update()
-    {
-        //if (!initializedMenu)
-        //{
-        //    PopulateDropdown();
-        //}
-    }
-
-    //private void OnEnable()
-    //{
-    //    //if (!menuContentLoader) return;
-    //    if (menuContentLoader.Menus[languageDropdown.value].language
-    //        != menuContentLoader.currentLanguage)
-    //    {
-    //        languageDropdown.value = menuContentLoader.Menus.FindIndex(menu =>
-    //        menu.language == menuContentLoader.currentLanguage);
-    //        languageDropdown.RefreshShownValue();
-    //    }
-    //    menuContentLoader.OnLanguageChange += HandleLanguageChange;
-    //}
 
     private void OnEnable()
     {
@@ -95,34 +69,14 @@ public class ChangeRegionDropdown : MonoBehaviour
         //initializedMenu = true;
     }
 
-    //private void HandleLanguageChange(object sender, string newLanguage)
-    //{
-    //    currentMenu = menuContentLoader.GetUpdatedMenu();
-    //    OnMenuContentChange?.Invoke(this, currentMenu);
-    //}
     void OnRegionSelected(int index)
     {
         string selectedRegion = regions[index];
-        //Debug.Log($"SELECTED REGION: {selectedRegion}");
-        dbManager.SetActiveRegionID(index);
-        //menuContentLoader.ChangeLanguage(selectedLanguage);
-        //currentMenu = menuContentLoader.GetUpdatedMenu();
-        //currentMenu = menuContentLoader.ChangeLanguage(selectedLanguage);
-        //OnMenuContentChange?.Invoke(this, currentMenu);
+        if (index != dbManager.GetActiveRegionID())
+        {
+            OnRegionChange?.Invoke(this, index);
+            dbManager.SetActiveRegionID(index);
+            gameLoop.ReloadLevel(index, transform.parent.gameObject);
+        }
     }
-
-    //public bool IsMenuContentLoaderInitialized()
-    //{
-    //    return menuContentLoader != null;
-    //}
-    //public Menu GetActiveMenu()
-    //{
-    //    //Debug.Log($"CONTENT LOADER IS {(menuContentLoader == null ? "" : "NOT")} NULL");
-    //    return menuContentLoader.GetUpdatedMenu();
-    //}
-
-    //public string GetActiveLanguage()
-    //{
-    //    return menuContentLoader.currentLanguage;
-    //}
 }

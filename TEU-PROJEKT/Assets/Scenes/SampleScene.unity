@@ -296,6 +296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8613385a08755d42abe1f17fe51c38c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _JSONDataLoader: {fileID: 1988223502}
 --- !u!4 &275593047
 Transform:
   m_ObjectHideFlags: 0
@@ -1951,6 +1952,10 @@ PrefabInstance:
       propertyPath: gameLoop
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5038443226508376554, guid: 06e947533b57fc64f84760d94bc3e7e2, type: 3}
+      propertyPath: gameLoop
+      value: 
+      objectReference: {fileID: 1988223503}
     - target: {fileID: 6210569811143721215, guid: 06e947533b57fc64f84760d94bc3e7e2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -2407,6 +2412,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 854508831}
     m_Modifications:
+    - target: {fileID: 5038443226508376554, guid: 06e947533b57fc64f84760d94bc3e7e2, type: 3}
+      propertyPath: gameLoop
+      value: 
+      objectReference: {fileID: 1988223503}
     - target: {fileID: 6546799331327901412, guid: 06e947533b57fc64f84760d94bc3e7e2, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1

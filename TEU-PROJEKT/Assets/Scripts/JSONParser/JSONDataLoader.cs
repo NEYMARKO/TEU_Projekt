@@ -7,6 +7,7 @@ public class CityData
 {
     public string name;
     public Location location;
+    public bool cached;
 }
 
 public class Location
@@ -28,6 +29,7 @@ public class JSONDataLoader : MonoBehaviour
     public GameObject cityPrefab;
     public GameObject citiesParentObject;
 
+    //private GameObject citiesParentObjectReserve;
     [SerializeField] Transform map;
 
     private List<CityData> citiesData;
@@ -37,47 +39,47 @@ public class JSONDataLoader : MonoBehaviour
     float mapYValue;
     void Start()
     {
-        string fullPath = Application.dataPath + jsonPath;
-        mapYValue = map.transform.position.y;
-        citiesData = new List<CityData>();
-        //Debug.Log(Application.dataPath + jsonPath);
-        //AllCities allCities = JsonUtility.FromJson<AllCities>(Application.dataPath + jsonPath, );
-        //Debug.Log(allCities);
+        //string fullPath = Application.dataPath + jsonPath;
+        //mapYValue = map.transform.position.y;
+        //citiesData = new List<CityData>();
+        ////Debug.Log(Application.dataPath + jsonPath);
+        ////AllCities allCities = JsonUtility.FromJson<AllCities>(Application.dataPath + jsonPath, );
+        ////Debug.Log(allCities);
 
-        if (File.Exists(fullPath))
-        {
-            // Read the JSON file content
-            string jsonString = File.ReadAllText(fullPath);
+        //if (File.Exists(fullPath))
+        //{
+        //    // Read the JSON file content
+        //    string jsonString = File.ReadAllText(fullPath);
 
-            //Debug.Log(jsonString);
-            // Parse JSON into CityData
-            AllCitiesInfo allCitiesInfo = JsonConvert.DeserializeObject<AllCitiesInfo>(jsonString);
+        //    //Debug.Log(jsonString);
+        //    // Parse JSON into CityData
+        //    AllCitiesInfo allCitiesInfo = JsonConvert.DeserializeObject<AllCitiesInfo>(jsonString);
 
-            //Debug.Log(allCitiesInfo.cities);
-            if (allCitiesInfo != null && allCitiesInfo.cities != null)
-            {
-                foreach (CityData city in allCitiesInfo.cities)
-                {
-                    citiesData.Add(city);
-                    InstantiateCity(city);
-                }
-                Debug.Log("CITIES LOADED FINALLY");
-                citiesLoaded = true;
-            }
-            else
-            {
-                Debug.LogError("Failed to parse JSON or no cities found!");
-                failedToLoad = true;
-            }
-        }
-        else
-        {
-            Debug.LogError($"JSON file not found at path: {fullPath}");
-            failedToLoad = true;
-        }
+        //    //Debug.Log(allCitiesInfo.cities);
+        //    if (allCitiesInfo != null && allCitiesInfo.cities != null)
+        //    {
+        //        foreach (CityData city in allCitiesInfo.cities)
+        //        {
+        //            citiesData.Add(city);
+        //            InstantiateCity(city);
+        //        }
+        //        Debug.Log("CITIES LOADED FINALLY");
+        //        citiesLoaded = true;
+        //    }
+        //    else
+        //    {
+        //        Debug.LogError("Failed to parse JSON or no cities found!");
+        //        failedToLoad = true;
+        //    }
+        //}
+        //else
+        //{
+        //    Debug.LogError($"JSON file not found at path: {fullPath}");
+        //    failedToLoad = true;
+        //}
     }
 
-    private void InstantiateCity(CityData city)
+    public void InstantiateCity(CityData city)
     {
         Vector3 position = new Vector3(city.location.x, 0, city.location.y);
 
@@ -108,4 +110,12 @@ public class JSONDataLoader : MonoBehaviour
     {
         return citiesLoaded;
     }
+
+    public void ReplaceCitiesParent()
+    {
+        Vector3 citiesParentPosition = citiesParentObject.transform.position;
+        Destroy(citiesParentObject);
+        citiesParentObject = new GameObject();
+        citiesParentObject.transform.position = citiesParentPosition;
+    }    
 }
