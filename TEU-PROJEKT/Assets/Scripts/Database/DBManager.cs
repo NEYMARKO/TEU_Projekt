@@ -187,4 +187,14 @@ public class DBManager : MonoBehaviour
     {
         return regions;
     }
+
+    public int GetActiveRegionID()
+    {
+        return activeRegionID;
+    }
+
+    public void SetActiveRegionID(int regionID)
+    {
+        activeRegionID = regionID;
+    }
 }

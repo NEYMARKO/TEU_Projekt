@@ -11,8 +11,6 @@ public class ChangeRegionDropdown : MonoBehaviour
     private DBManager dbManager;
     private GameObject dbManagerObject;
     public event EventHandler<Menu> OnRegionChange;
-    private bool initializedMenu = false;
-    private Menu currentMenu;
 
     private List<string> regions;
     private void Awake()
@@ -39,14 +37,18 @@ public class ChangeRegionDropdown : MonoBehaviour
         //    menu.language == menuContentLoader.currentLanguage);
         //    languageDropdown.RefreshShownValue();
         //}
+        if (changeRegionDropdown.value != dbManager.GetActiveRegionID())
+        {
+            changeRegionDropdown.value = dbManager.GetActiveRegionID();
+        }
         changeRegionDropdown.onValueChanged.AddListener(OnRegionSelected);
     }
     private void Update()
     {
-        if (!initializedMenu)
-        {
-            PopulateDropdown();
-        }
+        //if (!initializedMenu)
+        //{
+        //    PopulateDropdown();
+        //}
     }
 
     //private void OnEnable()
@@ -62,6 +64,14 @@ public class ChangeRegionDropdown : MonoBehaviour
     //    menuContentLoader.OnLanguageChange += HandleLanguageChange;
     //}
 
+    private void OnEnable()
+    {
+        if (regions == null || regions.Count == 0) return;
+        if (changeRegionDropdown.value != dbManager.GetActiveRegionID())
+        {
+            changeRegionDropdown.value = dbManager.GetActiveRegionID();
+        }
+    }
     //private void OnDisable()
     //{
     //    // Unsubscribe from the event to avoid memory leaks
@@ -82,7 +92,7 @@ public class ChangeRegionDropdown : MonoBehaviour
             options.Add(regionName);
         }
         changeRegionDropdown.AddOptions(options);
-        initializedMenu = true;
+        //initializedMenu = true;
     }
 
     //private void HandleLanguageChange(object sender, string newLanguage)
@@ -93,7 +103,8 @@ public class ChangeRegionDropdown : MonoBehaviour
     void OnRegionSelected(int index)
     {
         string selectedRegion = regions[index];
-        Debug.Log($"SELECTED REGION: {selectedRegion}");
+        //Debug.Log($"SELECTED REGION: {selectedRegion}");
+        dbManager.SetActiveRegionID(index);
         //menuContentLoader.ChangeLanguage(selectedLanguage);
         //currentMenu = menuContentLoader.GetUpdatedMenu();
         //currentMenu = menuContentLoader.ChangeLanguage(selectedLanguage);
