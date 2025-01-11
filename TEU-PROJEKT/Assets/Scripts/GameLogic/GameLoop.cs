@@ -104,7 +104,7 @@ public class GameLoop : MonoBehaviour
         {
             //Debug.Log($"GAME OVER, correct guesses: {correctlyGuessed}");
             pauseTime = true;
-            databaseManager.AddScore(correctlyGuessed, elapsedTime);
+            //databaseManager.AddScore(correctlyGuessed, elapsedTime);
             StartCoroutine(Wait());
             canFetchNext = false;
             return;

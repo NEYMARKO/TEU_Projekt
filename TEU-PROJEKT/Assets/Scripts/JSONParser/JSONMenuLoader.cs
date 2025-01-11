@@ -21,6 +21,7 @@ public class End
 {
     public string score { get; set; }
     public string highscore { get; set; }
+    public string showHighScores { get; set; }
 }
 
 public class InGame
