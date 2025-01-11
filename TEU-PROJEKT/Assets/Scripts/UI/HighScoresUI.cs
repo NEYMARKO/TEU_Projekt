@@ -23,11 +23,19 @@ public class HighScoresUI : MonoBehaviour
     }
     private void OnEnable()
     {
-        if (topScores.Count != 0) topScores.Clear();
         dbManager.GetTopScores(topScores);
         RenderScores();
     }
 
+    private void OnDisable()
+    {
+        topScores.Clear();
+
+        foreach (Transform child in scoreParent.transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
     private void RenderScores()
     {
         for (int i = 0; i < topScores.Count; i++)
