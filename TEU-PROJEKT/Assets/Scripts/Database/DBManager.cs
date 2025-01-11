@@ -24,14 +24,19 @@ public class DBManager : MonoBehaviour
     //private List<RegionInfo> regions;
     private List<string> regions;
 
+    private void Awake()
+    {
+        regions = new List<string>();
+        connectionString = "URI=file:" + Application.streamingAssetsPath + "/EduGameN.db";
+    }
     void Start()
     {
         //regions = new List<RegionInfo>();
-        regions = new List<string>();
+        //regions = new List<string>();
         //connectionString = "URI=file:" + Application.dataPath + "/StreamingAssets/EduGameN.sqlite";
-        connectionString = "URI=file:" + Application.streamingAssetsPath + "/EduGameN.db";
+        //connectionString = "URI=file:" + Application.streamingAssetsPath + "/EduGameN.db";
         //GetStudents();
-        GetTopScores(/*"0036524001", 0, */10);
+        //GetTopScores(/*"0036524001", 0, */10);
         LoadRegions();
 
         //foreach (var region in regions)
@@ -187,7 +192,7 @@ public class DBManager : MonoBehaviour
         }
         return highScore;
     }
-    private void GetTopScores(/*string studentID, int regionID, */int scoreCount)
+    public void GetTopScores(/*string studentID, int regionID, *int scoreCount*/List<Score> scoresList)
     {
         using (IDbConnection dbConnection = new SqliteConnection(connectionString))
         {
@@ -195,13 +200,12 @@ public class DBManager : MonoBehaviour
 
             using (IDbCommand dbCommand = dbConnection.CreateCommand())
             {
-                string sqlQuery = "SELECT * FROM student JOIN score ON studentJMBAG = JMBAG"
-                    + $" WHERE JMBAG = '{activeStudentID}' AND regionID = {activeRegionID}" +
-                    " ORDER BY value DESC, timeElapsedInSec ASC";
-                //string sqlQuery = "select * from student join score on studentJMBAG = JMBAG WHERE JMBAG = '0036524001' AND regionID = 0 order by value desc, timeElapsedInSec asc";
-                //string sqlQuery = "select * from student join score on studentJMBAG = JMBAG order by value desc, timeElapsedInSec asc";
-                //string sqlQuery = "SELECT * FROM score ORDER BY value DESC, timeElapsedInSec ASC";
-                //sqlQuery = "SELECT * FROM student";
+                string sqlQuery = "SELECT score.studentJMBAG, score.value, score.timeElapsedInSec" +
+                    " FROM score JOIN region ON score.regionID = region.regionID"
+                    + $" WHERE score.studentJMBAG = '{activeStudentID}' AND region.regionID = {activeRegionID}" +
+                    " ORDER BY score.value DESC, score.timeElapsedInSec ASC"
+                    + " LIMIT 10";
+
                 dbCommand.CommandText = sqlQuery;
                 //Debug.Log(sqlQuery);
 
@@ -212,10 +216,16 @@ public class DBManager : MonoBehaviour
                     {
                         //Debug.Log("in reader");
                         //Debug.Log($"Student: {reader.GetString(1)} {reader.GetString(2)} made score: {reader.GetInt16(3)} in {reader.GetFloat(4)} sec");
+                        Score score = new Score();
+                        score.studentID = reader.GetString(0);
+                        score.value = reader.GetInt32(1);
+                        score.timeElapsedInSec = reader.GetFloat(2);
+                        scoresList.Add(score);
                     }
                     reader.Close();
                     //dbCommand.Dispose();
                     dbConnection.Close();
+
                 }
             }
         }
