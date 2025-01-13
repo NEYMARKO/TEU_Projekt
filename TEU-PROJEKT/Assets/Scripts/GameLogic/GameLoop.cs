@@ -26,6 +26,7 @@ public class GameLoop : MonoBehaviour
     int correctlyGuessed = 0;
     private float elapsedTime = 0f;
     private bool pauseTime = false;
+    private int highScore = -1;
     void Start()
     {
         //wait until all cities are populated in list
@@ -136,6 +137,7 @@ public class GameLoop : MonoBehaviour
         correctlyGuessed = 0;
         elapsedTime = 0f;
         pauseTime = false;
+        highScore = -1;
         ResetCities();
         uiCaller.SetActive(false);
 
@@ -168,7 +170,8 @@ public class GameLoop : MonoBehaviour
 
     public int GetHighScore()
     {
-        return databaseManager.GetHighScore();
+        if (highScore == -1) highScore = databaseManager.GetHighScore();
+        return highScore;
     }
 
     public int GetCitiesCount()
