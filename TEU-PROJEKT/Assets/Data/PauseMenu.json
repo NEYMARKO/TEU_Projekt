@@ -19,6 +19,12 @@
                 "correct": "correctly selected",
                 "select": "select",
                 "elapsedTime": "elapsed time"
+            },
+            "highscoreTable": 
+            {
+                "rank" : "rank",
+                "score": "score",
+                "time": "time"
             }
         },
         {
@@ -40,6 +46,12 @@
                 "correct": "točno označeni",
                 "select": "označi",
                 "elapsedTime": "proteklo vrijeme"
+            },
+            "highscoreTable": 
+            {
+                "rank" : "rang",
+                "score": "rezultat",
+                "time": "vrijeme"
             }
         },
         {
@@ -61,6 +73,12 @@
                 "correct": "correctement sélectionné",
                 "select": "sélectionner",
                 "elapsedTime": "temps écoulé"
+            },
+            "highscoreTable": 
+            {
+                "rank" : "rang",
+                "score": "score",
+                "time": "temps"
             }
         },
         {
@@ -82,6 +100,12 @@
                 "correct": "Tadashiku sentaku sa reta",
                 "select": "Sentaku",
                 "elapsedTime": "Keika jikan" 
+            },
+            "highscoreTable": 
+            {
+                "rank" : "Ranku",
+                "score": "Sukoa",
+                "time": "Jikan"
             }
         },
         {
@@ -103,6 +127,12 @@
                 "correct": "richtig ausgewählt",
                 "select": "auswählen",
                 "elapsedTime": "verstrichene Zeit"
+            },
+            "highscoreTable": 
+            {
+                "rank" : "Rang",
+                "score": "Punktzahl",
+                "time": "Zeit"
             }
         },
         {
@@ -124,6 +154,12 @@
                 "correct": "Seleccionado correctamente",
                 "select": "seleccionar",
                 "elapsedTime": "tiempo transcurrido"
+            },
+            "highscoreTable": 
+            {
+                "rank" : "rango",
+                "score": "puntaje",
+                "time": "tiempo"
             }
         },
         {
@@ -145,6 +181,12 @@
                 "correct": "helyesen kiválasztott",
                 "select": "válassza ki",
                 "elapsedTime": "eltelt idő"
+            },
+            "highscoreTable": 
+            {
+                "rank" : "rang",
+                "score": "pontszám",
+                "time": "idő"
             }
         }
     ]
