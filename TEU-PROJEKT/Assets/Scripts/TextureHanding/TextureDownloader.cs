@@ -21,7 +21,7 @@ public class TextureDownloader : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("DATA PATH: " + textureSavePath);
+        //Debug.Log("DATA PATH: " + textureSavePath);
         HandleRegionsLoaded(dbManager, (dbManager.GetRegions() != null));
         FetchTextureForCurrentRegion(dbManager, dbManager.GetActiveRegionID());
         //StartCoroutine("DownloadImage");
@@ -58,16 +58,17 @@ public class TextureDownloader : MonoBehaviour
             regionName = regions[regionID].ToUpper();
         }
 
-        Debug.Log("REGION NAME: " + regionName);
+        //Debug.Log("REGION NAME: " + regionName);
         string texturePath = $"{textureSavePath}/{regionName}.png";
         if (!File.Exists(texturePath))
         {
-            Debug.Log("Texture doesn't exist in folder");
+            //Debug.Log("Texture doesn't exist in folder");
             imgURL = GetUrlForCountry(regionName);
             StartCoroutine("DownloadAndSaveTextureToFolder");
         }
         else
         {
+            Debug.Log("TEXTURE ALREADY EXIST ABOUT TO LOAD IT");
             ApplyTextureToMap(regionName);
         }
     }
@@ -118,6 +119,7 @@ public class TextureDownloader : MonoBehaviour
                 byte[] textureBytes = downloadedTexture.EncodeToPNG();
                 File.WriteAllBytes($"{textureSavePath}/{regions[dbManager.GetActiveRegionID()].ToUpper()}.png", textureBytes);
                 //rawImage.texture = downloadedTexture;
+                Debug.Log($"DOWNLOADED TEXTURE AT: {textureSavePath}/{regions[dbManager.GetActiveRegionID()].ToUpper()}.png");
                 map.GetComponent<Renderer>().material.mainTexture = downloadedTexture;
             }
             else
