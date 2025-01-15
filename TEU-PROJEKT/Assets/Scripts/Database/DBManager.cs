@@ -14,7 +14,7 @@ public class DBManager : MonoBehaviour
     private string connectionString;
     private int activeRegionID = 0;
     private string activeStudentID = "0036524001";
-
+    public event EventHandler<bool> OnRegionsLoaded;
     //private struct RegionInfo
     //{
     //    public int regionID;
@@ -28,6 +28,7 @@ public class DBManager : MonoBehaviour
     {
         regions = new List<string>();
         connectionString = "URI=file:" + Application.streamingAssetsPath + "/EduGameN.db";
+        LoadRegions();
     }
     void Start()
     {
@@ -37,7 +38,7 @@ public class DBManager : MonoBehaviour
         //connectionString = "URI=file:" + Application.streamingAssetsPath + "/EduGameN.db";
         //GetStudents();
         //GetTopScores(/*"0036524001", 0, */10);
-        LoadRegions();
+        //LoadRegions();
 
         //foreach (var region in regions)
         //{
@@ -101,6 +102,7 @@ public class DBManager : MonoBehaviour
                 }
             }
         }
+        OnRegionsLoaded?.Invoke(this, true);
     }
     
     public void LoadCities(int regionID, List<CityData> citiesList)

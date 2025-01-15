@@ -1156,8 +1156,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4161f43884e88a45bd4fff86ee8c192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dbManager: {fileID: 275593046}
   rawImage: {fileID: 1301894227}
   map: {fileID: 1765921445}
+  regionDropdown: {fileID: 1234164739}
 --- !u!4 &833712181
 Transform:
   m_ObjectHideFlags: 0
@@ -2500,6 +2502,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7198450475664739961, guid: 06e947533b57fc64f84760d94bc3e7e2, type: 3}
   m_PrefabInstance: {fileID: 2270001810454242617}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1234164739 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5038443226508376554, guid: 06e947533b57fc64f84760d94bc3e7e2, type: 3}
+  m_PrefabInstance: {fileID: 2270001810454242617}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfa387529e4c0964dbb940d9f6042cad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1238252949 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8848056480321109671, guid: 51ba93e08a79b974987fc3d4036190c1, type: 3}
