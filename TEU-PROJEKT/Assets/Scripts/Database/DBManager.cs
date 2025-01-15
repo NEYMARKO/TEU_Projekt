@@ -6,13 +6,14 @@ using System.Data;
 using Mono.Data.Sqlite;
 using JetBrains.Annotations;
 using System.Globalization;
+using System.Data.Common;
 
 public class DBManager : MonoBehaviour
 {
 
     [SerializeField] JSONDataLoader _JSONDataLoader;
     private string connectionString;
-    private int activeRegionID = 0;
+    private int activeRegionID = 4;
     private string activeStudentID = "0036524001";
     public event EventHandler<bool> OnRegionsLoaded;
     //private struct RegionInfo
@@ -121,6 +122,7 @@ public class DBManager : MonoBehaviour
                 //Debug.Log(sqlQuery);
                 using (IDataReader reader = dbCommand.ExecuteReader())
                 {
+                    int i = 0;
                     //Debug.Log(reader.FieldCount);
                     while (reader.Read())
                     {
@@ -133,6 +135,9 @@ public class DBManager : MonoBehaviour
                         city.cached = reader.GetInt32(3) != 0;
                         _JSONDataLoader.InstantiateCity(city);
                         citiesList.Add(city);
+
+                        CacheCityData(city, i, dbConnection);
+                        i++;
                     }
                     reader.Close();
                     //dbCommand.Dispose();
@@ -142,6 +147,42 @@ public class DBManager : MonoBehaviour
         }
     }
 
+    private void CacheCityData(CityData city, int posInList, IDbConnection dbConnection)
+    {
+        if (city.cached == true)
+        {
+            Debug.Log($"CITY {city.name} DIDN'T NEED CACHING");
+            return;
+        }
+        //convert city position 
+        float locationX = posInList / 2.0f;
+        float locationY = posInList / 2.0f;
+
+        using (IDbCommand dbCommand = dbConnection.CreateCommand())
+        {
+            string sqlQuery = $"UPDATE city SET locationX = {locationX}, locationY = {locationY}, cached = 1"
+                + $" WHERE name = '{city.name}'";
+            dbCommand.CommandText = sqlQuery;
+            //Debug.Log(sqlQuery);
+            dbCommand.ExecuteNonQuery();
+        }
+
+        //using (IDbConnection dbConnection = new SqliteConnection(connectionString))
+        //{
+        //    dbConnection.Open();
+
+        //    using (IDbCommand dbCommand = dbConnection.CreateCommand())
+        //    {
+        //        string sqlQuery = $"UPDATE city SET locationX = {locationX}, locationY = {locationY}, cached = 1"
+        //            + $" WHERE name = '{city.name}'";
+        //        dbCommand.CommandText = sqlQuery;
+        //        //Debug.Log(sqlQuery);
+        //        dbCommand.ExecuteNonQuery();
+        //    }
+        //    dbConnection.Close();
+        //}
+        Debug.Log("CACHED CITY: " + city.name);
+    }
     public void AddScore(/*string studentID, int regionID,*/ int value, float elapsedTimeInSec)
     {
         using (IDbConnection dbConnection = new SqliteConnection(connectionString))
@@ -154,8 +195,8 @@ public class DBManager : MonoBehaviour
                     + $" VALUES ({value}, {elapsedTimeInSec}, '{activeStudentID}', {activeRegionID})";
                 dbCommand.CommandText = sqlQuery;
                 dbCommand.ExecuteScalar();
-                dbConnection.Close();
             }
+            dbConnection.Close();
         }
     }
 

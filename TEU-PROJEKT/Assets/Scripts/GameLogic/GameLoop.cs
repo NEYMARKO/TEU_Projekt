@@ -91,6 +91,7 @@ public class GameLoop : MonoBehaviour
         if (!canFetchNext) return;
         else if (shuffledCities.Count == 0)
         {
+            //Debug.Log("SHUFFLED CITIES are GONE");
             CheckGameOver();
             return;
         }

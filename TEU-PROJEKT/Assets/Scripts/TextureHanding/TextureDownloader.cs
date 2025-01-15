@@ -18,7 +18,7 @@ public class TextureDownloader : MonoBehaviour
     private string franceTexture = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/France_OlympusMons_Size.svg/1024px-France_OlympusMons_Size.svg.png";
     private string spainTexture = "https://media.istockphoto.com/id/834400736/photo/spain-country-3d-render-topographic-map-neutral.jpg?s=1024x1024&w=is&k=20&c=IN6qs7-7tn-s-lWtcKSjyqVgBFmjkQACqw8B4AI73LA=";
     private string japanTexture = "https://pathikworld.com/wp-content/uploads/japan-map-1024x1024.png";
-
+    private string hungaryTexture = "https://media.istockphoto.com/id/873810576/photo/hungary-country-3d-render-topographic-map-border.jpg?s=1024x1024&w=is&k=20&c=OMLf5SNtNTUEp_JAWV_N1L3qJvjo-f15iuZNddtz5MA=";
     void Start()
     {
         //Debug.Log("DATA PATH: " + textureSavePath);
@@ -68,7 +68,7 @@ public class TextureDownloader : MonoBehaviour
         }
         else
         {
-            Debug.Log("TEXTURE ALREADY EXIST ABOUT TO LOAD IT");
+            //Debug.Log("TEXTURE ALREADY EXIST ABOUT TO LOAD IT");
             ApplyTextureToMap(regionName);
         }
     }
@@ -89,6 +89,9 @@ public class TextureDownloader : MonoBehaviour
                 break;
             case "SPAIN":
                 url = spainTexture;
+                break;
+            case "HUNGARY":
+                url = hungaryTexture;
                 break;
             default:
                 break;
@@ -119,7 +122,7 @@ public class TextureDownloader : MonoBehaviour
                 byte[] textureBytes = downloadedTexture.EncodeToPNG();
                 File.WriteAllBytes($"{textureSavePath}/{regions[dbManager.GetActiveRegionID()].ToUpper()}.png", textureBytes);
                 //rawImage.texture = downloadedTexture;
-                Debug.Log($"DOWNLOADED TEXTURE AT: {textureSavePath}/{regions[dbManager.GetActiveRegionID()].ToUpper()}.png");
+                //Debug.Log($"DOWNLOADED TEXTURE AT: {textureSavePath}/{regions[dbManager.GetActiveRegionID()].ToUpper()}.png");
                 map.GetComponent<Renderer>().material.mainTexture = downloadedTexture;
             }
             else
