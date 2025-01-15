@@ -11,11 +11,12 @@ public class InGameUI : MonoBehaviour
     [SerializeField] PauseMenuDropdown endGameMenuDropdown;
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] TextMeshProUGUI wantedCityText;
+    [SerializeField] TextMeshProUGUI elapsedTimeText;
     [SerializeField] GameLoop gameLoop;
  
     private string scoreString;
     private string wantedCityString;
-
+    private string elapsedTimeString;
     private void Awake()
     {
         languageController = GameObject.Find("LanguageController");
@@ -34,6 +35,7 @@ public class InGameUI : MonoBehaviour
         Menu menu = menuContentLoader.GetUpdatedMenu();
         scoreString = menu.inGame.correct.ToUpper();
         wantedCityString = menu.inGame.select.ToUpper();
+        elapsedTimeString = menu.inGame.elapsedTime.ToUpper();
     }
     private void OnEnable()
     {
@@ -53,10 +55,12 @@ public class InGameUI : MonoBehaviour
     {
         scoreString = menu.inGame.correct.ToUpper();
         wantedCityString = menu.inGame.select.ToUpper();
+        elapsedTimeString = menu.inGame.elapsedTime.ToUpper();
     }
     void Update()
     {
         scoreText.text = $"{scoreString}: {gameLoop.GetCorrectAnswersCount()} / {gameLoop.GetCitiesCount()}";
         wantedCityText.text = $"{wantedCityString}: {gameLoop.GetWantedCity()}";
+        elapsedTimeText.text = $"{elapsedTimeString}: {gameLoop.GetElapsedTime()}";
     }
 }

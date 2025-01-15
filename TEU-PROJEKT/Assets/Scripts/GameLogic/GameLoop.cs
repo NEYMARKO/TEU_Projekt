@@ -16,12 +16,17 @@ public class GameLoop : MonoBehaviour
     [SerializeField] GameObject pauseMenuUIHolder;
     [Header("Data")]
     [SerializeField] JSONDataLoader _JSONDataLoader;
+    [Header("Database")]
+    [SerializeField] DBManager databaseManager;
     private List<CityData> shuffledCities;
     private List<CityData> allCities;
 
     bool canFetchNext = true;
     string currentWantedCity;
     int correctlyGuessed = 0;
+    private float elapsedTime = 0f;
+    private bool pauseTime = false;
+    private int highScore = -1;
     void Start()
     {
         //wait until all cities are populated in list
@@ -30,7 +35,15 @@ public class GameLoop : MonoBehaviour
         //    Debug.Log("CITIES LIST POPULATED: " + _JSONDataLoader.CitiesListPopulated());
         //}
         
-        allCities = _JSONDataLoader.ProvideCitiesInfo();
+        allCities = new List<CityData>();
+        //Debug.Log("BEFORE LOADING");
+        databaseManager.LoadCities(databaseManager.GetActiveRegionID(), allCities);
+        //Debug.Log("ALL CITIES:");
+        //foreach (CityData city in allCities)
+        //{
+        //    Debug.Log(city.name);
+        //}
+        //allCities = _JSONDataLoader.ProvideCitiesInfo();
         shuffledCities = ShuffleList(allCities);
         //Debug.Log("SHUFFLED LIST");
         //foreach (CityData city in allCities)
@@ -39,11 +52,11 @@ public class GameLoop : MonoBehaviour
         //}
     }
 
-    // Update is called once per frame
     void Update()
     {
         FetchNextCity();
         if (Input.GetKeyDown(KeyCode.Escape)) TogglePauseMenu();
+        if (!pauseMenuUIHolder.activeSelf && !pauseTime) elapsedTime += Time.deltaTime;
     }
 
     //private void OnEnable()
@@ -58,15 +71,9 @@ public class GameLoop : MonoBehaviour
     //}
     private List<CityData> ShuffleList(List<CityData> originalListData)
     {
-        //Debug.Log("ORIGINAL LIST");
-        //foreach (CityData city in originalListData)
-        //{
-        //    Debug.Log(city.name);
-        //}
         List<CityData> shuffledListData = Enumerable.Repeat<CityData>(null, originalListData.Count).ToList();
         int position;
 
-        //Debug.Log($"ORIG COUNT: {originalListData.Count}, SHUFF COUNT: {shuffledListData.Count}");
         for (int i = 0; i < originalListData.Count; i++)
         {
             position = Random.Range(0, originalListData.Count);
@@ -89,7 +96,6 @@ public class GameLoop : MonoBehaviour
         }
         currentWantedCity = shuffledCities[0].name;
         shuffledCities.RemoveAt(0);
-        //Debug.Log($"            Looking for: {currentWantedCity}");
         canFetchNext = false;
         return;
     }
@@ -98,6 +104,8 @@ public class GameLoop : MonoBehaviour
         if (shuffledCities.Count == 0)
         {
             //Debug.Log($"GAME OVER, correct guesses: {correctlyGuessed}");
+            pauseTime = true;
+            //databaseManager.AddScore(correctlyGuessed, (Mathf.Floor(elapsedTime * 100) / 100));
             StartCoroutine(Wait());
             canFetchNext = false;
             return;
@@ -120,8 +128,16 @@ public class GameLoop : MonoBehaviour
     public void RestartGame(GameObject uiCaller)
     {
         shuffledCities = ShuffleList(allCities);
+
+        //foreach(var city in shuffledCities)
+        //{
+        //    Debug.Log(city.name);
+        //}
         canFetchNext = true;
         correctlyGuessed = 0;
+        elapsedTime = 0f;
+        pauseTime = false;
+        highScore = -1;
         ResetCities();
         uiCaller.SetActive(false);
 
@@ -131,25 +147,31 @@ public class GameLoop : MonoBehaviour
     {
         uiCaller.SetActive(false);
     }
-    //}public void RestartGame()
-    //{
-    //    shuffledCities = ShuffleList(allCities);
-    //    canFetchNext = true;
-    //    correctlyGuessed = 0;
-    //    ResetCities();
-    //    endGameUIHolder.SetActive(false);
-    //}
 
+    public void ReloadLevel(int regionID, GameObject uiCaller)
+    {
+        allCities.Clear();
+        databaseManager.LoadCities(regionID, allCities);
+        //allCities
+        RestartGame(uiCaller);
+    }
     private void ResetCities()
     { 
-        foreach(Transform city in citiesParent.transform)
+        foreach(Transform city in _JSONDataLoader.GetTempParentObj().transform)
         {
             city.gameObject.GetComponent<CityBehaviour>().ResetCity();
         }
     }
+
     public int GetCorrectAnswersCount()
     {
         return correctlyGuessed;
+    }
+
+    public int GetHighScore()
+    {
+        if (highScore == -1) highScore = databaseManager.GetHighScore();
+        return highScore;
     }
 
     public int GetCitiesCount()
@@ -159,6 +181,11 @@ public class GameLoop : MonoBehaviour
     public string GetWantedCity()
     {
         return currentWantedCity;
+    }
+
+    public float GetElapsedTime()
+    {
+        return Mathf.Floor(elapsedTime * 100)/100;
     }
     private IEnumerator Wait()
     {

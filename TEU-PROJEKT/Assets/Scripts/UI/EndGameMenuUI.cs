@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.UI;
+
 
 public class EndGameMenuUI : MenuBaseUI
 {
     [SerializeField] private TextMeshProUGUI scoreTextObj;
     [SerializeField] private TextMeshProUGUI highScoreTextObj;
-
+    [SerializeField] private Button showHighScoresButton;
+    [SerializeField] private TextMeshProUGUI showHighScoresTextObj;
     void Start()
     {
         SetupButtonListener();
@@ -23,7 +26,9 @@ public class EndGameMenuUI : MenuBaseUI
     {
         base.HandleContentChange(sender, menu);
         scoreTextObj.text = $"{menu.end.score.ToUpper()}: {base.gameLoop.GetCorrectAnswersCount()}";
-        highScoreTextObj.text = $"{menu.end.highscore.ToUpper()}: ";
+        highScoreTextObj.text = $"{menu.end.highscore.ToUpper()}: {gameLoop.GetHighScore()}";
+        showHighScoresTextObj.text = $"{menu.end.showHighScores.ToUpper()}";
+        //highScoreTextObj.text = $"{menu.end.highscore.ToUpper()}: ";
     }
 
     //prefabs can't have assigned functions through user interface, it has to be assigned through script

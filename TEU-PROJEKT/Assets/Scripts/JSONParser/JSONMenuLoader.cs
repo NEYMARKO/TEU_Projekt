@@ -21,14 +21,22 @@ public class End
 {
     public string score { get; set; }
     public string highscore { get; set; }
+    public string showHighScores { get; set; }
 }
 
 public class InGame
 {
     public string correct { get; set; }
     public string select { get; set; }
+    public string elapsedTime { get; set; }
 }
 
+public class HighScoreTable
+{
+    public string rank { get; set; }
+    public string score { get; set; }
+    public string time { get; set; }
+}
 public class Menu
 {
     public string language { get; set; }
@@ -36,6 +44,7 @@ public class Menu
     public Pause pause { get; set; }
     public End end { get; set; }
     public InGame inGame { get; set; }
+    public HighScoreTable highScoreTable { get; set; }
 }
 
 public class Root
@@ -90,6 +99,11 @@ public class JSONMenuLoader : MonoBehaviour
         {
             Debug.LogError($"JSON file not found at path: {fullPath}");
         }
+    }
+
+    public HighScoreTable GetHighScoreTableContent(string language)
+    {
+        return Menus.Find(menu => menu.language == language).highScoreTable;
     }
     public void ChangeLanguage(string selectedLanguage)
     {
