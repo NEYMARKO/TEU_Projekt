@@ -1159,7 +1159,8 @@ MonoBehaviour:
   dbManager: {fileID: 275593046}
   rawImage: {fileID: 1301894227}
   map: {fileID: 1765921445}
-  regionDropdown: {fileID: 1234164739}
+  pauseRegionDropdown: {fileID: 1234164739}
+  endGameRegionDropdown: {fileID: 2032498051}
 --- !u!4 &833712181
 Transform:
   m_ObjectHideFlags: 0
@@ -3827,6 +3828,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 78bcbf489528c024a956b6f4473797ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2032498051 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5038443226508376554, guid: 06e947533b57fc64f84760d94bc3e7e2, type: 3}
+  m_PrefabInstance: {fileID: 1795675625}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfa387529e4c0964dbb940d9f6042cad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2050764494

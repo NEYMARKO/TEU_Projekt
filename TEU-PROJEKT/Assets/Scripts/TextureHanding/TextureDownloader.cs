@@ -9,7 +9,8 @@ public class TextureDownloader : MonoBehaviour
     public DBManager dbManager;
     public RawImage rawImage;
     public GameObject map;
-    public ChangeRegionDropdown regionDropdown;
+    public ChangeRegionDropdown pauseRegionDropdown;
+    public ChangeRegionDropdown endGameRegionDropdown;
     private List<string> regions;
     private string textureSavePath = Application.dataPath + "/SavedTextures";
     private string imgURL = "";
@@ -29,13 +30,15 @@ public class TextureDownloader : MonoBehaviour
     private void OnEnable()
     {
         dbManager.OnRegionsLoaded += HandleRegionsLoaded;
-        regionDropdown.OnRegionChange += FetchTextureForCurrentRegion;
+        pauseRegionDropdown.OnRegionChange += FetchTextureForCurrentRegion;
+        endGameRegionDropdown.OnRegionChange += FetchTextureForCurrentRegion;
     }
 
     private void OnDisable()
     {
         dbManager.OnRegionsLoaded -= HandleRegionsLoaded;
-        regionDropdown.OnRegionChange -= FetchTextureForCurrentRegion;
+        pauseRegionDropdown.OnRegionChange -= FetchTextureForCurrentRegion;
+        endGameRegionDropdown.OnRegionChange -= FetchTextureForCurrentRegion;
     }
 
     private void HandleRegionsLoaded(object sender, bool loaded)
@@ -54,6 +57,8 @@ public class TextureDownloader : MonoBehaviour
         {
             regionName = regions[regionID].ToUpper();
         }
+
+        Debug.Log("REGION NAME: " + regionName);
         string texturePath = $"{textureSavePath}/{regionName}.png";
         if (!File.Exists(texturePath))
         {
@@ -63,7 +68,7 @@ public class TextureDownloader : MonoBehaviour
         }
         else
         {
-            ApplyTextureToMap();
+            ApplyTextureToMap(regionName);
         }
     }
 
@@ -90,9 +95,9 @@ public class TextureDownloader : MonoBehaviour
 
         return url;
     }
-    private void ApplyTextureToMap()
+    private void ApplyTextureToMap(string regionName)
     {
-        byte[] fileData = File.ReadAllBytes($"{textureSavePath}/{regions[dbManager.GetActiveRegionID()].ToUpper()}.png");
+        byte[] fileData = File.ReadAllBytes($"{textureSavePath}/{regionName}.png");
         Texture2D loadedTexture = new Texture2D(1024, 1024);
         loadedTexture.LoadImage(fileData);
 
