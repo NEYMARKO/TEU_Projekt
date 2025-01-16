@@ -76,6 +76,7 @@ public class ChangeRegionDropdown : MonoBehaviour
         {
             OnRegionChange?.Invoke(this, index);
             dbManager.SetActiveRegionID(index);
+            dbManager.HandleRegionChange(index);
             gameLoop.ReloadLevel(index, transform.parent.gameObject);
         }
     }

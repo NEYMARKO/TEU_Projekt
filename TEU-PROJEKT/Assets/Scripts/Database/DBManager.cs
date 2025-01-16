@@ -9,6 +9,7 @@ using System.Globalization;
 using System.Data.Common;
 using Mapbox.Utils;
 using Mapbox.Examples;
+using Mapbox.Unity.Map;
 
 public class DBManager : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class DBManager : MonoBehaviour
     [SerializeField] JSONDataLoader _JSONDataLoader;
     [SerializeField] GameObject RealMap;
     private SpawnOnMap _spawnOnMap;
+    private AbstractMap _abstractMap;
     private string connectionString;
     private int activeRegionID = 0;
     private string activeStudentID = "0036524001";
@@ -32,13 +34,22 @@ public class DBManager : MonoBehaviour
         public string cityName;
         public Vector2d worldCoordinates;
     }
+
+    private struct RegionSettings
+    {
+        public float latitude;
+        public float longitude;
+        public float zoom;
+    }
+
     private List<string> regions;
     private List<NonCachedCity> nonCachedCitiesList;
-
+    private List<RegionSettings> regionSettingsList;
     private void Awake()
     {
         regions = new List<string>();
         nonCachedCitiesList = new List<NonCachedCity>();
+        regionSettingsList = new List<RegionSettings>();
         _spawnOnMap = RealMap.GetComponent<SpawnOnMap>();
         //RealMap.SetActive(false);
         connectionString = "URI=file:" + Application.streamingAssetsPath + "/EduGameN.db";
@@ -58,12 +69,19 @@ public class DBManager : MonoBehaviour
         //{
         //    //Debug.Log($"REGION ID: {region.regionID}, REGION NAME: {region.regionName}");
         //}
+        _abstractMap = RealMap.GetComponent<AbstractMap>();
+        if (_abstractMap != null)
+        {
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (_abstractMap == null)
+        {
+            _abstractMap = RealMap.GetComponent<AbstractMap>();
+        }
     }
 
     private void GetStudents()
@@ -108,7 +126,13 @@ public class DBManager : MonoBehaviour
                         //RegionInfo regionInfo = new RegionInfo();
                         //regionInfo.regionID = reader.GetInt16(0);
                         //regionInfo.regionName = reader.GetString(1);
+                        RegionSettings regSettings = new RegionSettings();
+                        regSettings.longitude = reader.GetFloat(2);
+                        regSettings.latitude = reader.GetFloat(3);
+                        regSettings.zoom = reader.GetFloat(4);
+                        regionSettingsList.Add(regSettings);
                         regions.Add(reader.GetString(1));
+
                     }
                     reader.Close();
                     //dbCommand.Dispose();
@@ -119,6 +143,18 @@ public class DBManager : MonoBehaviour
         OnRegionsLoaded?.Invoke(this, true);
     }
     
+    public void HandleRegionChange(int regionID)
+    {
+        Debug.Log("FETCHING TILES AFTER CHANGING REGION");
+
+        RegionSettings regionSettings = regionSettingsList[regionID];
+        //RegionSettings regionSettings = new RegionSettings();
+        Vector2d latitudeLongitudeCenter = new Vector2d(regionSettings.latitude, regionSettings.longitude);
+        Debug.Log($"REGION: {regions[regionID]}, (lat, long): {latitudeLongitudeCenter}, zoom: {regionSettings.zoom}");
+        _abstractMap.SetCenterLatitudeLongitude(latitudeLongitudeCenter);
+        _abstractMap.SetZoom(regionSettings.zoom);
+        _abstractMap.UpdateMap();
+    }
     public void LoadCities(int regionID, List<CityData> citiesList)
     {
         _JSONDataLoader.ReplaceCitiesParent();
@@ -144,6 +180,7 @@ public class DBManager : MonoBehaviour
                         city.cached = reader.GetInt32(3) != 0;
                         city.location = new Location();
 
+                        Debug.Log($"CITY: {city.name}, cached: {city.cached}");
                         if (city.cached == false)
                         {
                             //RealMap.SetActive(true);
@@ -191,26 +228,6 @@ public class DBManager : MonoBehaviour
         }
     }
 
-    //private void CacheCityData(List<CityData> citiesList, IDbConnection dbConnection)
-    //{
-    //    foreach (CityData city in citiesList)
-    //    {
-    //        if (city.cached != true)
-    //        {
-    //            NonCachedCity nCC = nonCachedCitiesList.Find(nonCachedCity => nonCachedCity.cityName == city.name);
-    //            city.location.x = (float)nCC.worldCoordinates.x;
-    //            city.location.y = (float)nCC.worldCoordinates.y;
-    //            using (IDbCommand updateCommand = dbConnection.CreateCommand())
-    //            {
-    //                updateCommand.CommandText = $"UPDATE city SET locationX = {city.location.x}, "
-    //                    + $"locationY = {city.location.y}, cached = 1";
-    //                updateCommand.ExecuteNonQuery();
-    //            }
-    //        }
-    //        _JSONDataLoader.InstantiateCity(city);
-    //    }
-    //    Debug.Log("CACHED CITY: " + city.name);
-    //}
     public void AddScore(/*string studentID, int regionID,*/ int value, float elapsedTimeInSec)
     {
         using (IDbConnection dbConnection = new SqliteConnection(connectionString))
