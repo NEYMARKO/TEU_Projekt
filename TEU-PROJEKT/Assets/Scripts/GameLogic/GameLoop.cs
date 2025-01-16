@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using Mapbox.Unity.Map;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ public class GameLoop : MonoBehaviour
     [SerializeField] JSONDataLoader _JSONDataLoader;
     [Header("Database")]
     [SerializeField] DBManager databaseManager;
+    [SerializeField] AbstractMap _abstractMap;
     private List<CityData> shuffledCities;
     private List<CityData> allCities;
 
@@ -27,6 +29,8 @@ public class GameLoop : MonoBehaviour
     private float elapsedTime = 0f;
     private bool pauseTime = false;
     private int highScore = -1;
+
+    private bool citiesLoaded = false;
     void Start()
     {
         //wait until all cities are populated in list
@@ -37,14 +41,19 @@ public class GameLoop : MonoBehaviour
         
         allCities = new List<CityData>();
         //Debug.Log("BEFORE LOADING");
-        databaseManager.LoadCities(databaseManager.GetActiveRegionID(), allCities);
+        if (_abstractMap != null)
+        {
+            databaseManager.LoadCities(databaseManager.GetActiveRegionID(), allCities);
+            shuffledCities = ShuffleList(allCities);
+            citiesLoaded = true;
+        }
         //Debug.Log("ALL CITIES:");
         //foreach (CityData city in allCities)
         //{
         //    Debug.Log(city.name);
         //}
         //allCities = _JSONDataLoader.ProvideCitiesInfo();
-        shuffledCities = ShuffleList(allCities);
+       
         //Debug.Log("SHUFFLED LIST");
         //foreach (CityData city in allCities)
         //{
@@ -54,6 +63,11 @@ public class GameLoop : MonoBehaviour
 
     void Update()
     {
+        if (!citiesLoaded && _abstractMap != null)
+        {
+            databaseManager.LoadCities(databaseManager.GetActiveRegionID(), allCities);
+            citiesLoaded = true;
+        }
         FetchNextCity();
         if (Input.GetKeyDown(KeyCode.Escape)) TogglePauseMenu();
         if (!pauseMenuUIHolder.activeSelf && !pauseTime) elapsedTime += Time.deltaTime;

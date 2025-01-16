@@ -7,13 +7,17 @@ using Mono.Data.Sqlite;
 using JetBrains.Annotations;
 using System.Globalization;
 using System.Data.Common;
+using Mapbox.Utils;
+using Mapbox.Examples;
 
 public class DBManager : MonoBehaviour
 {
 
     [SerializeField] JSONDataLoader _JSONDataLoader;
+    [SerializeField] GameObject RealMap;
+    private SpawnOnMap _spawnOnMap;
     private string connectionString;
-    private int activeRegionID = 4;
+    private int activeRegionID = 0;
     private string activeStudentID = "0036524001";
     public event EventHandler<bool> OnRegionsLoaded;
     //private struct RegionInfo
@@ -23,11 +27,20 @@ public class DBManager : MonoBehaviour
     //}
 
     //private List<RegionInfo> regions;
+    private struct NonCachedCity
+    {
+        public string cityName;
+        public Vector2d worldCoordinates;
+    }
     private List<string> regions;
+    private List<NonCachedCity> nonCachedCitiesList;
 
     private void Awake()
     {
         regions = new List<string>();
+        nonCachedCitiesList = new List<NonCachedCity>();
+        _spawnOnMap = RealMap.GetComponent<SpawnOnMap>();
+        //RealMap.SetActive(false);
         connectionString = "URI=file:" + Application.streamingAssetsPath + "/EduGameN.db";
         LoadRegions();
     }
@@ -109,80 +122,95 @@ public class DBManager : MonoBehaviour
     public void LoadCities(int regionID, List<CityData> citiesList)
     {
         _JSONDataLoader.ReplaceCitiesParent();
+        nonCachedCitiesList.Clear();
         using (IDbConnection dbConnection = new SqliteConnection(connectionString))
         {
             dbConnection.Open();
 
             using (IDbCommand dbCommand = dbConnection.CreateCommand())
             {
-                string sqlQuery = "SELECT city.name, city.locationX, city.locationY, city.cached"
+                string sqlQuery = "SELECT city.name, city.longitude, city.latitude, city.cached, city.locationX, city.locationY"
                     + " FROM region JOIN city ON region.regionID = city.regionID"
                     + $" WHERE city.regionID = {regionID}";
                 dbCommand.CommandText = sqlQuery;
                 //Debug.Log(sqlQuery);
                 using (IDataReader reader = dbCommand.ExecuteReader())
                 {
-                    int i = 0;
-                    //Debug.Log(reader.FieldCount);
                     while (reader.Read())
                     {
                         //Debug.Log($"{reader.GetString(0)}, {reader.GetFloat(1)}, {reader.GetFloat(2)}, {reader.GetInt32(3)}");
                         CityData city = new CityData();
-                        city.location = new Location();
                         city.name = reader.GetString(0);
-                        city.location.x = reader.GetFloat(1);
-                        city.location.y = reader.GetFloat(2);
                         city.cached = reader.GetInt32(3) != 0;
-                        _JSONDataLoader.InstantiateCity(city);
-                        citiesList.Add(city);
+                        city.location = new Location();
 
-                        CacheCityData(city, i, dbConnection);
-                        i++;
+                        if (city.cached == false)
+                        {
+                            //RealMap.SetActive(true);
+                            NonCachedCity nonCachedCity = new NonCachedCity();
+                            //Debug.Log($"{city.name}: ({reader.GetFloat(2)},{reader.GetFloat(1)})");
+                            //LATITUDE SHOULD BE BEFORE LONGITUDE: FORMAT IS 'LATITUDE,LONGITUDE'
+                            Vector2d cityGeoCoordinates = new Vector2d(reader.GetFloat(2), reader.GetFloat(1));
+                            Vector2d realCoordinates = _spawnOnMap.ConvertGeoCoordinatesToWorldCoordinates(cityGeoCoordinates);
+                            nonCachedCity.cityName = city.name;
+                            nonCachedCity.worldCoordinates = realCoordinates;
+                            Debug.Log($"{city.name}: ({nonCachedCity.worldCoordinates.x},{nonCachedCity.worldCoordinates.y})");
+                            nonCachedCitiesList.Add(nonCachedCity);
+                        }
+                        else
+                        {
+                            city.location.x = reader.GetFloat(4);
+                            city.location.y = reader.GetFloat(5);
+                        }
+                        
+                        citiesList.Add(city);
                     }
                     reader.Close();
-                    //dbCommand.Dispose();
-                    dbConnection.Close();
                 }
             }
+            foreach (CityData city in citiesList)
+            {
+                if (city.cached == false)
+                {
+                    NonCachedCity nCC = nonCachedCitiesList.Find(nonCachedCity => nonCachedCity.cityName == city.name);
+                    Debug.Log($"NCC: {nCC.worldCoordinates}");
+                    city.location.x = (float)nCC.worldCoordinates.x;
+                    city.location.y = (float)nCC.worldCoordinates.y;
+                    Debug.Log($"CITY LOCATION: {city.location.x}, {city.location.y}");
+                    using (IDbCommand updateCommand = dbConnection.CreateCommand())
+                    {
+                        updateCommand.CommandText = $"UPDATE city SET locationX = {city.location.x}, "
+                            + $"locationY = {city.location.y}, cached = 1 WHERE name = '{city.name}'";
+                        updateCommand.ExecuteNonQuery();
+                    }
+                }
+                _JSONDataLoader.InstantiateCity(city);
+            }
+            dbConnection.Close();
+            //RealMap.SetActive(false);
         }
     }
 
-    private void CacheCityData(CityData city, int posInList, IDbConnection dbConnection)
-    {
-        if (city.cached == true)
-        {
-            Debug.Log($"CITY {city.name} DIDN'T NEED CACHING");
-            return;
-        }
-        //convert city position 
-        float locationX = posInList / 2.0f;
-        float locationY = posInList / 2.0f;
-
-        using (IDbCommand dbCommand = dbConnection.CreateCommand())
-        {
-            string sqlQuery = $"UPDATE city SET locationX = {locationX}, locationY = {locationY}, cached = 1"
-                + $" WHERE name = '{city.name}'";
-            dbCommand.CommandText = sqlQuery;
-            //Debug.Log(sqlQuery);
-            dbCommand.ExecuteNonQuery();
-        }
-
-        //using (IDbConnection dbConnection = new SqliteConnection(connectionString))
-        //{
-        //    dbConnection.Open();
-
-        //    using (IDbCommand dbCommand = dbConnection.CreateCommand())
-        //    {
-        //        string sqlQuery = $"UPDATE city SET locationX = {locationX}, locationY = {locationY}, cached = 1"
-        //            + $" WHERE name = '{city.name}'";
-        //        dbCommand.CommandText = sqlQuery;
-        //        //Debug.Log(sqlQuery);
-        //        dbCommand.ExecuteNonQuery();
-        //    }
-        //    dbConnection.Close();
-        //}
-        Debug.Log("CACHED CITY: " + city.name);
-    }
+    //private void CacheCityData(List<CityData> citiesList, IDbConnection dbConnection)
+    //{
+    //    foreach (CityData city in citiesList)
+    //    {
+    //        if (city.cached != true)
+    //        {
+    //            NonCachedCity nCC = nonCachedCitiesList.Find(nonCachedCity => nonCachedCity.cityName == city.name);
+    //            city.location.x = (float)nCC.worldCoordinates.x;
+    //            city.location.y = (float)nCC.worldCoordinates.y;
+    //            using (IDbCommand updateCommand = dbConnection.CreateCommand())
+    //            {
+    //                updateCommand.CommandText = $"UPDATE city SET locationX = {city.location.x}, "
+    //                    + $"locationY = {city.location.y}, cached = 1";
+    //                updateCommand.ExecuteNonQuery();
+    //            }
+    //        }
+    //        _JSONDataLoader.InstantiateCity(city);
+    //    }
+    //    Debug.Log("CACHED CITY: " + city.name);
+    //}
     public void AddScore(/*string studentID, int regionID,*/ int value, float elapsedTimeInSec)
     {
         using (IDbConnection dbConnection = new SqliteConnection(connectionString))

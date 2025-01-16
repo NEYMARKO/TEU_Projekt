@@ -51,5 +51,26 @@
 				spawnedObject.transform.localScale = new Vector3(_spawnScale, _spawnScale, _spawnScale);
 			}
 		}
+
+		public Vector2d ConvertGeoCoordinatesToWorldCoordinates(Vector2d cityGeoCoordinates)
+		{
+			//_locations = new Vector2d[citiesGeoPositions.Count];
+			Vector2d pos = _map.GeoToWorldPosition(cityGeoCoordinates, true).ToVector2d();
+            Debug.Log("Position: " + pos);
+			return pos;
+			//for (int i = 0; i <= citiesGeoPositions.Count; i++)
+			//{
+			//	var location = citiesGeoPositions[i];
+			//	citiesGeoPositions[i] = _map.GeoToWorldPosition(location, false).ToVector2d();
+			//}
+            //int count = _spawnedObjects.Count;
+            //for (int i = 0; i < count; i++)
+            //{
+            //    var spawnedObject = _spawnedObjects[i];
+            //    var location = _locations[i];
+            //    spawnedObject.transform.localPosition = _map.GeoToWorldPosition(location, true);
+            //    spawnedObject.transform.localScale = new Vector3(_spawnScale, _spawnScale, _spawnScale);
+            //}
+        }
 	}
 }
