@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7587846124026752657}
   - component: {fileID: 8355020861372098079}
   - component: {fileID: 7480057723771027024}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CityPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
