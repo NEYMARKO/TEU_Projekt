@@ -1,9 +1,11 @@
 using JetBrains.Annotations;
 using Mapbox.Unity.Map;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class GameLoop : MonoBehaviour
@@ -23,7 +25,9 @@ public class GameLoop : MonoBehaviour
     private List<CityData> shuffledCities;
     private List<CityData> allCities;
 
-    [SerializeField] CameraAim _cameraAim;
+    public event EventHandler<bool> OnGameEnd;
+
+
     bool canFetchNext = true;
     string currentWantedCity;
     int correctlyGuessed = 0;
@@ -66,9 +70,9 @@ public class GameLoop : MonoBehaviour
     {
         if (!citiesLoaded && _abstractMap != null)
         {
+            //StartCoroutine(_cameraAim.AlignCameraToMapDimensions());
             databaseManager.LoadCities(databaseManager.GetActiveRegionID(), allCities);
             citiesLoaded = true;
-            StartCoroutine(_cameraAim.AlignCameraToMapDimensions());
         }
         FetchNextCity();
         if (Input.GetKeyDown(KeyCode.Escape)) TogglePauseMenu();
@@ -92,11 +96,11 @@ public class GameLoop : MonoBehaviour
 
         for (int i = 0; i < originalListData.Count; i++)
         {
-            position = Random.Range(0, originalListData.Count);
+            position = UnityEngine.Random.Range(0, originalListData.Count);
             // element already placed at that position in list, must find different position
             while (shuffledListData[position] != null)
             {
-                position = Random.Range(0, originalListData.Count);
+                position = UnityEngine.Random.Range(0, originalListData.Count);
             }
             shuffledListData[position] = originalListData[i];
         }
@@ -120,6 +124,7 @@ public class GameLoop : MonoBehaviour
     {
         if (shuffledCities.Count == 0)
         {
+            OnGameEnd?.Invoke(this, true);
             //Debug.Log($"GAME OVER, correct guesses: {correctlyGuessed}");
             pauseTime = true;
             //databaseManager.AddScore(correctlyGuessed, (Mathf.Floor(elapsedTime * 100) / 100));
@@ -157,7 +162,7 @@ public class GameLoop : MonoBehaviour
         highScore = -1;
         ResetCities();
         uiCaller.SetActive(false);
-        StartCoroutine(_cameraAim.AlignCameraToMapDimensions());
+        //StartCoroutine(_cameraAim.AlignCameraToMapDimensions());
     }
 
     public void ResumeGame(GameObject uiCaller)

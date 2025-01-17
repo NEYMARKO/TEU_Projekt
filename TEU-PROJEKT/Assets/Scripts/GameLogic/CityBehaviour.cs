@@ -13,6 +13,7 @@ public class CityBehaviour : MonoBehaviour
     [SerializeField] float animationSpeed;
     [SerializeField] float colorAnimationSpeed;
 
+    [SerializeField] CameraAim _cameraAim;
     float hue;
     float saturation;
     float brightness;
@@ -67,8 +68,16 @@ public class CityBehaviour : MonoBehaviour
 
     private void OnEnable()
     {
+        _cameraAim.OnCitySelected += HandleSelection;
+        gameLoop.OnGameEnd += HandleGameEnd;
         material = gameObject.GetComponent<Renderer>().material;
         defaultColor = material.color;
+    }
+
+    private void OnDisable()
+    {
+        _cameraAim.OnCitySelected -= HandleSelection;
+        gameLoop.OnGameEnd -= HandleGameEnd;
     }
     // Update is called once per frame
     void Update()
@@ -95,18 +104,33 @@ public class CityBehaviour : MonoBehaviour
         //    isAnimating = false;
         //}
 
-        if (isSelected)
-        {
-            //Debug.Log("SELECTED " + gameObject.name);
-            answeredCorrectly = gameLoop.CheckCityGuess(gameObject.name);
-            shouldAnimate = true;
-            isSelected = false;
-            //material.color = correctAnswerEndColor;
-        }
+        //if (isSelected)
+        //{
+        //    //Debug.Log("SELECTED " + gameObject.name);
+        //    answeredCorrectly = gameLoop.CheckCityGuess(gameObject.name);
+        //    shouldAnimate = true;
+        //    //isSelected = false;
+        //    //material.color = correctAnswerEndColor;
+        //}
 
         if (shouldAnimate && colorAnimationCompleted < 1) AnimateColorChange();
     }
 
+    private void HandleSelection(object sender, string cityName)
+    {
+        if (cityName == gameObject.name)
+        {
+            answeredCorrectly = gameLoop.CheckCityGuess(cityName);
+            colorAnimationCompleted = 0f;
+            shouldAnimate = true;
+            isSelected = true;
+        }
+    }
+
+    private void HandleGameEnd(object sender, bool gameEnded)
+    {
+        if (!isSelected) material.color = wrongAnswerEndColor;
+    }
     private void AnimateColorChange()
     {
         Color.RGBToHSV(material.color, out hue, out saturation, out brightness);

@@ -10,6 +10,7 @@ using Mapbox.Directions;
 using Mapbox.Unity.Map;
 using Mapbox.Utils;
 using Mapbox.Unity.Utilities;
+using UnityEngine.EventSystems;
 
 public class CameraAim : MonoBehaviour
 {
@@ -35,7 +36,8 @@ public class CameraAim : MonoBehaviour
     [SerializeField] float rayLength;
     [SerializeField] Color rayColor;
 
-    
+    public event EventHandler<string> OnCitySelected;
+
     Quaternion rotAroundZAxis = Quaternion.identity;
     Quaternion rotAroundYAxis = Quaternion.identity;
     
@@ -81,6 +83,8 @@ public class CameraAim : MonoBehaviour
         rayOrigin = transform.position;
         rayDirection = transform.forward;
         screenDimensions = new Vector2(Screen.width, Screen.height);
+
+        StartCoroutine("AlignCameraToMapDimensions");
     }
 
     // Update is called once per frame
@@ -157,7 +161,11 @@ public class CameraAim : MonoBehaviour
 
     void OnCitySelect()
     {
-        if (activeCity && fire.triggered) activeCity.SetSelected(true);
+        if (activeCity && fire.triggered) 
+        {
+            OnCitySelected?.Invoke(this, activeCity.gameObject.name);
+            //activeCity.SetSelected(true); 
+        }
     }
 
     public IEnumerator AlignCameraToMapDimensions()
