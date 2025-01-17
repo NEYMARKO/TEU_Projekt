@@ -455,6 +455,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _JSONDataLoader: {fileID: 1988223502}
   RealMap: {fileID: 103307163}
+  _cameraAim: {fileID: 0}
 --- !u!4 &275593047
 Transform:
   m_ObjectHideFlags: 0
@@ -1907,7 +1908,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0.000044555054, z: -0.000044555385, w: 0.7071068}
-  m_LocalPosition: {x: -0.09, y: 9.286837, z: 0.24}
+  m_LocalPosition: {x: 0, y: 9.286837, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1926,13 +1927,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   map: {fileID: 1765921449}
+  _realMap: {fileID: 103307163}
   layerMask:
     serializedVersion: 2
     m_Bits: 128
+  increment: 0.2
   rayLength: 10
   rayColor: {r: 0.91823894, g: 0.4746808, b: 0.06641343, a: 0}
-  mapDimensions: 15
-  increment: 0.2
 --- !u!1 &986793410
 GameObject:
   m_ObjectHideFlags: 0
@@ -3726,7 +3727,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1765921445}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4122,7 +4123,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cityPrefab: {fileID: 1238252949}
   citiesParentObject: {fileID: 959227537}
-  map: {fileID: 1765921449}
 --- !u!114 &1988223503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4141,6 +4141,7 @@ MonoBehaviour:
   _JSONDataLoader: {fileID: 1988223502}
   databaseManager: {fileID: 275593046}
   _abstractMap: {fileID: 103307165}
+  _cameraAim: {fileID: 963194229}
 --- !u!114 &1988223504
 MonoBehaviour:
   m_ObjectHideFlags: 0

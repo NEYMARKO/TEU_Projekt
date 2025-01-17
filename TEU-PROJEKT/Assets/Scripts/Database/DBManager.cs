@@ -16,19 +16,14 @@ public class DBManager : MonoBehaviour
 
     [SerializeField] JSONDataLoader _JSONDataLoader;
     [SerializeField] GameObject RealMap;
+    [SerializeField] CameraAim _cameraAim;
     private SpawnOnMap _spawnOnMap;
     private AbstractMap _abstractMap;
     private string connectionString;
     private int activeRegionID = 0;
     private string activeStudentID = "0036524001";
     public event EventHandler<bool> OnRegionsLoaded;
-    //private struct RegionInfo
-    //{
-    //    public int regionID;
-    //    public string regionName;
-    //}
 
-    //private List<RegionInfo> regions;
     private struct NonCachedCity
     {
         public string cityName;
@@ -57,22 +52,7 @@ public class DBManager : MonoBehaviour
     }
     void Start()
     {
-        //regions = new List<RegionInfo>();
-        //regions = new List<string>();
-        //connectionString = "URI=file:" + Application.dataPath + "/StreamingAssets/EduGameN.sqlite";
-        //connectionString = "URI=file:" + Application.streamingAssetsPath + "/EduGameN.db";
-        //GetStudents();
-        //GetTopScores(/*"0036524001", 0, */10);
-        //LoadRegions();
-
-        //foreach (var region in regions)
-        //{
-        //    //Debug.Log($"REGION ID: {region.regionID}, REGION NAME: {region.regionName}");
-        //}
         _abstractMap = RealMap.GetComponent<AbstractMap>();
-        if (_abstractMap != null)
-        {
-        }
     }
 
     // Update is called once per frame
@@ -82,6 +62,10 @@ public class DBManager : MonoBehaviour
         {
             _abstractMap = RealMap.GetComponent<AbstractMap>();
         }
+        //foreach(Transform child in RealMap.transform)
+        //{
+        //    Debug.Log(child.gameObject.name);
+        //}
     }
 
     private void GetStudents()
@@ -180,7 +164,7 @@ public class DBManager : MonoBehaviour
                         city.cached = reader.GetInt32(3) != 0;
                         city.location = new Location();
 
-                        Debug.Log($"CITY: {city.name}, cached: {city.cached}");
+                        //Debug.Log($"CITY: {city.name}, cached: {city.cached}");
                         if (city.cached == false)
                         {
                             //RealMap.SetActive(true);

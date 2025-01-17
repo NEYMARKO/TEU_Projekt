@@ -23,6 +23,7 @@ public class GameLoop : MonoBehaviour
     private List<CityData> shuffledCities;
     private List<CityData> allCities;
 
+    [SerializeField] CameraAim _cameraAim;
     bool canFetchNext = true;
     string currentWantedCity;
     int correctlyGuessed = 0;
@@ -67,6 +68,7 @@ public class GameLoop : MonoBehaviour
         {
             databaseManager.LoadCities(databaseManager.GetActiveRegionID(), allCities);
             citiesLoaded = true;
+            StartCoroutine(_cameraAim.AlignCameraToMapDimensions());
         }
         FetchNextCity();
         if (Input.GetKeyDown(KeyCode.Escape)) TogglePauseMenu();
@@ -155,7 +157,7 @@ public class GameLoop : MonoBehaviour
         highScore = -1;
         ResetCities();
         uiCaller.SetActive(false);
-
+        StartCoroutine(_cameraAim.AlignCameraToMapDimensions());
     }
 
     public void ResumeGame(GameObject uiCaller)
