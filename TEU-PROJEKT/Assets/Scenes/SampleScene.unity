@@ -4014,6 +4014,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b43a199d2cefe34580db8b544002331, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cameraAim: {fileID: 963194229}
   citiesParent: {fileID: 959227537}
   endGameUIHolder: {fileID: 908547982}
   pauseMenuUIHolder: {fileID: 854508830}
