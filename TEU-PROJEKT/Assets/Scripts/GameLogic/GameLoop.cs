@@ -84,7 +84,7 @@ public class GameLoop : MonoBehaviour
     {
         if (!canFetchNext) return;
         if (gameEndedRegistered) gameEndedRegistered = false;
-        else if (shuffledCities.Count == 0)
+        if (shuffledCities.Count == 0)
         {
             //Debug.Log("SHUFFLED CITIES are GONE");
             CheckGameOver();
@@ -127,7 +127,7 @@ public class GameLoop : MonoBehaviour
     public void RestartGame(GameObject uiCaller)
     {
         shuffledCities = ShuffleList(allCities);
-
+        Debug.Log($"Shuffled cities count: {shuffledCities.Count}");
         canFetchNext = true;
         correctlyGuessed = 0;
         elapsedTime = 0f;
