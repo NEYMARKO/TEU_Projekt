@@ -199,12 +199,12 @@ MonoBehaviour:
   _initializeOnStart: 1
   _imagery:
     _layerProperty:
-      sourceType: 3
+      sourceType: 4
       sourceOptions:
         isActive: 1
         layerSource:
           Name: Streets
-          Id: mapbox://styles/mapbox/light-v9
+          Id: mapbox.satellite
           Modified: 
           UserName: 
       rasterOptions:
