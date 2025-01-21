@@ -316,6 +316,6 @@ public class DBManager : MonoBehaviour
     public void SetActiveRegionID(int regionID)
     {
         activeRegionID = regionID;
-        StartCoroutine(_cameraAim.AlignCameraToMapDimensions());
+        //StartCoroutine(_cameraAim.AlignCameraToMapDimensions());
     }
 }

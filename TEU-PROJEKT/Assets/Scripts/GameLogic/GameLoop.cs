@@ -11,6 +11,7 @@ using UnityEngine.InputSystem;
 public class GameLoop : MonoBehaviour
 {
 
+    [SerializeField] CameraAim _cameraAim;
     [SerializeField] GameObject citiesParent;
     [Header("UI")]
     [SerializeField] GameObject endGameUIHolder;
@@ -47,7 +48,7 @@ public class GameLoop : MonoBehaviour
             shuffledCities = ShuffleList(allCities);
             citiesLoaded = true;
         }
-
+        StartCoroutine(_cameraAim.AlignCameraToMapDimensions());
     }
 
     void Update()
@@ -135,6 +136,7 @@ public class GameLoop : MonoBehaviour
         highScore = -1;
         ResetCities();
         //OnGameStart?.Invoke(this, true);
+        StartCoroutine(_cameraAim.AlignCameraToMapDimensions());
         uiCaller.SetActive(false);
     }
 

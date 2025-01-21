@@ -1,0 +1,193 @@
+{
+    "menus": [
+        {
+            "language": "en",
+            "shared": {
+                "restart": "restart",
+                "changeRegion": "change region",
+                "quit": "quit"
+            },
+            "pause": {
+                "resume": "resume"
+            },
+            "end": {
+                "score": "score",
+                "highscore": "high score",
+                "showHighScores": "show highscores"
+            },
+            "inGame": {
+                "correct": "correctly selected",
+                "select": "select",
+                "elapsedTime": "elapsed time"
+            },
+            "highscoreTable": 
+            {
+                "rank" : "rank",
+                "score": "score",
+                "time": "time"
+            }
+        },
+        {
+            "language": "hr",
+            "shared": {
+                "restart": "ponovno pokreni",
+                "changeRegion": "promijeni regiju",
+                "quit": "napusti igru"
+            },
+            "pause": {
+                "resume": "nastavi"
+            },
+            "end": {
+                "score": "rezultat",
+                "highscore": "najbolji rezultat",
+                "showHighScores": "pokaži najbolje rezultate"
+            },
+            "inGame": {
+                "correct": "točno označeni",
+                "select": "označi",
+                "elapsedTime": "proteklo vrijeme"
+            },
+            "highscoreTable": 
+            {
+                "rank" : "rang",
+                "score": "rezultat",
+                "time": "vrijeme"
+            }
+        },
+        {
+            "language": "fra",
+            "shared": {
+                "restart": "redémarrer",
+                "changeRegion": "changer de région",
+                "quit": "quitter"
+            },
+            "pause": {
+                "resume": "reprendre"
+            },
+            "end": {
+                "score": "score",
+                "highscore": "score élevé",
+                "showHighScores": "afficher les scores élevés"
+            },
+            "inGame": {
+                "correct": "correctement sélectionné",
+                "select": "sélectionner",
+                "elapsedTime": "temps écoulé"
+            },
+            "highscoreTable": 
+            {
+                "rank" : "rang",
+                "score": "score",
+                "time": "temps"
+            }
+        },
+        {
+            "language": "jap",
+            "shared": { 
+                "restart": "Yari naosu", 
+                "changeRegion": " Chiiki o henkō",
+                "quit": " Hikiharau" 
+            }, 
+            "pause": { 
+                "resume": "Saikai suru" 
+            },
+            "end": {
+                 "score": "Sukoa",
+                  "highscore": "Haisukoa",
+                  "showHighScores": "Kō tokuten o hyōji suru" 
+            }, 
+            "inGame": {
+                "correct": "Tadashiku sentaku sa reta",
+                "select": "Sentaku",
+                "elapsedTime": "Keika jikan" 
+            },
+            "highscoreTable": 
+            {
+                "rank" : "Ranku",
+                "score": "Sukoa",
+                "time": "Jikan"
+            }
+        },
+        {
+            "language": "ger",
+            "shared": {
+                "restart": "neustart",
+                "changeRegion": "region ändern",
+                "quit": "aufhören"
+            },
+            "pause": {
+                "resume": "zurücksetzen"
+            },
+            "end": {
+                "score": "Punktzahl",
+                "highscore": "beste Punktzahl",
+                "showHighScores": "Highscores anzeigen"
+            },
+            "inGame": {
+                "correct": "richtig ausgewählt",
+                "select": "auswählen",
+                "elapsedTime": "verstrichene Zeit"
+            },
+            "highscoreTable": 
+            {
+                "rank" : "Rang",
+                "score": "Punktzahl",
+                "time": "Zeit"
+            }
+        },
+        {
+            "language": "spa",
+            "shared": {
+                "restart": "reanudarse",
+                "changeRegion": "cambiar región",
+                "quit": "abandonar"
+            },
+            "pause": {
+                "resume": "reanudar"
+            },
+            "end": {
+                "score": "puntaje",
+                "highscore": "puntuación alta",
+                "showHighScores": "mostrar puntuaciones altas"
+            },
+            "inGame": {
+                "correct": "Seleccionado correctamente",
+                "select": "seleccionar",
+                "elapsedTime": "tiempo transcurrido"
+            },
+            "highscoreTable": 
+            {
+                "rank" : "rango",
+                "score": "puntaje",
+                "time": "tiempo"
+            }
+        },
+        {
+            "language": "hun",
+            "shared": {
+                "restart": "indítsa újra",
+                "changeRegion": "régiót váltani",
+                "quit": "abbahagyni"
+            },
+            "pause": {
+                "resume": "önéletrajz"
+            },
+            "end": {
+                "score": "pontszám",
+                "highscore": "magas pontszámot",
+                "showHighScores": "mutat magas pontszámokat"
+            },
+            "inGame": {
+                "correct": "helyesen kiválasztott",
+                "select": "válassza ki",
+                "elapsedTime": "eltelt idő"
+            },
+            "highscoreTable": 
+            {
+                "rank" : "rang",
+                "score": "pontszám",
+                "time": "idő"
+            }
+        }
+    ]
+}

@@ -55,6 +55,7 @@ public class CameraAim : MonoBehaviour
     Vector3 widthLeft;
     Vector3 heightUp;
     Vector3 heightDown;
+    Vector3 centerPosition;
     struct Plane
     {
         public Vector3 normal;
@@ -168,27 +169,33 @@ public class CameraAim : MonoBehaviour
     public IEnumerator AlignCameraToMapDimensions()
     {
         Transform tile = null;
-        Vector3 centerPosition = Vector3.zero;
+        centerPosition = Vector3.zero;
+        int tileCount = 0;
         while (centerPosition == Vector3.zero && tile == null)
         {
-            if (_realMap.transform.childCount >= 9)
+            if (_realMap.transform.childCount >= 10)
             {
                 foreach(Transform child in _realMap.transform)
                 {
                     if (child.gameObject.name != "TileProvider")
                     {
                         centerPosition += child.position;
+                        tileCount++;
                     }
                 }
                 tile = _realMap.transform.GetChild(1);
-                centerPosition /= _realMap.transform.childCount;
+                if (tile.gameObject.name == "TileProvider" && _realMap.transform.childCount > 2)
+                {
+                    tile = _realMap.transform.GetChild(2);
+                }
+                centerPosition /= (_realMap.transform.childCount - 1);
             }
             else Debug.Log("CENTER TILE STIL NOT AVAILABLE");
             yield return null;
         }
-        
 
 
+        Debug.Log("Tile count: " + tileCount);
         Vector2d mapWidthHeight = tile.gameObject.GetComponent<MeshRenderer>().bounds.size.ToVector2d();
         mapWidth = (float)mapWidthHeight.x * 3;
         
@@ -223,6 +230,8 @@ public class CameraAim : MonoBehaviour
             Gizmos.color = Color.green;
             Gizmos.DrawSphere(intersectionWidthRight, 0.25f);
             Gizmos.DrawSphere(intersectionWidthLeft, 0.25f);
+
+            Gizmos.DrawSphere(centerPosition, 0.25f);
         }  
     }
 

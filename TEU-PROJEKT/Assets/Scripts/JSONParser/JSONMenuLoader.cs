@@ -65,8 +65,8 @@ public class JSONMenuLoader : MonoBehaviour
 
     void LoadLanguages()
     {
-        string jsonPath = "/Data/PauseMenu.json";
-        string fullPath = Application.dataPath + jsonPath;
+        //string jsonPath = "/Data/PauseMenu.json";
+        string fullPath = Application.streamingAssetsPath + "/LanguagesSettings.json";
         //Languages = new List<Language>();
         //Debug.Log($"PATH: {fullPath}");
         Menus = new List<Menu>();
