@@ -68,7 +68,6 @@ public class CityBehaviour : MonoBehaviour
     private void OnEnable()
     {
         _cameraAim.OnCitySelected += HandleSelection;
-        gameLoop.OnGameEnd += HandleGameEnd;
         material = gameObject.GetComponent<Renderer>().material;
         defaultColor = material.color;
     }
@@ -76,7 +75,6 @@ public class CityBehaviour : MonoBehaviour
     private void OnDisable()
     {
         _cameraAim.OnCitySelected -= HandleSelection;
-        gameLoop.OnGameEnd -= HandleGameEnd;
     }
     void Update()
     {
@@ -94,10 +92,6 @@ public class CityBehaviour : MonoBehaviour
         }
     }
 
-    private void HandleGameEnd(object sender, bool gameEnded)
-    {
-        if (!isSelected) material.color = wrongAnswerEndColor;
-    }
     private void AnimateColorChange()
     {
         Color.RGBToHSV(material.color, out hue, out saturation, out brightness);
@@ -139,11 +133,19 @@ public class CityBehaviour : MonoBehaviour
         colorAnimationCompleted = 0f;
     }
 
+    public void ColorCityAsIncorrect()
+    {
+        if (!isSelected)
+        {
+            material.color = wrongAnswerEndColor;
+        }
+    }
     public void ResetCity()
     {
         ResetColor();
         shouldAnimate = false;
         isSelected = false;
         answeredCorrectly = false;
+        material.color = defaultColor;
     }
 }

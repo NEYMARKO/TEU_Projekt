@@ -24,7 +24,9 @@ public class GameLoop : MonoBehaviour
     private List<CityData> allCities;
 
     public event EventHandler<bool> OnGameEnd;
+    public event EventHandler<bool> OnGameStart;
 
+    bool gameEndedRegistered = false;
 
     bool canFetchNext = true;
     string currentWantedCity;
@@ -81,6 +83,7 @@ public class GameLoop : MonoBehaviour
     private void FetchNextCity()
     {
         if (!canFetchNext) return;
+        if (gameEndedRegistered) gameEndedRegistered = false;
         else if (shuffledCities.Count == 0)
         {
             //Debug.Log("SHUFFLED CITIES are GONE");
@@ -94,9 +97,13 @@ public class GameLoop : MonoBehaviour
     }
     private void CheckGameOver()
     {
-        if (shuffledCities.Count == 0)
+        if (shuffledCities.Count == 0 && !gameEndedRegistered)
         {
-            OnGameEnd?.Invoke(this, true);
+            gameEndedRegistered = true;
+            foreach (Transform city in _JSONDataLoader.GetTempParentObj().transform)
+            {
+                city.gameObject.GetComponent<CityBehaviour>().ColorCityAsIncorrect();
+            }
             pauseTime = true;
             databaseManager.AddScore(correctlyGuessed, (Mathf.Floor(elapsedTime * 100) / 100));
             StartCoroutine(Wait());
@@ -127,6 +134,7 @@ public class GameLoop : MonoBehaviour
         pauseTime = false;
         highScore = -1;
         ResetCities();
+        //OnGameStart?.Invoke(this, true);
         uiCaller.SetActive(false);
     }
 
