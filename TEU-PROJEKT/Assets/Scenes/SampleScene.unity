@@ -1469,6 +1469,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuDropdown: {fileID: 1234164735}
   RestartButton: {fileID: 297762460}
+  QuitButton: {fileID: 0}
   restartButtonTextObj: {fileID: 646988935}
   changeRegionButtonTextObj: {fileID: 817788781}
   quitButtonTextObj: {fileID: 1164532970}
@@ -1643,9 +1644,9 @@ RectTransform:
   - {fileID: 1044897044}
   m_Father: {fileID: 298154687}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 971, y: -732.049}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 11, y: 87.95099}
   m_SizeDelta: {x: 1462.636, y: 1247.513}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &873303299
@@ -1741,6 +1742,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuDropdown: {fileID: 2032498050}
   RestartButton: {fileID: 264574055}
+  QuitButton: {fileID: 0}
   restartButtonTextObj: {fileID: 818527487}
   changeRegionButtonTextObj: {fileID: 924276732}
   quitButtonTextObj: {fileID: 1488087048}
@@ -4070,7 +4072,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.023132324, y: 269.907}
+  m_AnchoredPosition: {x: 0.023071289, y: 269.907}
   m_SizeDelta: {x: 0.67798, y: -989.354}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2005962649
