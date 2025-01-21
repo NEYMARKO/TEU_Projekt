@@ -88,9 +88,6 @@ public class PauseMenuDropdown : MonoBehaviour
     {
         string selectedLanguage = menuContentLoader.Menus[index].language;
         menuContentLoader.ChangeLanguage(selectedLanguage);
-        //currentMenu = menuContentLoader.GetUpdatedMenu();
-        //currentMenu = menuContentLoader.ChangeLanguage(selectedLanguage);
-        //OnMenuContentChange?.Invoke(this, currentMenu);
     }
 
     public bool IsMenuContentLoaderInitialized()
@@ -99,7 +96,6 @@ public class PauseMenuDropdown : MonoBehaviour
     }
     public Menu GetActiveMenu()
     {
-        //Debug.Log($"CONTENT LOADER IS {(menuContentLoader == null ? "" : "NOT")} NULL");
         return menuContentLoader.GetUpdatedMenu();
     }
 

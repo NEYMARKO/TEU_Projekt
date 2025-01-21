@@ -10,9 +10,7 @@ using UnityEngine.InputSystem;
 
 public class GameLoop : MonoBehaviour
 {
-    //[Header("Input")]
-    //[SerializeField] PlayerInputActions playerControls;
-    //private InputAction buttonPress;
+
     [SerializeField] GameObject citiesParent;
     [Header("UI")]
     [SerializeField] GameObject endGameUIHolder;
@@ -38,11 +36,6 @@ public class GameLoop : MonoBehaviour
     private bool citiesLoaded = false;
     void Start()
     {
-        //wait until all cities are populated in list
-        //while (!_JSONDataLoader.CitiesListPopulated() && !_JSONDataLoader.FailedToPopulateCitiesList())
-        //{
-        //    Debug.Log("CITIES LIST POPULATED: " + _JSONDataLoader.CitiesListPopulated());
-        //}
         
         allCities = new List<CityData>();
         //Debug.Log("BEFORE LOADING");
@@ -52,18 +45,7 @@ public class GameLoop : MonoBehaviour
             shuffledCities = ShuffleList(allCities);
             citiesLoaded = true;
         }
-        //Debug.Log("ALL CITIES:");
-        //foreach (CityData city in allCities)
-        //{
-        //    Debug.Log(city.name);
-        //}
-        //allCities = _JSONDataLoader.ProvideCitiesInfo();
-       
-        //Debug.Log("SHUFFLED LIST");
-        //foreach (CityData city in allCities)
-        //{
-        //    Debug.Log(city.name);
-        //}
+
     }
 
     void Update()
@@ -79,16 +61,6 @@ public class GameLoop : MonoBehaviour
         if (!pauseMenuUIHolder.activeSelf && !pauseTime) elapsedTime += Time.deltaTime;
     }
 
-    //private void OnEnable()
-    //{
-    //    buttonPress = playerControls.UI.Toggle;
-    //    buttonPress.Enable();
-    //}
-
-    //private void OnDisable()
-    //{
-    //    buttonPress.Disable();
-    //}
     private List<CityData> ShuffleList(List<CityData> originalListData)
     {
         List<CityData> shuffledListData = Enumerable.Repeat<CityData>(null, originalListData.Count).ToList();
@@ -125,9 +97,8 @@ public class GameLoop : MonoBehaviour
         if (shuffledCities.Count == 0)
         {
             OnGameEnd?.Invoke(this, true);
-            //Debug.Log($"GAME OVER, correct guesses: {correctlyGuessed}");
             pauseTime = true;
-            //databaseManager.AddScore(correctlyGuessed, (Mathf.Floor(elapsedTime * 100) / 100));
+            databaseManager.AddScore(correctlyGuessed, (Mathf.Floor(elapsedTime * 100) / 100));
             StartCoroutine(Wait());
             canFetchNext = false;
             return;
@@ -136,7 +107,6 @@ public class GameLoop : MonoBehaviour
 
     public bool CheckCityGuess(string cityGuess)
     {
-        //Debug.Log($"SELECTED: {cityGuess}");
         canFetchNext = true;
 
         if (currentWantedCity == cityGuess)
@@ -151,10 +121,6 @@ public class GameLoop : MonoBehaviour
     {
         shuffledCities = ShuffleList(allCities);
 
-        //foreach(var city in shuffledCities)
-        //{
-        //    Debug.Log(city.name);
-        //}
         canFetchNext = true;
         correctlyGuessed = 0;
         elapsedTime = 0f;
@@ -162,7 +128,6 @@ public class GameLoop : MonoBehaviour
         highScore = -1;
         ResetCities();
         uiCaller.SetActive(false);
-        //StartCoroutine(_cameraAim.AlignCameraToMapDimensions());
     }
 
     public void ResumeGame(GameObject uiCaller)
@@ -174,7 +139,6 @@ public class GameLoop : MonoBehaviour
     {
         allCities.Clear();
         databaseManager.LoadCities(regionID, allCities);
-        //allCities
         RestartGame(uiCaller);
     }
     private void ResetCities()

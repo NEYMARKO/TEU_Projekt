@@ -28,7 +28,6 @@ public class HighScoresUI : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        //lastRegionID = -1;
         topScores = new List<Score>();
         languageController = GameObject.Find("LanguageController");
         if (languageController == null)

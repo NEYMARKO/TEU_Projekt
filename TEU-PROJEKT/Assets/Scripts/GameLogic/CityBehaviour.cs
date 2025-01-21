@@ -49,7 +49,6 @@ public class CityBehaviour : MonoBehaviour
     bool isSelected = false;
 
     Outline outlineScript;
-    // Start is called before the first frame update
     void Start()
     {
         oldPosition = transform.position;
@@ -79,40 +78,8 @@ public class CityBehaviour : MonoBehaviour
         _cameraAim.OnCitySelected -= HandleSelection;
         gameLoop.OnGameEnd -= HandleGameEnd;
     }
-    // Update is called once per frame
     void Update()
     {
-        //if (shouldAnimate && !isAnimating)
-        //{
-        //    animationCompleted = 0f;
-        //    shouldAnimate = false;
-        //    isAnimating = true;
-        //}
-        //if (animationCompleted < 1f)
-        //{
-        //    if (isAnimating)
-        //    {
-        //        AnimatePosition();
-        //        AnimateRotation();
-        //        animationCompleted += animationSpeed * Time.deltaTime;
-        //    }
-        //}
-        //else
-        //{
-        //    transform.position = oldPosition;
-        //    transform.rotation = oldRotation;
-        //    isAnimating = false;
-        //}
-
-        //if (isSelected)
-        //{
-        //    //Debug.Log("SELECTED " + gameObject.name);
-        //    answeredCorrectly = gameLoop.CheckCityGuess(gameObject.name);
-        //    shouldAnimate = true;
-        //    //isSelected = false;
-        //    //material.color = correctAnswerEndColor;
-        //}
-
         if (shouldAnimate && colorAnimationCompleted < 1) AnimateColorChange();
     }
 

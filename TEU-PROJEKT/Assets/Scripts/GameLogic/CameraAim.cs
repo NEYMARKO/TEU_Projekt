@@ -14,8 +14,6 @@ using UnityEngine.EventSystems;
 
 public class CameraAim : MonoBehaviour
 {
-    // Start is called before the first frame update
-
     [Header("Player Controls")]
     [SerializeField] PlayerInputActions playerControls;
     private InputAction move;
@@ -164,24 +162,17 @@ public class CameraAim : MonoBehaviour
         if (activeCity && fire.triggered) 
         {
             OnCitySelected?.Invoke(this, activeCity.gameObject.name);
-            //activeCity.SetSelected(true); 
         }
     }
 
     public IEnumerator AlignCameraToMapDimensions()
     {
-        //Transform _tileProvider = null;
         Transform tile = null;
-        //Debug.Log(_abstractMap.load)
-        //Debug.Log($"CENTER TILE IS NULL: {centerTile == null}");
         Vector3 centerPosition = Vector3.zero;
         while (centerPosition == Vector3.zero && tile == null)
         {
-            //Debug.Log("Entered while loop");
-            //Debug.Log($"realmap children: {_realMap.transform.childCount}");
             if (_realMap.transform.childCount >= 9)
             {
-                //Debug.Log("FOUND MORE THAN 1 CHILD attempting to access 2nd");
                 foreach(Transform child in _realMap.transform)
                 {
                     if (child.gameObject.name != "TileProvider")
@@ -226,33 +217,12 @@ public class CameraAim : MonoBehaviour
 
         if (camera)
         {
-
-            //Vector3 cameraBoundRay =  rotAroundZAxis * rotAroundYAxis * camera.transform.forward;
-            //Gizmos.DrawLine(camera.transform.position, camera.transform.position + cameraBoundRay * rayLength * 5);
-            //Vector3 cameraBoundRay2 = Quaternion.Euler(-Vector3.right * camera.fieldOfView / 2f) * Quaternion.Euler(Vector3.up * camera.fieldOfView / 2f) * camera.transform.forward;
-            //Gizmos.DrawLine(camera.transform.position, camera.transform.position + cameraBoundRay2 * rayLength * 5);
-
-            //Vector3 intersection1 = PlaneRayIntersection(cameraBoundRay);
-            //Vector3 intersection2 = PlaneRayIntersection(cameraBoundRay2);
-
-            //Vector3 widthRight = rotAroundZAxis * rotAroundYAxis * camera.transform.forward;
-            //Vector3 widthLeft = Quaternion.Euler(Vector3.up * 180f) * widthRight;
-
-            //Vector3 heightUp = Quaternion.Euler(Vector3.up * 90f) * widthRight;
-            //Vector3 heightDown = Quaternion.Euler(Vector3.up * 180f) * heightUp;
-
             Vector3 intersectionWidthRight = PlaneRayIntersection(widthRight);
             Vector3 intersectionWidthLeft = PlaneRayIntersection(widthLeft);
-            //Vector3 intersectionHeightUp = PlaneRayIntersection(heightUp);
-            //Vector3 intersectionHeightDown = PlaneRayIntersection(heightDown);
 
             Gizmos.color = Color.green;
             Gizmos.DrawSphere(intersectionWidthRight, 0.25f);
             Gizmos.DrawSphere(intersectionWidthLeft, 0.25f);
-            //Gizmos.DrawSphere(intersectionHeightUp, 0.25f);
-            //Gizmos.DrawSphere(intersectionHeightDown, 0.25f);
-            //Debug.Log("Distance in gizmos: " + Vector3.Distance(intersection1, intersection2));
-            //RepositionCamera(cameraBoundRay, cameraBoundRay2);
         }  
     }
 
@@ -263,9 +233,6 @@ public class CameraAim : MonoBehaviour
 
         float shrinkFactor = 1;
         //if camera width is larger than map width at the beginning, camera needs to shrink
-        //Debug.Log($"MAP WIDTH: {mapWidth}");
-        //mapWidth = 21;
-        //Debug.Log($"DISTANCE: {Vector3.Distance(intersect1, intersect2)}");
         if (Vector3.Distance(intersect1, intersect2) > mapWidth) shrinkFactor = -1;
 
         //if camera bounds are wider than map width, multiply with -1 to shrink it => also multiply condition to reverse inequation meaning (a > b) => (-a > -b)
@@ -273,7 +240,6 @@ public class CameraAim : MonoBehaviour
         float cameraMovedDistance = 0f;
         while(Vector3.Distance(intersect1, intersect2) * shrinkFactor < mapWidth * shrinkFactor)
         {
-            //camera.transform.position = camera.transform.position + Vector3.up * increment * shrinkFactor;
             camera.farClipPlane += increment * shrinkFactor;
 
             cameraMovedDistance += increment * shrinkFactor;
