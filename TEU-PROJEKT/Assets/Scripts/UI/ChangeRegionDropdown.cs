@@ -46,11 +46,6 @@ public class ChangeRegionDropdown : MonoBehaviour
             changeRegionDropdown.value = dbManager.GetActiveRegionID();
         }
     }
-    //private void OnDisable()
-    //{
-    //    // Unsubscribe from the event to avoid memory leaks
-    //    menuContentLoader.OnLanguageChange -= HandleLanguageChange;
-    //}
 
     void PopulateDropdown()
     {
@@ -76,6 +71,7 @@ public class ChangeRegionDropdown : MonoBehaviour
         {
             OnRegionChange?.Invoke(this, index);
             dbManager.SetActiveRegionID(index);
+            dbManager.HandleRegionChange(index);
             gameLoop.ReloadLevel(index, transform.parent.gameObject);
         }
     }

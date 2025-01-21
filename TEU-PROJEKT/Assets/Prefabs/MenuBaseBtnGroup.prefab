@@ -2572,6 +2572,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuDropdown: {fileID: 1556756521854946158}
   RestartButton: {fileID: 6210569811143721215}
+  QuitButton: {fileID: 1750136274347517400}
   restartButtonTextObj: {fileID: 1735541883836353028}
   changeRegionButtonTextObj: {fileID: 4168509001847657641}
   quitButtonTextObj: {fileID: 887552287394571759}

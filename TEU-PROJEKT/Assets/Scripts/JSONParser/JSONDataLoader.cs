@@ -30,7 +30,7 @@ public class JSONDataLoader : MonoBehaviour
     public GameObject citiesParentObject;
     private GameObject tempCitiesParentObj;
     //private GameObject citiesParentObjectReserve;
-    [SerializeField] Transform map;
+    //[SerializeField] Transform map;
 
     private List<CityData> citiesData;
     private bool citiesLoaded = false;
@@ -41,44 +41,6 @@ public class JSONDataLoader : MonoBehaviour
     {
         tempCitiesParentObj = new GameObject();
         tempCitiesParentObj.transform.position = citiesParentObject.transform.position;
-        //string fullPath = Application.dataPath + jsonPath;
-        //mapYValue = map.transform.position.y;
-        //citiesData = new List<CityData>();
-        ////Debug.Log(Application.dataPath + jsonPath);
-        ////AllCities allCities = JsonUtility.FromJson<AllCities>(Application.dataPath + jsonPath, );
-        ////Debug.Log(allCities);
-
-        //if (File.Exists(fullPath))
-        //{
-        //    // Read the JSON file content
-        //    string jsonString = File.ReadAllText(fullPath);
-
-        //    //Debug.Log(jsonString);
-        //    // Parse JSON into CityData
-        //    AllCitiesInfo allCitiesInfo = JsonConvert.DeserializeObject<AllCitiesInfo>(jsonString);
-
-        //    //Debug.Log(allCitiesInfo.cities);
-        //    if (allCitiesInfo != null && allCitiesInfo.cities != null)
-        //    {
-        //        foreach (CityData city in allCitiesInfo.cities)
-        //        {
-        //            citiesData.Add(city);
-        //            InstantiateCity(city);
-        //        }
-        //        Debug.Log("CITIES LOADED FINALLY");
-        //        citiesLoaded = true;
-        //    }
-        //    else
-        //    {
-        //        Debug.LogError("Failed to parse JSON or no cities found!");
-        //        failedToLoad = true;
-        //    }
-        //}
-        //else
-        //{
-        //    Debug.LogError($"JSON file not found at path: {fullPath}");
-        //    failedToLoad = true;
-        //}
     }
 
     public void InstantiateCity(CityData city)
@@ -95,11 +57,6 @@ public class JSONDataLoader : MonoBehaviour
     }
     public List<CityData> ProvideCitiesInfo()
     {
-        //Debug.Log("LIST");
-        //foreach (CityData city in citiesData)
-        //{
-        //    Debug.Log(city.name);
-        //}
         return citiesData;
     }
 

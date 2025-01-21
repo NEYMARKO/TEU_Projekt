@@ -13,6 +13,7 @@ public class CityBehaviour : MonoBehaviour
     [SerializeField] float animationSpeed;
     [SerializeField] float colorAnimationSpeed;
 
+    [SerializeField] CameraAim _cameraAim;
     float hue;
     float saturation;
     float brightness;
@@ -48,7 +49,6 @@ public class CityBehaviour : MonoBehaviour
     bool isSelected = false;
 
     Outline outlineScript;
-    // Start is called before the first frame update
     void Start()
     {
         oldPosition = transform.position;
@@ -67,44 +67,29 @@ public class CityBehaviour : MonoBehaviour
 
     private void OnEnable()
     {
+        _cameraAim.OnCitySelected += HandleSelection;
         material = gameObject.GetComponent<Renderer>().material;
         defaultColor = material.color;
     }
-    // Update is called once per frame
+
+    private void OnDisable()
+    {
+        _cameraAim.OnCitySelected -= HandleSelection;
+    }
     void Update()
     {
-        //if (shouldAnimate && !isAnimating)
-        //{
-        //    animationCompleted = 0f;
-        //    shouldAnimate = false;
-        //    isAnimating = true;
-        //}
-        //if (animationCompleted < 1f)
-        //{
-        //    if (isAnimating)
-        //    {
-        //        AnimatePosition();
-        //        AnimateRotation();
-        //        animationCompleted += animationSpeed * Time.deltaTime;
-        //    }
-        //}
-        //else
-        //{
-        //    transform.position = oldPosition;
-        //    transform.rotation = oldRotation;
-        //    isAnimating = false;
-        //}
-
-        if (isSelected)
-        {
-            //Debug.Log("SELECTED " + gameObject.name);
-            answeredCorrectly = gameLoop.CheckCityGuess(gameObject.name);
-            shouldAnimate = true;
-            isSelected = false;
-            //material.color = correctAnswerEndColor;
-        }
-
         if (shouldAnimate && colorAnimationCompleted < 1) AnimateColorChange();
+    }
+
+    private void HandleSelection(object sender, string cityName)
+    {
+        if (cityName == gameObject.name)
+        {
+            answeredCorrectly = gameLoop.CheckCityGuess(cityName);
+            colorAnimationCompleted = 0f;
+            shouldAnimate = true;
+            isSelected = true;
+        }
     }
 
     private void AnimateColorChange()
@@ -148,11 +133,19 @@ public class CityBehaviour : MonoBehaviour
         colorAnimationCompleted = 0f;
     }
 
+    public void ColorCityAsIncorrect()
+    {
+        if (!isSelected)
+        {
+            material.color = wrongAnswerEndColor;
+        }
+    }
     public void ResetCity()
     {
         ResetColor();
         shouldAnimate = false;
         isSelected = false;
         answeredCorrectly = false;
+        material.color = defaultColor;
     }
 }
